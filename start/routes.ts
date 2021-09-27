@@ -17,9 +17,20 @@
 | import './routes/customer''
 |
 */
-
+// import Database from '@ioc:Adonis/Lucid/Database'
 import Route from '@ioc:Adonis/Core/Route'
 
+// Route.get('/', async ({ view }) => {
+//   return view.render('welcome')
+// })
+
 Route.get('/', async ({ view }) => {
-  return view.render('welcome')
+  return view.render('layouts/app')
 })
+
+Route.get('/register', 'AuthController.showRegister')
+Route.post('/register', 'AuthController.register')
+Route.post('/logout', 'AuthController.logout')
+Route.get('/login', 'AuthController.showLogin')
+Route.post('/login', 'AuthController.login')
+
