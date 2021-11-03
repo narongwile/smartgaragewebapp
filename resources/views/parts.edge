@@ -1,0 +1,39 @@
+@layout('layouts/page')
+
+@section('content')
+    <div class="columns">
+        <div class="column is-4 is-offset-4">
+            <div class="box">
+                <h2 class="title has-text-centered">Auto Parts</h2>
+
+                @if(flashMessages.has('notification'))
+                    <div class="notification is-danger is-light">
+                        {{ flashMessages.get('notification') }}
+                    </div>
+                @endif
+                
+                <form action="/parts" method="GET">
+                    {{--  {{ csrfField() }}  --}}
+
+                    <div class="field">
+                        <label class="label">Part Type</label>
+
+                        <div class="control">
+                            <div class="select">
+                                <select name="parttype" id="parttype">
+                                    @each(part in part_type)
+                                        <option value="{{ part.vehiclePart }}">                                            
+                                            {{ part.vehiclePart }}
+                                        </option>
+                                    @end
+                                </select>
+                            </div> &nbsp;
+                            <button type="submit" class="button is-link" >Search</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+@endsection

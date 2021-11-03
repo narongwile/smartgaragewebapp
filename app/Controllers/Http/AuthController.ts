@@ -4,8 +4,17 @@ import Employee from 'App/Models/Employee'
 
 export default class AuthController {
     public showRegister({ view }: HttpContextContract) {
-        return view.render('auth/register')
 
+        const fs = require('fs')
+
+        const rawdata = fs.readFileSync('resources/json/departments.json')
+        const department = JSON.parse(rawdata)
+        
+        //console.log(student.find(item => item.brand == 'Honda'))            
+
+        return view.render('auth/register', {            
+            departments: department
+        })
     }
 
     public async register({ request, auth, response }: HttpContextContract) {
@@ -13,18 +22,17 @@ export default class AuthController {
             fname: schema.string({ trim: true }),
             lname: schema.string({ trim: true }),
             tel: schema.string({ trim: true }, [
-                rules.maxLength(10),
+                rules.maxLength(15),
             ]),
             email: schema.string({ trim: true }, [
                 rules.email(),
-                rules.maxLength(255),
-                rules.unique({ table: 'Employee', column: 'email' }),
+                rules.maxLength(180),
+                rules.unique({ table: 'employees', column: 'email' }),
             ]),
             password: schema.string({ trim: true }, [
                 rules.confirmed(),
             ]),
-            dptid: schema.number(),
-            empid: schema.number(),
+            department: schema.string({ trim: true }),
         })
 
         const validatedData = await request.validate({
@@ -35,7 +43,7 @@ export default class AuthController {
 
         await auth.use('web').login(user)
 
-        return response.redirect('/')
+        return response.redirect('/dashboard')
     }
 
     public async logout({ auth, response }: HttpContextContract) {
@@ -49,19 +57,20 @@ export default class AuthController {
     }
 
     public async login({ request, auth, response, session }: HttpContextContract) {
-        
+
         const email = request.input('email')
         const password = request.input('password')
 
         //const user = await Employee.findByOrFail('email', email)
-        
-       // await auth.use('web').login(user)
+        //console.log('password: '+password)
+        // await auth.use('web').login(user)
         try {
             await auth.use('web').attempt(email, password)
 
-            return response.redirect('/')
+            return response.redirect('/dashboard')
         } catch (error) {
             session.flash('notification', 'We couldn\'t verify your credentials.')
+            console.log(error)
 
             return response.redirect('back')
         }

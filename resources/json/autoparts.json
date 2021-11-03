@@ -1,0 +1,71 @@
+[
+  {
+    "vehiclePart": "Body Parts",
+    "vehicleSubPart": [
+      {
+        "name": "Chassis",
+        "code": "HA"
+      },
+      "Exterior body parts",
+      "Interior body parts",
+      "windscreen",
+      "mirrors",
+      "Wheels",
+      "Tyres",
+      "Rims",
+      "Exhausts",
+      "Exhausts parts"
+    ]
+  },
+  {
+    "vehiclePart": "Engine",
+    "vehicleSubPart": [
+      "Engine parts",
+      "Engine",
+      "Belt chain",
+      "Tensioners",
+      "Fuel and engine management parts",
+      "Ignition",
+      "Steering",
+      "Suspention"
+    ]
+  },
+  {
+    "vehiclePart": "Transmission",
+    "vehicleSubPart": [
+      "Gearbox",
+      "Transmission parts",
+      "Clutch and associated parts"
+    ]
+  },
+  {
+    "vehiclePart": "Break",
+    "vehicleSubPart": [
+      "Break and accessories",
+      "Break hydraulic"
+    ]
+  },
+  {
+    "vehiclePart": "Cooling",
+    "vehicleSubPart": [
+      "Air Conditioning",
+      "Cooling",
+      "Heating"
+    ]
+  },
+  {
+    "vehiclePart": "Electrical",
+    "vehicleSubPart": [
+      "Electrical items and parts",
+      "Ignition",
+      "External lights and indicators"
+    ]
+  },
+  {
+    "vehiclePart": "Other",
+    "vehicleSubPart": [
+      "Seats",
+      "Seat covers"
+    ]
+  }
+]

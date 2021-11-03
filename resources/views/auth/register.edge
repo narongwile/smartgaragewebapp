@@ -1,10 +1,10 @@
-@layout('layouts/app')
+@layout('layouts/page')
 
 @section('content')
     <div class="columns">
         <div class="column is-4 is-offset-4">
             <div class="box">
-                <h2 class="title has-text-centered">Register</h2>
+                <h2 class="title has-text-centered">Register employee</h2>
 
                 <form action="/register" method="POST">
                     {{ csrfField() }}
@@ -86,39 +86,23 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Department ID</label>
+                        <label class="label">Department</label>
 
                         <div class="control">
-                            <input 
-                            type="number" 
-                            class="input {{ flashMessages.get('errors.dptid') ? 'is-danger' : '' }}"
-                            name="dptid"
-                            value="{{ flashMessages.get('dptid') || '' }}"
-                            >
+                            <div class="select">
+                                <select name="department" id="department">
+                                    @each(department in departments)
+                                        <option value=" {{ department.department }} ">                                            
+                                            {{ department.department }}
+                                        </option>
+                                    @end
+                                </select>
+                            </div>
                         </div>
 
-                        @if(flashMessages.has('errors.dptid'))
+                        @if(flashMessages.has('errors.department_id'))
                             <p class="help is-danger">
-                                {{ flashMessages.get('errors.dptid') }}
-                            </p>
-                        @endif
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Emp ID</label>
-
-                        <div class="control">
-                            <input 
-                            type="number" 
-                            class="input {{ flashMessages.get('errors.empid') ? 'is-danger' : '' }}"
-                            name="empid"
-                            value="{{ flashMessages.get('empid') || '' }}"
-                            >
-                        </div>
-
-                        @if(flashMessages.has('errors.empid'))
-                            <p class="help is-danger">
-                                {{ flashMessages.get('errors.empid') }}
+                                {{ flashMessages.get('errors.department_id') }}
                             </p>
                         @endif
                     </div>
