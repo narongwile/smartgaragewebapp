@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Part from 'App/Models/Part'
 import PartBrand from 'App/Models/PartBrand'
@@ -7,7 +6,7 @@ import PartType from 'App/Models/PartType'
 import Stock from 'App/Models/Stock'
 
 export default class PartsController {
-    public async showAutoParts({ view, request, response }: HttpContextContract) {
+    public async showAutoParts({ view }: HttpContextContract) {
 
         // const fs = require('fs')
 
@@ -102,7 +101,7 @@ export default class PartsController {
         console.log(part.$isPersisted)
         
         const part_brand = await PartBrand.find(request.all().partbrand_id)
-        const part_type = await PartType.find(request.all().parttype_id)
+        //const part_type = await PartType.find(request.all().parttype_id)
 
         // const validationSchema = schema.create({
         //     partbrand: schema.number(),
