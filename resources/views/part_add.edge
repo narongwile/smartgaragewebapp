@@ -1,0 +1,106 @@
+@layout('layouts/app')
+
+@section('content')
+<div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        <span class="icon"><i class="mdi mdi-ballot"></i></span>
+        Auto Part
+      </p>
+    </header>
+    <div class="card-content">
+      <form action="/part_add" method="POST">
+        {{ csrfField() }}
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Part Brand</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-narrow">
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select name="partbrand_id">
+                    @each(pb in part_brand)
+                        <option value="{{ pb.id }}">                                            
+                            {{ pb.partbrand }}
+                            </option>
+                        @end
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Part Name</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input name="partname" class="input" type="text" placeholder="Part Name" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Part Description</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <textarea name="partdescribe" class="textarea" placeholder="Explain Part"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Part Type</label>
+            </div>
+            <div class="field-body">
+              <div class="field is-narrow">
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select name="parttype_id">
+                      @each(pb in part_type)
+                          <option value="{{ pb.id }}">                                            
+                              {{ pb.parttype }}
+                              </option>
+                          @end
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <hr>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <!-- Left empty for spacing -->
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="field is-grouped">
+                <div class="control">
+                  <button type="submit" class="button is-primary">
+                    <span>Submit</span>
+                  </button>
+                </div>
+                <div class="control">
+                  <button type="reset" class="button is-primary is-outlined">
+                    <span>Reset</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+@endsection

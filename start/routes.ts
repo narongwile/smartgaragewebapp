@@ -33,16 +33,27 @@ Route.post('/register', 'AuthController.register')
 Route.post('/logout', 'AuthController.logout')
 Route.get('/login', 'AuthController.showLogin')
 Route.post('/login', 'AuthController.login')
-Route.get('/parts/stock', 'PartsController.stock')
-Route.post('/parts/stock', 'PartsController.stock')
-Route.get('/parts', 'PartsController.showAutoParts')
+
+Route.get('/stock_list', 'PartsController.showStock')
+
+Route.get('/stock_part', 'PartsController.showAddStock')
+Route.post('/stock_part', 'PartsController.addStock')
+
+Route.post('/part_add', 'PartsController.addPart')
+Route.get('/part_add', 'PartsController.showAddPart')
+
+Route.get('/part_list', 'PartsController.showAutoParts')
+
+Route.get('/garage_profile', async ({ view }) => {
+  return view.render('profile', {feature: 'Garage Profile'})
+})
 
 Route.get('/dashboard', async ({ view }) => {
-  return view.render('dashboard')
+  return view.render('dashboard', {feature: 'Dashboard'})
 })
 
 Route.get('/profile', async ({ view }) => {
-  return view.render('profile')
+  return view.render('profile', {feature: 'Profile'})
 })
 
 Route.get('/tables', async ({ view }) => {
@@ -52,3 +63,4 @@ Route.get('/tables', async ({ view }) => {
 Route.get('/forms', async ({ view }) => {
   return view.render('forms')
 })
+

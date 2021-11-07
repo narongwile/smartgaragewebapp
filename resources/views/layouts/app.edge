@@ -9,17 +9,34 @@
     <link rel="stylesheet" href="http://localhost:3333/main.min.css">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.4.95/css/materialdesignicons.min.css">
+    <style>
+      .section {
+          padding: 1rem;
+          overflow-y: auto;
+          direction: ltr;
+          scrollbar-color: #d4aa70 #e4e4e4;
+          scrollbar-width: thin;
+      }
+      .section::-webkit-scrollbar {
+      width: 5px;
+      }
+      .section::-webkit-scrollbar-track {
+      background-color: #1f1f1f;
+      border-radius: 100px;
+      }
+      .section::-webkit-scrollbar-thumb {
+      border-radius: 100px;
+      border: 6px solid rgba(0, 0, 0, 0.18);
+      border-left: 0;
+      border-right: 0;
+      background-color: #e4e4e4;
+      }
+      </style>
   </head>
   <body>
-        <div id="app">
+        <div id="app" class="section">
             @include('layouts/partials/_navbar')
-            <section class="section is-title-bar">
-                @!section('header')                                    
-            </section>
-            <section class="hero is-hero-bar">
-                @!section('head')
-            </section>
             <section class="section is-main-section">
                 @!section('content')
             </section>
@@ -65,11 +82,8 @@
             </div>
             <button class="modal-close is-large jb-modal-close" aria-label="close"></button>
         </div>
-
         <script type="text/javascript" src="http://localhost:3333/main.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
         <script type="text/javascript" src="http://localhost:3333/chart.sample.min.js"></script>
-
-        <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
   </body>
 </html>

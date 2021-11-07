@@ -89,7 +89,8 @@
       </div>
     </div>
   </nav>
-  <aside class="aside is-placed-left is-expanded">
+
+<aside class="aside is-placed-left is-expanded section" >
     <div class="aside-tools">
       <div class="aside-tools-label" >
         <img class="rotating" style="vertical-align:middle" src="https://cssninjastudio.github.io/krypton/img/logo/krypton.svg" width="35" height="35" alt>
@@ -99,229 +100,368 @@
     <div class="menu is-menu-main">
       <p class="menu-label">General</p>
       <ul class="menu-list">
-        <li>
-          <a href="/dashboard" class="is-active router-link-active has-icon">
-            <span class="icon"><i class="mdi mdi-desktop-mac"></i></span>
-            <span class="menu-item-label">Dashboard</span>
-          </a>
-        </li>
-      </ul>
-      <p class="menu-label">Examples</p>
+            <li>
+                @if(request.url() == '/dashboard')
+                <a href="/dashboard" class="is-active router-link-active has-icon">
+                  @else
+                    <a href="/dashboard" class=" router-link-active has-icon">
+                @endif
+                    <span class="icon"><i class="mdi mdi-desktop-mac"></i></span>
+                    <span class="menu-item-label">Dashboard</span>
+                </a>
+              </li>
+
+            @if(auth.user.department == 'CEO' || auth.user.department == 'Admin')
+            <li>
+                @if(request.url() == '/garage_profile')
+                <a href="/garage_profile" class="is-active has-icon">
+                  @else
+                    <a href="/garage_profile" class="has-icon">
+                @endif
+                  <span class="icon"><i class="mdi mdi-garage-variant"></i></span>
+                  <span class="menu-item-label">Garage profile</span>
+                </a>
+              </li>
+            @endif
+            
+            <li>
+                @if(request.url() == '/calendar')
+                <a href="/calendar" class="is-active has-icon">
+                  @else
+                    <a href="/calendar" class="has-icon">
+                @endif
+                <span class="icon has-update-mark"><i class="mdi mdi-calendar-month-outline"></i></span>
+                <span class="menu-item-label">Calendar</span>
+                </a>
+              </li>
+
+            <li>
+                <a class="has-icon has-dropdown-icon">
+                    <span class="icon"><i class="mdi mdi-account-cash"></i></span>
+                    <span class="menu-item-label">Accounts</span>
+                    <div class="dropdown-icon">
+                        <span class="icon"><i class="mdi mdi-plus"></i></span>
+                    </div>
+                </a>
+                <ul>
+                    <li>
+                        @if(request.url() == '/invoices')
+                          <a href="/invoices" class="is-active">
+                            @else
+                              <a href="/invoices">
+                        @endif
+                        <span>Invoices</span>
+                        </a>
+                    </li>
+                    <li>
+                        @if(request.url() == '/quotation')
+                          <a href="/quotation" class="is-active">
+                            @else
+                              <a href="/quotation">
+                        @endif
+                        <span>Quotation</span>
+                        </a>
+                    </li>
+                    @if(auth.user.department == 'CEO' || auth.user.department == 'Admin')
+                        <li>
+                            @if(request.url() == '/expenses')
+                            <a href="/expenses" class="is-active">
+                              @else
+                                <a href="/expenses">
+                            @endif
+                            <span>Expenses</span>
+                            </a>
+                          </li>
+                    @endif
+                  </ul>
+              </li>
+        </ul>
+      <p class="menu-label">Vehicle&Part Management</p>
+      <ul class="menu-list">
+            <li>
+                @if(request.url() == '/vehicles')
+                <a href="/vehicles" class="is-active has-icon">
+                  @else
+                    <a href="/vehicles" class="has-icon">
+                @endif
+                <span class="icon"><i class="mdi mdi-car"></i></span>
+                <span class="menu-item-label">Vehicles</span>
+                </a>
+              </li>
+            <li>
+                <a class="has-icon has-dropdown-icon">
+                    <span class="icon"><i class="mdi mdi-steering"></i></span>
+                    <span class="menu-item-label">Auto parts</span>
+                    <div class="dropdown-icon">
+                        <span class="icon"><i class="mdi mdi-plus"></i></span>
+                    </div>
+                </a>
+                <ul>
+                    <li>
+                        @if(request.url() == '/part_list')
+                        <a href="/part_list" class="is-active">
+                          @else
+                            <a href="/part_list">
+                        @endif
+                        <span>Part List</span>
+                        </a>
+                    </li>
+                    <li>
+                        @if(request.url() == '/part_edit')
+                        <a href="/part_edit" class="is-active">
+                          @else
+                            <a href="/part_edit">
+                        @endif
+                        <span>Part Edit</span>
+                        </a>
+                    </li>
+                    <li>
+                      @if(request.url() == '/part_details')
+                      <a href="/part_details" class="is-active">
+                        @else
+                          <a href="/part_details">
+                      @endif
+                        <span>Part Details</span>
+                        </a>
+                    </li>
+                    <li>
+                        @if(request.url() == '/part_add')
+                        <a href="/part_add" class="is-active">
+                          @else
+                            <a href="/part_add">
+                        @endif
+                        <span>Part Add</span>
+                        </a>
+                    </li>
+                </ul>
+              </li>
+            <li>
+                <a class="has-icon has-dropdown-icon">
+                    <span class="icon"><i class="mdi mdi-gas-station"></i></span>
+                    <span class="menu-item-label">Categories</span>
+                    <div class="dropdown-icon">
+                        <span class="icon"><i class="mdi mdi-plus"></i></span>
+                    </div>
+                  </a>
+                <ul>
+                    <li>
+                        @if(request.url() == '/categorie_list')
+                        <a href="/categorie_list" class="is-active">
+                          @else
+                            <a href="/categorie_list">
+                            @endif
+                        <span>Categorie List</span>
+                        </a>
+                      </li>
+                    <li>
+                        @if(request.url() == '/categorie_edit')
+                        <a href="/categorie_edit" class="is-active">
+                          @else
+                            <a href="/categorie_edit">
+                        @endif
+                        <span>Categorie Edit</span>
+                        </a>
+                      </li>
+                    <li>
+                        @if(request.url() == '/categorie_add')
+                        <a href="/categorie_add" class="is-active">
+                          @else
+                            <a href="/categorie_add">
+                        @endif
+                        <span>Categorie Add</span>
+                        </a>
+                      </li>
+                  </ul>
+              </li>
+            <li>
+                <a class="has-icon has-dropdown-icon">
+                    <span class="icon"><i class="mdi mdi-hammer-wrench"></i></span>
+                    <span class="menu-item-label">Maintenances</span>
+                    <div class="dropdown-icon">
+                        <span class="icon"><i class="mdi mdi-plus"></i></span>
+                    </div>
+                </a>
+                <ul>
+                    <li>
+                        @if(request.url() == '/maintain_list')
+                        <a href="/maintain_list" class="is-active">
+                          @else
+                            <a href="/maintain_list">
+                          @endif
+                          <span>Maintain List</span>
+                          </a>
+                      </li>
+                    <li>
+                        @if(request.url() == '/maintain_details')
+                        <a href="/maintain_details" class="is-active">
+                          @else
+                            <a href="/maintain_details">
+                          @endif
+                          <span>Maintain Details</span>
+                          </a>
+                      </li>
+                    <li>
+                        @if(request.url() == '/maintain_invoices')
+                        <a href="/maintain_invoices" class="is-active">
+                          @else
+                            <a href="/maintain_invoices">
+                          @endif
+                          <span>Maintain Invoices</span>
+                          </a>
+                      </li>
+                  </ul>
+              </li>
+            <li>
+                <a class="has-icon has-dropdown-icon">
+                    <span class="icon"><i class="mdi mdi-ship-wheel"></i></span>
+                    <span class="menu-item-label">Inventory</span>
+                    <div class="dropdown-icon">
+                        <span class="icon"><i class="mdi mdi-plus"></i></span>
+                    </div>
+                  </a>
+                <ul>
+                    <li>
+                        @if(request.url() == '/stock_list')
+                        <a href="/stock_list" class="is-active">
+                          @else
+                            <a href="/stock_list">
+                          @endif
+                          <span>Stock List</span>
+                          </a>
+                      </li>
+                    <li>
+                        @if(request.url() == '/stock_part')
+                        <a href="/stock_part" class="is-active">
+                          @else
+                            <a href="/stock_part">
+                          @endif
+                          <span>Stock Auto part</span>
+                          </a>
+                      </li>
+                    <li>
+                        @if(request.url() == '/return')
+                        <a href="/return" class="is-active">
+                          @else
+                            <a href="/return">
+                          @endif
+                          <span>Return</span>
+                          </a>
+                      </li>
+                  </ul>
+              </li>
+        </ul>
+      <p class="menu-label">User Management</p>
       <ul class="menu-list">
         <li>
-            <a class="has-icon has-dropdown-icon">
-              <span class="icon"><i class="mdi mdi-view-list"></i></span>
-              <span class="menu-item-label">Auto parts</span>
-              <div class="dropdown-icon">
-                <span class="icon"><i class="mdi mdi-plus"></i></span>
-              </div>
-            </a>
-            <ul>
-              <li>
-                <a href="#void">
-                  <span>Part List</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Part Edit</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Part Details</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Part Add</span>
-                </a>
-              </li>
-            </ul>
-        </li>
-
-        <li>
-            <a class="has-icon has-dropdown-icon">
-              <span class="icon"><i class="mdi mdi-view-list"></i></span>
-              <span class="menu-item-label">Categories</span>
-              <div class="dropdown-icon">
-                <span class="icon"><i class="mdi mdi-plus"></i></span>
-              </div>
-            </a>
-            <ul>
-              <li>
-                <a href="#void">
-                  <span>Categorie List</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Categorie Edit</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Categorie Add</span>
-                </a>
-              </li>
-            </ul>
-        </li>
-
-        <li>
-            <a class="has-icon has-dropdown-icon">
-              <span class="icon"><i class="mdi mdi-view-list"></i></span>
-              <span class="menu-item-label">Maintenances</span>
-              <div class="dropdown-icon">
-                <span class="icon"><i class="mdi mdi-plus"></i></span>
-              </div>
-            </a>
-            <ul>
-              <li>
-                <a href="#void">
-                  <span>Maintain List</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Maintain Details</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Maintain Invoices</span>
-                </a>
-              </li>
-            </ul>
-        </li>
-
-        <li>
-            <a class="has-icon has-dropdown-icon">
-              <span class="icon"><i class="mdi mdi-view-list"></i></span>
-              <span class="menu-item-label">Customers</span>
-              <div class="dropdown-icon">
-                <span class="icon"><i class="mdi mdi-plus"></i></span>
-              </div>
-            </a>
-            <ul>
-              <li>
-                <a href="#void">
-                  <span>Customers List</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Customers Details</span>
-                </a>
-              </li>
-            </ul>
-        </li>
-
-        <li>
-            <a class="has-icon has-dropdown-icon">
-              <span class="icon"><i class="mdi mdi-view-list"></i></span>
-              <span class="menu-item-label">Inventory</span>
-              <div class="dropdown-icon">
-                <span class="icon"><i class="mdi mdi-plus"></i></span>
-              </div>
-            </a>
-            <ul>
-              <li>
-                <a href="#void">
-                  <span>Stock List</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Stock Auto part</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Return</span>
-                </a>
-              </li>
-            </ul>
-        </li>
-
-        <li>
-            <a class="has-icon has-dropdown-icon">
-              <span class="icon"><i class="mdi mdi-view-list"></i></span>
-              <span class="menu-item-label">Accounts</span>
-              <div class="dropdown-icon">
-                <span class="icon"><i class="mdi mdi-plus"></i></span>
-              </div>
-            </a>
-            <ul>
-              <li>
-                <a href="#void">
-                  <span>Invoices</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Quotation</span>
-                </a>
-              </li>
-              <li>
-                <a href="#void">
-                  <span>Expenses</span>
-                </a>
-              </li>
-            </ul>
-        </li>
-
-        <li>
-            <a href="/tables" class="has-icon">
-              <span class="icon has-update-mark"><i class="mdi mdi-table"></i></span>
-              <span class="menu-item-label">Staff Management</span>
-            </a>
+            @if(request.url() == '/profile')
+            <a href="/profile" class="is-active has-icon">
+              @else
+                <a href="/profile" class="has-icon">
+              @endif
+              <span class="icon"><i class="mdi mdi-account-circle"></i></span>
+              <span class="menu-item-label">Profile</span>
+              </a>
           </li>
-
         <li>
-          <a href="/tables" class="has-icon">
-            <span class="icon has-update-mark"><i class="mdi mdi-table"></i></span>
-            <span class="menu-item-label">Calandar</span>
-          </a>
-        </li>
+            <a class="has-icon has-dropdown-icon">
+                <span class="icon"><i class="mdi mdi-account-supervisor-circle"></i></span>
+                <span class="menu-item-label">Customers</span>
+                <div class="dropdown-icon">
+                  <span class="icon"><i class="mdi mdi-plus"></i></span>
+                  </div>
+              </a>
+            <ul>
+                <li>
+                    @if(request.url() == '/customer_list')
+                    <a href="/customer_list" class="is-active">
+                      @else
+                        <a href="/customer_list">
+                      @endif
+                      <span>Customer List</span>
+                      </a>
+                  </li>
+                <li>
+                    @if(request.url() == '/customer_details')
+                    <a href="/customer_details" class="is-active">
+                      @else
+                        <a href="/customer_details">
+                      @endif
+                      <span>Customer Details</span>
+                      </a>
+                  </li>
+              </ul>
+         </li>
+
+        @if(auth.user.department == 'CEO' || auth.user.department == 'Admin')
+            <li>
+                @if(request.url() == '/staff')
+                <a href="/staff" class="is-active has-icon">
+                  @else
+                    <a href="/staff" class="has-icon">
+                  @endif
+                  <span class="icon"><i class="mdi mdi-shield-account"></i></span>
+                  <span class="menu-item-label">Staff Management</span>
+                  </a>
+              </li>             
+        @endif
+        
         <li>
           <a href="/forms" class="has-icon">
             <span class="icon"><i class="mdi mdi-square-edit-outline"></i></span>
             <span class="menu-item-label">Forms</span>
           </a>
-        </li>
-        <li>
-          <a href="/profile" class="has-icon">
-            <span class="icon"><i class="mdi mdi-account-circle"></i></span>
-            <span class="menu-item-label">Profile</span>
-          </a>
-        </li>
-        <li>
-            <a href="/profile" class="has-icon">
-              <span class="icon"><i class="mdi mdi-account-circle"></i></span>
-              <span class="menu-item-label">Garage Profile</span>
-            </a>
-        </li>
-        <li>
-            <a href="/profile" class="has-icon">
-              <span class="icon"><i class="mdi mdi-account-circle"></i></span>
-              <span class="menu-item-label">Vehicles</span>
-            </a>
-        </li>
-      </ul>
+          </li>
+        </ul>
       <p class="menu-label">About</p>
       <ul class="menu-list">
-        <li>
-          <a href="https://admin-one-html.justboil.me/" target="_blank" class="has-icon">
-            <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
-            <span class="menu-item-label">Premium Demo</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://justboil.me/bulma-admin-template/one-html" class="has-icon">
-            <span class="icon"><i class="mdi mdi-help-circle"></i></span>
-            <span class="menu-item-label">About</span>
-          </a>
-        </li>
-      </ul>
+            <li>
+                <a href="https://admin-one-html.justboil.me/" target="_blank" class="has-icon">
+                    <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
+                    <span class="menu-item-label">Premium Demo</span>
+                </a>
+              </li>
+            <li>
+                <a href="https://justboil.me/bulma-admin-template/one-html" class="has-icon">
+                    <span class="icon"><i class="mdi mdi-help-circle"></i></span>
+                    <span class="menu-item-label">About</span>
+                </a>
+              </li>
+        </ul>
     </div>
-  </aside>
+</aside>
+<section class="section is-title-bar">
+    <div class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <ul>
+          <li>Department</li>
+          <li>{{ auth.user.department }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="level-right">
+      <div class="level-item">
+        <div class="buttons is-right">
+          <a href="https://admin-one-html.justboil.me/" target="_blank" class="button is-primary">
+            <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
+            <span>Premium Demo</span>
+          </a>
+        </div>
+      </div>
+    </div>
+</div>
+</section>
+<section class="hero is-hero-bar">
+    <div class="hero-body">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item"><h1 class="title">
+                {{ feature }}
+            </h1></div>
+          </div>
+          <div class="level-right" style="display: none;">
+            <div class="level-item"></div>
+          </div>
+        </div>
+    </div>
+</section>

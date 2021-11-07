@@ -1,52 +1,58 @@
 @layout('layouts/page')
 
 @section('content')
-    <div class="columns">
-        <div class="column is-4 is-offset-4">
-            <div class="box">
-                <h2 class="title has-text-centered">Login</h2>
+<div class="is-max-w-lg mx-auto has-text-centered mb-6"></div>
+<div class="is-relative is-max-w-3xl mx-auto mb-6">
+    <center><img src="https://shuffle.dev/metis-assets/elements/pattern-small.png" alt=""></center>
+    <div style="position:absolute; top: 3%; left: 9%; width: 82%; height: 90%;">
+        <div class="columns">
+            <div class="column is-4 is-offset-4">
+                <div class="box">
+                    <h2 class="title has-text-centered">Login</h2>
 
-                @if(flashMessages.has('notification'))
-                    <div class="notification is-danger is-light">
-                        {{ flashMessages.get('notification') }}
-                    </div>
-                @endif
+                    @if(flashMessages.has('notification'))
+                        <div class="notification is-danger is-light">
+                            {{ flashMessages.get('notification') }}
+                        </div>
+                    @endif
 
-                <form action="/login" method="POST">
-                    {{ csrfField() }}
+                    <form action="/login" method="POST">
+                        {{ csrfField() }}
 
-                    <div class="field">
-                        <label class="label">Email</label>
+                        <div class="field">
+                            <label class="label">Email</label>
+
+                            <div class="control">
+                                <input
+                                type="email"
+                                class="input"
+                                name="email"
+                                value="{{ flashMessages.get('email') || '' }}"
+                                required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Password</label>
+
+                            <div class="control">
+                                <input
+                                type="password"
+                                class="input"
+                                name="password"
+                                required
+                                >
+                            </div>
+                        </div>
 
                         <div class="control">
-                            <input
-                            type="email"
-                            class="input"
-                            name="email"
-                            value="{{ flashMessages.get('email') || '' }}"
-                            required
-                            >
+                            <button type="submit" class="button is-link is-fullwidth">Login</button>
                         </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Password</label>
-
-                        <div class="control">
-                            <input
-                            type="password"
-                            class="input"
-                            name="password"
-                            required
-                            >
-                        </div>
-                    </div>
-
-                    <div class="control">
-                        <button type="submit" class="button is-link is-fullwidth">Login</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+</div>
 @endsection

@@ -12,6 +12,7 @@ export default class AuthController {
         
         //console.log(student.find(item => item.brand == 'Honda'))            
 
+        
         return view.render('auth/register', {            
             departments: department
         })
@@ -23,6 +24,7 @@ export default class AuthController {
             lname: schema.string({ trim: true }),
             tel: schema.string({ trim: true }, [
                 rules.maxLength(15),
+                rules.unique({ table: 'employees', column: 'tel' }),
             ]),
             email: schema.string({ trim: true }, [
                 rules.email(),

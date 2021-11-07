@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, column, computed, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Maintenance from './Maintenance'
 
@@ -40,4 +40,5 @@ export default class Employee extends BaseModel {
 
   @hasMany( ()=> Maintenance)
   public maintenances:  HasMany<typeof Maintenance>
+
 }

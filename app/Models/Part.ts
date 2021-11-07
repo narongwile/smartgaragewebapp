@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, computed, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import PartBrand from './PartBrand'
 import PartType from './PartType'
 import OrderPart from './OrderPart'
@@ -42,4 +42,9 @@ export default class Part extends BaseModel {
 
   @hasMany( ()=> PartModel)
   public part_models: HasMany<typeof PartModel>
+
+  @computed()
+  public get partBrandName(){
+    return this.part_brands.partbrand
+  }
 }

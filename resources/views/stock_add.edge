@@ -1,0 +1,164 @@
+@layout('layouts/app')
+
+@section('content')
+<div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        <span class="icon"><i class="mdi mdi-ballot"></i></span>
+        Auto Part
+      </p>
+    </header>
+    <div class="card-content">
+      <form action="/stock_part" method="POST">
+        {{ csrfField() }}
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Part Name</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-narrow">
+              <div class="control">
+                    @if(isFromAddPart == true)
+                        <a class="button is-static">{{ part.id }}</a>
+                    @endif
+                <div class="select">
+                    <select name="partid">
+
+                        @if(isFromAddPart == true)
+                            <option value="{{ part.id }}">
+                                {{ part_brand.partbrand +' '+ part.partname }}
+                                </option>
+                        @else
+                            @each(p in part)
+                                @each(pb in part_brand)
+                                    @if(p.partbrand_id == pb.id)
+                                        <option value="{{ p.id }}">
+                                            {{ p.id +' '+ pb.partbrand +' '+ p.partname }}
+                                        </option>
+                                    @endif
+                                @endeach
+                            @endeach
+                        @endif
+
+                    </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Purchase Date</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input name="instockdate" class="input" type="date" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Warranty Date</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <input name="warrantydate" class="input" type="date" >
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Condition</label>
+            </div>
+            <div class="field-body">
+              <div class="field is-narrow">
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select name="condition">
+                          <option value="New Product">                                            
+                                New Product
+                            </option>
+                            <option value="Used Product">                                            
+                                Used Product
+                            </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Product Year</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                    <input name="productyear" class="input" type="number"
+                    min="1900" max="2021" placeholder="Year of manufacture, Between 1900 to 2099">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Purchase Price</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                    <input name="buyprice" class="input" type="number" required
+                    min="0.00" max="1000000.00" step="0.01" placeholder="Total cost of Stock's">
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Quantity</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                    <input name="qtyinstock" class="input" type="number" required
+                    min="1" max="9999" placeholder="Stock quantity">
+                </div>
+              </div>
+            </div>
+        </div>
+        <hr>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <!-- Left empty for spacing -->
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="field is-grouped">
+                <div class="control">
+                  <button type="submit" class="button is-primary">
+                    <span>Submit</span>
+                  </button>
+                </div>
+                <div class="control">
+                  <button type="reset" class="button is-primary is-outlined">
+                    <span>Reset</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+@endsection

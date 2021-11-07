@@ -1,4 +1,4 @@
-@layout('layouts/page')
+@layout('layouts/app')
 
 @section('content')
     <div class="columns">
@@ -16,14 +16,30 @@
                     {{--  {{ csrfField() }}  --}}
 
                     <div class="field">
-                        <label class="label">Part Type</label>
+                        <label class="label">Part Name</label>
 
                         <div class="control">
                             <div class="select">
-                                <select name="parttype" id="parttype">
-                                    @each(part in part_type)
-                                        <option value="{{ part.vehiclePart }}">                                            
-                                            {{ part.vehiclePart }}
+                                <select name="partname" id="partname">
+                                    @each(p in part)
+                                        <option value="{{ p.partname }}">                                            
+                                            {{ p.partname }}
+                                        </option>
+                                    @end
+                                </select>
+                            </div> &nbsp;
+                            <button type="submit" class="button is-link" >Search</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Part Brand</label>
+
+                        <div class="control">
+                            <div class="select">
+                                <select name="partbrand" id="partbrand">
+                                    @each(pb in part_brands)
+                                        <option value="{{ pb.partbrand }}">                                            
+                                            {{ pb.partbrand }}
                                         </option>
                                     @end
                                 </select>

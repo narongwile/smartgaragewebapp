@@ -1,153 +1,159 @@
 @layout('layouts/page')
 
 @section('content')
-    <div class="columns">
-        <div class="column is-4 is-offset-4">
-            <div class="box">
-                <h2 class="title has-text-centered">Register employee</h2>
-
-                <form action="/register" method="POST">
-                    {{ csrfField() }}
-
-                    <div class="field">
-                        <label class="label">Firstname</label>
-
-                        <div class="control">
-                            <input 
-                            type="text" 
-                            class="input {{ flashMessages.get('errors.fname') ? 'is-danger' : '' }}"
-                            name="fname"
-                            value="{{ flashMessages.get('fname') || '' }}"
-                            >
-                        </div>
-
-                        @if(flashMessages.has('errors.fname'))
-                            <p class="help is-danger">
-                                {{ flashMessages.get('errors.fname') }}
-                            </p>
-                        @endif
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Lastname</label>
-
-                        <div class="control">
-                            <input 
-                            type="text" 
-                            class="input {{ flashMessages.get('errors.lname') ? 'is-danger' : '' }}"
-                            name="lname"
-                            value="{{ flashMessages.get('lname') || '' }}"
-                            >
-                        </div>
-
-                        @if(flashMessages.has('errors.lname'))
-                            <p class="help is-danger">
-                                {{ flashMessages.get('errors.lname') }}
-                            </p>
-                        @endif
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Tel</label>
-
-                        <div class="control">
-                            <input 
-                            type="text" 
-                            class="input {{ flashMessages.get('errors.tel') ? 'is-danger' : '' }}"
-                            name="tel"
-                            value="{{ flashMessages.get('tel') || '' }}"
-                            >
-                        </div>
-
-                        @if(flashMessages.has('errors.tel'))
-                            <p class="help is-danger">
-                                {{ flashMessages.get('errors.tel') }}
-                            </p>
-                        @endif
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Email</label>
-
-                        <div class="control">
-                            <input 
-                            type="email" 
-                            class="input {{ flashMessages.get('errors.email') ? 'is-danger' : '' }}"
-                            name="email"
-                            value="{{ flashMessages.get('email') || '' }}"
-                            >
-                        </div>
-
-                        @if(flashMessages.has('errors.email'))
-                            <p class="help is-danger">
-                                {{ flashMessages.get('errors.email') }}
-                            </p>
-                        @endif
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Department</label>
-
-                        <div class="control">
-                            <div class="select">
-                                <select name="department" id="department">
-                                    @each(department in departments)
-                                        <option value=" {{ department.department }} ">                                            
-                                            {{ department.department }}
-                                        </option>
-                                    @end
-                                </select>
+<div class="is-max-w-lg mx-auto has-text-centered mb-6"></div>
+<div class="is-relative is-max-w-3xl mx-auto mb-6">
+    <center><img src="https://shuffle.dev/metis-assets/elements/pattern-small.png" alt=""></center>
+    <div style="position:absolute; top: 3%; left: 9%; width: 82%; height: 90%;">
+        <div class="columns">
+            <div class="column is-4 is-offset-4">
+                <div class="box">
+                    <h2 class="title has-text-centered">Register employee</h2>
+    
+                    <form action="/register" method="POST">
+                        {{ csrfField() }}
+    
+                        <div class="field">
+                            <label class="label">Firstname</label>
+    
+                            <div class="control">
+                                <input 
+                                type="text" 
+                                class="input {{ flashMessages.get('errors.fname') ? 'is-danger' : '' }}"
+                                name="fname"
+                                value="{{ flashMessages.get('fname') || '' }}"
+                                >
                             </div>
+    
+                            @if(flashMessages.has('errors.fname'))
+                                <p class="help is-danger">
+                                    {{ flashMessages.get('errors.fname') }}
+                                </p>
+                            @endif
                         </div>
-
-                        @if(flashMessages.has('errors.department_id'))
-                            <p class="help is-danger">
-                                {{ flashMessages.get('errors.department_id') }}
-                            </p>
-                        @endif
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Password</label>
-
+    
+                        <div class="field">
+                            <label class="label">Lastname</label>
+    
+                            <div class="control">
+                                <input 
+                                type="text" 
+                                class="input {{ flashMessages.get('errors.lname') ? 'is-danger' : '' }}"
+                                name="lname"
+                                value="{{ flashMessages.get('lname') || '' }}"
+                                >
+                            </div>
+    
+                            @if(flashMessages.has('errors.lname'))
+                                <p class="help is-danger">
+                                    {{ flashMessages.get('errors.lname') }}
+                                </p>
+                            @endif
+                        </div>
+    
+                        <div class="field">
+                            <label class="label">Tel</label>
+    
+                            <div class="control">
+                                <input 
+                                type="text" 
+                                class="input {{ flashMessages.get('errors.tel') ? 'is-danger' : '' }}"
+                                name="tel"
+                                value="{{ flashMessages.get('tel') || '' }}"
+                                >
+                            </div>
+    
+                            @if(flashMessages.has('errors.tel'))
+                                <p class="help is-danger">
+                                    {{ flashMessages.get('errors.tel') }}
+                                </p>
+                            @endif
+                        </div>
+    
+                        <div class="field">
+                            <label class="label">Email</label>
+    
+                            <div class="control">
+                                <input 
+                                type="email" 
+                                class="input {{ flashMessages.get('errors.email') ? 'is-danger' : '' }}"
+                                name="email"
+                                value="{{ flashMessages.get('email') || '' }}"
+                                >
+                            </div>
+    
+                            @if(flashMessages.has('errors.email'))
+                                <p class="help is-danger">
+                                    {{ flashMessages.get('errors.email') }}
+                                </p>
+                            @endif
+                        </div>
+    
+                        <div class="field">
+                            <label class="label">Department</label>
+    
+                            <div class="control">
+                                <div class="select">
+                                    <select name="department" id="department">
+                                        @each(department in departments)
+                                            <option value=" {{ department.department }} ">                                            
+                                                {{ department.department }}
+                                            </option>
+                                        @end
+                                    </select>
+                                </div>
+                            </div>
+    
+                            @if(flashMessages.has('errors.department_id'))
+                                <p class="help is-danger">
+                                    {{ flashMessages.get('errors.department_id') }}
+                                </p>
+                            @endif
+                        </div>
+    
+                        <div class="field">
+                            <label class="label">Password</label>
+    
+                            <div class="control">
+                                <input 
+                                type="password" 
+                                class="input {{ flashMessages.get('errors.password') ? 'is-danger' : '' }}"
+                                name="password"
+                                >
+                            </div>
+    
+                            @if(flashMessages.has('errors.password'))
+                                <p class="help is-danger">
+                                    {{ flashMessages.get('errors.password') }}
+                                </p>
+                            @endif
+                        </div>
+    
+                        <div class="field">
+                            <label class="label">Confirm Password</label>
+    
+                            <div class="control">
+                                <input 
+                                type="password" 
+                                class="input {{ flashMessages.get('errors.password_confirmation') ? 'is-danger' : '' }}"
+                                name="password_confirmation"
+                                >
+                            </div>
+    
+                            @if(flashMessages.has('errors.password_confirmation'))
+                                <p class="help is-danger">
+                                    {{ flashMessages.get('errors.password_confirmation') }}
+                                </p>
+                            @endif
+                        </div>
+    
                         <div class="control">
-                            <input 
-                            type="password" 
-                            class="input {{ flashMessages.get('errors.password') ? 'is-danger' : '' }}"
-                            name="password"
-                            >
+                            <button type="submit" class="button is-link is-fullwidth">Register</button>
                         </div>
-
-                        @if(flashMessages.has('errors.password'))
-                            <p class="help is-danger">
-                                {{ flashMessages.get('errors.password') }}
-                            </p>
-                        @endif
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Confirm Password</label>
-
-                        <div class="control">
-                            <input 
-                            type="password" 
-                            class="input {{ flashMessages.get('errors.password_confirmation') ? 'is-danger' : '' }}"
-                            name="password_confirmation"
-                            >
-                        </div>
-
-                        @if(flashMessages.has('errors.password_confirmation'))
-                            <p class="help is-danger">
-                                {{ flashMessages.get('errors.password_confirmation') }}
-                            </p>
-                        @endif
-                    </div>
-
-                    <div class="control">
-                        <button type="submit" class="button is-link is-fullwidth">Register</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    @endsection
+</div>
+@endsection
