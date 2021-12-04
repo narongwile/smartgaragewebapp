@@ -1,7 +1,37 @@
-version: '3.1'
+version: '3'
+
 services:
-  nginx:
-    image: nginx:1.13.12-alpine
-    container_name: nginx
-    ports:
-      - "80:80"
+  app:
+    # Build dockerfile
+    build: .
+    # Restart container in case of crashes etc
+    restart: always
+    # Set API to use host networking
+    network_mode: host
+    # API depends on DB to be there
+    # depends_on:
+    #   - db
+    # Set env variables
+    environment:
+      APP_KEY: jlG45rVkU1PSx7DBngfjQ3RfozrY_kk0
+      PG_PASSWORD: example
+      PG_USER: postgres
+
+#   db:
+#     # Set DB version to run
+#     image: postgres:13.3-alpine
+#     # Restart container in case of crashes etc
+#     restart: always
+#     # Set DB to use host networking
+#     network_mode: host
+#     # Set DB env variables
+#     environment:
+#       POSTGRES_PASSWORD: example
+#     # Mount DB data to volume, 
+#     # so we don't lose all DB data over deployments
+#     volumes:
+#       - database:/var/lib/postgresql/data
+
+# # Define the DB volume
+# volumes:
+#   database:

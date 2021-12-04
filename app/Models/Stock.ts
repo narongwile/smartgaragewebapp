@@ -10,7 +10,7 @@ export default class Stock extends BaseModel {
   public part_id: number
 
   @column()
-  public instock_date:  DateTime
+  public instock_date: DateTime
 
   @column()
   public warranty_date: DateTime
@@ -22,10 +22,10 @@ export default class Stock extends BaseModel {
   public condition: string
 
   @column()
-  public product_year:  string
+  public product_year: string
 
   @column()
-  public qty_in_stock:  number
+  public qty_in_stock: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -33,6 +33,6 @@ export default class Stock extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo( ()=> Part)
+  @belongsTo(() => Part)
   public parts: BelongsTo<typeof Part>
 }
