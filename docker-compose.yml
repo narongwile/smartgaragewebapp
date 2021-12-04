@@ -14,8 +14,16 @@ services:
     # Set env variables
     environment:
       APP_KEY: jlG45rVkU1PSx7DBngfjQ3RfozrY_kk0
-      PG_PASSWORD: example
-      PG_USER: postgres
+      SESSION_DRIVER: cookie
+      DB_CONNECTION: mssql
+      MSSQL_SERVER: smartgaragedbserver.database.windows.net
+      MSSQL_PORT: 1433
+      MSSQL_USER: nrkwine
+      MSSQL_PASSWORD: NRK@wine2544
+      MSSQL_DB_NAME: smartgaragedb
+
+      # PG_PASSWORD: example
+      # PG_USER: postgres
 
 #   db:
 #     # Set DB version to run
