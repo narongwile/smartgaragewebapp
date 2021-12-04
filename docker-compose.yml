@@ -15,7 +15,6 @@ services:
     environment:
       APP_KEY: jlG45rVkU1PSx7DBngfjQ3RfozrY_kk0
       SESSION_DRIVER: cookie
-      CACHE_VIEWS: true
       DB_CONNECTION: mssql
       MSSQL_SERVER: smartgaragedbserver.database.windows.net
       MSSQL_PORT: 1433

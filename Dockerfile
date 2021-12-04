@@ -25,6 +25,7 @@ ENV ENV_SILENT=true
 ENV HOST=0.0.0.0
 # Set port to listen
 ENV PORT=3333
+ENV CACHE_VIEWS=true
 # Set home dir
 WORKDIR /home/nrkwine/smartgaragewebapp
 # Copy over built files
