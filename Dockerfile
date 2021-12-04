@@ -5,6 +5,7 @@ WORKDIR /home/nrkwine/smartgaragewebapp
 # Copy over package.json files
 COPY package*.json ./
 # Install all packages
+RUN npm install -g npm@8.2.0
 RUN npm install
 # Copy over source code
 COPY . .
