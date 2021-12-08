@@ -1,11 +1,11 @@
 [
-    {
-        "department": "HR"
-    },
-    {
-        "department": "Technical"
-    },
-    {
-        "department":   "CEO"
-    }
+  {
+    "department": "HR"
+  },
+  {
+    "department": "Technical"
+  },
+  {
+    "department": "CEO"
+  }
 ]
