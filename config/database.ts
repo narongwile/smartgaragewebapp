@@ -36,11 +36,11 @@ const databaseConfig: DatabaseConfig = {
     mssql: {
       client: 'mssql',
       connection: {
-        user: Env.get('MSSQL_USER', 'nrkwine'),
-        port: Env.get('1433'),
-        server: Env.get('MSSQL_SERVER', 'smartgaragedbserver.database.windows.net'),
-        password: Env.get('MSSQL_PASSWORD', 'NRK@wine2544'),
-        database: Env.get('MSSQL_DB_NAME', 'smartgaragedb'),
+        user: Env.get('MSSQL_USER'),
+        port: Env.get('MSSQL_PORT || 1433'),
+        server: Env.get('MSSQL_SERVER'),
+        password: Env.get('MSSQL_PASSWORD'),
+        database: Env.get('MSSQL_DB_NAME'),
         options: {
           encrypt: Env.get('DB_ENCRYPT', true)   // use this for Azure database encryption
         },
