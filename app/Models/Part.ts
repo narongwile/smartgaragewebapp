@@ -30,6 +30,9 @@ export default class Part extends BaseModel {
   @column()
   public partdescribe: string
 
+  @column()
+  public partquantity: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

@@ -21,8 +21,10 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Condition</th>
-                    <th>Date Added</th>
+                    <th>Year</th>
                     <th>Quantity</th>
+                    <th>Purchase Price</th>
+                    <th>Created At</th>
                     <th></th>
                     </tr>
                 </thead>
@@ -49,25 +51,19 @@
                         @endif
                         @endeach
 
+                        
                         <td data-label="condition">{{ s.condition }}</td>
+                        <td data-label="productyear">{{ s.product_year }}</td>
+                        <td data-label="quantity">{{ s.qty_in_stock }}</td>
+                        <td data-label="buyprice">{{ s.buy_price }}</td>
 
-                        <td data-label="createdat">
-                            <small class="has-text-grey is-abbr-like" title="Oct 25, 2020">{{ s.created_at }}</small>
+                        <td data-label="Created">
+                            <small class="has-text-grey is-abbr-like">{{ s.created_at }}</small>
                             </td>
 
                         @endif
                         @endeach
 
-                        <td data-label="quantity">{{ s.qty_in_stock }}</td>
-                       
-
-                        {{--  @if(stock.qty_in_stock == null)
-                        <td data-label="In Stock">0</td>
-                        @else
-                        @each(s in stock)
-                        <td data-label="In Stock">{{ s.qty_in_stock += s.qty_in_stock }}</td>
-                        @endeach
-                        @endif  --}}
 
                         <td class="is-actions-cell">
                             <div class="buttons is-right">

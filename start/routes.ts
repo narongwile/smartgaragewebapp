@@ -34,15 +34,20 @@ Route.post('/logout', 'AuthController.logout')
 Route.get('/login', 'AuthController.showLogin')
 Route.post('/login', 'AuthController.login')
 
-Route.get('/stock_list', 'PartsController.showStock')
+Route.get('/stock_list', 'InventoriesController.showStock')
 
-Route.get('/stock_part', 'PartsController.showAddStock')
-Route.post('/stock_part', 'PartsController.addStock')
+Route.get('/stock_part', 'InventoriesController.showAddStock')
+Route.post('/stock_part', 'InventoriesController.addStock')
 
 Route.post('/part_add', 'PartsController.addPart')
 Route.get('/part_add', 'PartsController.showAddPart')
 
 Route.get('/part_list', 'PartsController.showAutoParts')
+
+Route.get('/part_delete/:id', 'PartsController.delete').as('parts.delete')
+
+Route.get('/part_update/:id', 'PartsController.showUpdate').as('parts.update')
+Route.post('/part_update/:id', 'PartsController.update')
 
 Route.get('/garage_profile', async ({ view }) => {
   return view.render('profile', {feature: 'Garage Profile'})

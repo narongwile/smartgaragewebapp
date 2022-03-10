@@ -1,0 +1,151 @@
+@layout('layouts/app')
+
+@section('content')
+<div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        <span class="icon"><i class="mdi mdi-ballot"></i></span>
+        Auto Part
+      </p>
+    </header>
+    <div class="card-content">
+      <form action="/part_update/{{ id }}" method="POST">
+        {{ csrfField() }}
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Part Brand</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-narrow">
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select name="partbrand_id">
+                    @each(pb in pb)
+
+                    @if(part_brand == pb.partbrand)
+                        <option value="{{ pb.id }}" selected>
+                            {{ pb.partbrand }}
+                        </option>
+                    @else
+                    
+                        <option value="{{ pb.id }}">                                            
+                            {{ pb.partbrand }}
+                            </option>
+
+                            @end                            
+                        @end
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Part Type</label>
+            </div>
+            <div class="field-body">
+              <div class="field is-narrow">
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select name="parttype_id">
+                        @each(pt in pt)
+
+                        @if(part_type == pt.parttype)
+                            <option value="{{ pt.id }}" selected>
+                                {{ pt.parttype }}
+                            </option>
+                        @else                        
+                            <option value="{{ pt.id }}">                                            
+                                {{ pt.parttype }}
+                                </option>
+    
+                                @end                            
+                            @end
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <hr>
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Part ID</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input name="id" class="input" type="number" value="{{ id }}" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Part Name</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input name="partname" class="input" type="text" value="{{ partname }}" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Part Description</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <textarea name="partdescribe" class="textarea" placeholder="Explain Part">{{ partdescribe }}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Quantity</label>
+            </div>
+            <div class="field-body">
+              <div class="field is-narrow">
+                <div class="control">
+                    <a class="button is-static">{{ quantity }}</a>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <hr>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <!-- Left empty for spacing -->
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="field is-grouped">
+                <div class="control">
+                  <button type="submit" class="button is-primary">
+                    <span>Submit</span>
+                  </button>
+                </div>
+                <div class="control">
+                  <button type="reset" class="button is-primary is-outlined">
+                    <span>Reset</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+@endsection

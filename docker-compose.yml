@@ -21,9 +21,13 @@ services:
       MSSQL_USER: nrkwine
       MSSQL_PASSWORD: NRK@wine2544
       MSSQL_DB_NAME: smartgaragedb
-
-      # PG_PASSWORD: example
-      # PG_USER: postgres
+  web:
+    image: nginx
+    container_name: nginx
+    ports:
+     - "80:80"
+    volumes:
+     - ./nginx/:/etc/nginx/conf.d/
 
 #   db:
 #     # Set DB version to run
