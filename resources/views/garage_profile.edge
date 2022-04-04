@@ -1,0 +1,204 @@
+@layout('layouts/app')
+
+@section('header')
+<div class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <ul>
+          <li>Admin</li>
+          <li>Profile</li>
+        </ul>
+      </div>
+    </div>
+    <div class="level-right">
+      <div class="level-item">
+        <div class="buttons is-right">
+          <a href="https://admin-one-html.justboil.me/" target="_blank" class="button is-primary">
+            <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
+            <span>Premium Demo</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection
+
+@section('head')
+<div class="hero-body">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item"><h1 class="title">
+          Profile
+        </h1></div>
+      </div>
+      <div class="level-right" style="display: none;">
+        <div class="level-item"></div>
+      </div>
+    </div>
+  </div>
+@endsection
+
+@section('content')
+<div class="tile is-ancestor">
+    <div class="tile is-parent">
+      <div class="card tile is-child">
+        <header class="card-header">
+          <p class="card-header-title">
+            <span class="icon"><i class="mdi mdi-account-circle default"></i></span>
+            Edit Garage Profile
+          </p>
+        </header>
+        <div class="card-content">
+          <form action="/garage_profile" method="POST">
+            {{ csrfField() }}
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">CompanyTH</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input type="text" autocomplete="on" name="company_th" value="{{ garage.company_th }}" class="input" required>
+                  </div>
+                  <p class="help">Required. Your company TH name</p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">CompanyEN</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <input type="text" autocomplete="on" name="company_en" value="{{ garage.company_en }}" class="input" required>
+                    </div>
+                    <p class="help">Required. Your company EN name</p>
+                  </div>
+                </div>
+              </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">E-mail</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input type="email" autocomplete="on" name="email" value="{{ garage.email }}" class="input" required>
+                  </div>
+                  <p class="help">Required. Your e-mail</p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Tel</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <input type="number" autocomplete="on" name="tel" value="{{ garage.tel }}" class="input" required>
+                    </div>
+                    <p class="help">Required. Your tel number</p>
+                  </div>
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Tax ID</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <input type="number" autocomplete="on" name="taxid" value="{{ garage.tax_id }}" class="input" required>
+                    </div>
+                    <p class="help">Required. Your tax ID</p>
+                  </div>
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Address</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <input type="text" autocomplete="on" name="address" value="{{ garage.address }}" class="input" required>
+                    </div>
+                    <p class="help">Required. Your address</p>
+                  </div>
+                </div>
+              </div>
+            <hr>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal"></div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <button type="submit" class="button is-primary">
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="tile is-parent">
+      <div class="card tile is-child">
+        <header class="card-header">
+          <p class="card-header-title">
+            <span class="icon"><i class="mdi mdi-account default"></i></span>
+            Garage Profile
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="is-user-avatar image has-max-width is-aligned-center">
+            <img class="rotating" src="https://cssninjastudio.github.io/krypton/img/favicon.png" alt="JustBoil.me">
+          </div>
+          <hr>
+          <div class="field">
+            <label class="label">CompanyTH Name</label>
+            <div class="control is-clearfix">
+              <input type="text" readonly value="{{ garage.company_th }}" class="input is-static">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">CompanyEN Name</label>
+            <div class="control is-clearfix">
+              <input type="text" readonly value="{{ garage.company_en }}" class="input is-static">
+            </div>
+          </div>
+          <hr>
+          <div class="field">
+            <label class="label">E-mail</label>
+            <div class="control is-clearfix">
+              <input type="text" readonly value="{{ garage.email }}" class="input is-static">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Tel</label>
+            <div class="control is-clearfix">
+              <input type="text" readonly value="{{ garage.tel }}" class="input is-static">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Tax ID</label>
+            <div class="control is-clearfix">
+              <input type="text" readonly value="{{ garage.tax_id }}" class="input is-static">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Address</label>
+            <div class="control is-clearfix">
+              <input type="text" readonly value="{{ garage.address }}" class="input is-static">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+@endsection

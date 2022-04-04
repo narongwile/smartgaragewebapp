@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Maintenance from './Maintenance'
+import Permission from './Permission'
 
 export default class Employee extends BaseModel {
   @column({ isPrimary: true })
@@ -40,5 +41,8 @@ export default class Employee extends BaseModel {
 
   @hasMany( ()=> Maintenance)
   public maintenances:  HasMany<typeof Maintenance>
+
+  @hasMany(() => Permission)
+  public permissions: HasMany<typeof Permission>
 
 }

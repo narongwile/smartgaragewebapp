@@ -103,5 +103,4 @@ export default class PartsController {
 
     response.redirect('/part_list')
   }
-  
 }

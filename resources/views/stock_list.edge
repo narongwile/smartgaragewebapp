@@ -18,13 +18,15 @@
             <thead>
                 <tr>
                     <th></th>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Condition</th>
                     <th>Year</th>
                     <th>Quantity</th>
                     <th>Purchase Price</th>
-                    <th>Created At</th>
+                    <th>Purchase Date</th>
+                    <th>Warranty Date</th>
                     <th></th>
                     </tr>
                 </thead>
@@ -36,6 +38,9 @@
                             <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="is-rounded">
                                 </div>
                             </td>
+
+                        <td data-label="id">{{ s.id }}</td>
+
                         @each(p in part)
                         @if(s.part_id == p.id)
 
@@ -57,9 +62,18 @@
                         <td data-label="quantity">{{ s.qty_in_stock }}</td>
                         <td data-label="buyprice">{{ s.buy_price }}</td>
 
-                        <td data-label="Created">
-                            <small class="has-text-grey is-abbr-like">{{ s.created_at }}</small>
+                        <td data-label="purchasedate">
+                            <small class="has-text-grey is-abbr-like">{{ s.instock_date.toFormat("YYYY-MM-DD") }}</small>
                             </td>
+                        @if(s.warranty_date != null)
+                        <td data-label="warrantydate">
+                            <small class="has-text-grey is-abbr-like">{{ s.warranty_date.toFormat("YYYY-MM-DD") }}</small>
+                            </td>
+                        @else
+                        <td data-label="warrantydate">
+                            <small class="has-text-grey is-abbr-like">Product not warranty</small>
+                            </td>
+                        @endif
 
                         @endif
                         @endeach
@@ -67,10 +81,10 @@
 
                         <td class="is-actions-cell">
                             <div class="buttons is-right">
-                                <button class="button is-small is-primary" type="button">
+                                <a href="{{ route('stocks.update', {id: s.id}) }}"><button class="button is-small is-primary" type="button">
                                     <span class="icon"><i class="mdi mdi-eye"></i></span>
-                                    </button>
-                                <button class="button is-small is-danger jb-modal" data-target="sample-modal" type="button">
+                                    </button></a>
+                                <button class="button is-small is-danger jb-modal" id="{{ s.id }}" onclick="deleteStock(this.id)" data-target="myModal" type="button">
                                     <span class="icon"><i class="mdi mdi-trash-can"></i></span>
                                     </button>
                                 </div>
@@ -78,6 +92,28 @@
                         </tr>
                     </tbody>
                 @endeach
+                <script>
+                    function deleteStock(clicked_id) {
+                        document.getElementById("delstock").href = "/stock_delete/" + clicked_id;
+                    }
+                </script>
+                <div id="myModal" class="modal">
+                    <div class="modal-background jb-modal-close"></div>
+                    <div class="modal-card">
+                      <header class="modal-card-head">
+                        <p class="modal-card-title">Confirm action</p>
+                        <button class="delete jb-modal-close" aria-label="close"></button>
+                      </header>
+                      <section class="modal-card-body">
+                        <p>This will permanently delete <b>Some Object</b></p>
+                      </section>
+                      <footer class="modal-card-foot">
+                        <button class="button jb-modal-close">Cancel</button>
+                        <a id="delstock" href="/stock_delete/"><button class="button is-danger jb-modal-close">Delete</button></a>
+                      </footer>
+                    </div>
+                    <button class="modal-close is-large jb-modal-close" aria-label="close"></button>
+                </div>
             </table>
             </div>
             <div class="notification">

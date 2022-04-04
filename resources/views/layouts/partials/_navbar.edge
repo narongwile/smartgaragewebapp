@@ -23,7 +23,7 @@
           </span>
           </a>
           <div class="navbar-dropdown">
-            <a href="profile.html" class="navbar-item">
+            <a href="/profile" class="navbar-item">
               <span class="icon"><i class="mdi mdi-account"></i></span>
               <span>My Profile</span>
             </a>
@@ -51,7 +51,7 @@
             <span class="icon"><i class="mdi mdi-chevron-down"></i></span>
           </a>
           <div class="navbar-dropdown">
-            <a href="profile.html" class="navbar-item">
+            <a href="/profile" class="navbar-item">
               <span class="icon"><i class="mdi mdi-account"></i></span>
               <span>My Profile</span>
             </a>
@@ -124,16 +124,7 @@
               </li>
             @endif
             
-            <li>
-                @if(request.url() == '/calendar')
-                <a href="/calendar" class="is-active has-icon">
-                  @else
-                    <a href="/calendar" class="has-icon">
-                @endif
-                <span class="icon has-update-mark"><i class="mdi mdi-calendar-month-outline"></i></span>
-                <span class="menu-item-label">Calendar</span>
-                </a>
-              </li>
+            
 
             <li>
                 <a class="has-icon has-dropdown-icon">
@@ -188,15 +179,21 @@
                 <span class="menu-item-label">Vehicles</span>
                 </a>
               </li>
+
+
             <li>
+                @if(request.url() == '/part_list')
                 <a class="has-icon has-dropdown-icon">
+                  @else
+                  <a href="/part_list" class="has-icon">
+                  @endif
                     <span class="icon"><i class="mdi mdi-steering"></i></span>
                     <span class="menu-item-label">Auto parts</span>
-                    <div class="dropdown-icon">
+                    {{--  <div class="dropdown-icon">
                         <span class="icon"><i class="mdi mdi-plus"></i></span>
-                    </div>
+                    </div>  --}}
                 </a>
-                <ul>
+                {{--  <ul>
                     <li>
                         @if(request.url() == '/part_list')
                         <a href="/part_list" class="is-active">
@@ -216,8 +213,11 @@
                         <span>Part Add</span>
                         </a>
                     </li>
-                </ul>
+                  
+                </ul>  --}}
               </li>
+
+
             <li>
                 <a class="has-icon has-dropdown-icon">
                     <span class="icon"><i class="mdi mdi-gas-station"></i></span>
@@ -227,33 +227,26 @@
                     </div>
                   </a>
                 <ul>
+                  <li>
+                    @if(request.url() == '/vehicle_model')
+                    <a href="/vehicle_model" class="is-active">
+                      @else
+                        <a href="/vehicle_model">
+                        @endif
+                    <span>Vehicle Models</span>
+                    </a>
+                  </li>
+
                     <li>
-                        @if(request.url() == '/categorie_list')
-                        <a href="/categorie_list" class="is-active">
+                        @if(request.url() == '/part_brandtype')
+                        <a href="/part_brandtype" class="is-active">
                           @else
-                            <a href="/categorie_list">
+                            <a href="/part_brandtype">
                             @endif
-                        <span>Categorie List</span>
+                        <span>Part Brand&Type</span>
                         </a>
                       </li>
-                    <li>
-                        @if(request.url() == '/categorie_edit')
-                        <a href="/categorie_edit" class="is-active">
-                          @else
-                            <a href="/categorie_edit">
-                        @endif
-                        <span>Categorie Edit</span>
-                        </a>
-                      </li>
-                    <li>
-                        @if(request.url() == '/categorie_add')
-                        <a href="/categorie_add" class="is-active">
-                          @else
-                            <a href="/categorie_add">
-                        @endif
-                        <span>Categorie Add</span>
-                        </a>
-                      </li>
+                      
                   </ul>
               </li>
             <li>
@@ -321,15 +314,6 @@
                           <span>Stock Auto part</span>
                           </a>
                       </li>
-                    <li>
-                        @if(request.url() == '/return')
-                        <a href="/return" class="is-active">
-                          @else
-                            <a href="/return">
-                          @endif
-                          <span>Return</span>
-                          </a>
-                      </li>
                   </ul>
               </li>
         </ul>
@@ -345,35 +329,20 @@
               <span class="menu-item-label">Profile</span>
               </a>
           </li>
+
         <li>
-            <a class="has-icon has-dropdown-icon">
+            @if(request.url() == '/customer_list')
+            <a href="/customer_list" class="is-active has-icon">
+            @else
+            <a href="/customer_list" class="has-icon">
+              @endif
                 <span class="icon"><i class="mdi mdi-account-supervisor-circle"></i></span>
                 <span class="menu-item-label">Customers</span>
-                <div class="dropdown-icon">
-                  <span class="icon"><i class="mdi mdi-plus"></i></span>
-                  </div>
+                
               </a>
-            <ul>
-                <li>
-                    @if(request.url() == '/customer_list')
-                    <a href="/customer_list" class="is-active">
-                      @else
-                        <a href="/customer_list">
-                      @endif
-                      <span>Customer List</span>
-                      </a>
-                  </li>
-                <li>
-                    @if(request.url() == '/customer_details')
-                    <a href="/customer_details" class="is-active">
-                      @else
-                        <a href="/customer_details">
-                      @endif
-                      <span>Customer Details</span>
-                      </a>
-                  </li>
-              </ul>
+            
          </li>
+         
 
         @if(auth.user.department == 'CEO' || auth.user.department == 'Admin')
             <li>

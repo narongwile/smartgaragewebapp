@@ -103,7 +103,11 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
+                @if(partdescribe != null)
                 <textarea name="partdescribe" class="textarea" placeholder="Explain Part">{{ partdescribe }}</textarea>
+                @else
+                <textarea name="partdescribe" class="textarea" placeholder="Explain Part"></textarea>
+                @endif
               </div>
             </div>
           </div>

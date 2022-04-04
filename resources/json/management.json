@@ -1,0 +1,24 @@
+[
+    {
+      "management": "Auto part"
+    },
+    {
+      "management": "Inventory"
+    },
+    {
+      "management": "Auto part brand&type"
+    },
+    {
+        "management": "Vehicle"
+    },
+    {
+        "management": "Vehicle model"
+    },
+    {
+        "management": "Customer"
+    },
+    {
+        "management": "Maintain"
+    }
+  ]
+  

@@ -11,7 +11,7 @@
     <div class="card-content">
       <form action="/stock_part" method="POST">
         {{ csrfField() }}
-        <div class="field is-horizontal">
+        <div class="field has-check is-horizontal">
           <div class="field-label is-normal">
             <label class="label">Part Name</label>
           </div>
@@ -21,15 +21,26 @@
                     @if(isFromAddPart == true)
                         <a class="button is-static">{{ part.id }}</a>
                     @endif
+
+                    @if(psfl_id != null)
+                        <a class="button is-static">{{ psfl_id }}</a>
+                    @endif
+
+                    @if(isFromAddPart == true || psfl_id != null)
                 <div class="select">
                     <select name="partid">
-
+                    @endif
+                      
                         @if(isFromAddPart == true)
                             <option value="{{ part.id }}">
                                 {{ part_brand.partbrand +' '+ part.partname }}
                                 </option>
-                        @else
-                            @each(p in part)
+                        @elseif(psfl_id != null)
+                          <option value="{{ psfl_id }}">
+                            {{ psfl_partbrand +' '+ psfl_name }}
+                            </option>
+                        @else                        
+                            {{--  @each(p in part)
                                 @each(pb in part_brand)
                                     @if(p.partbrand_id == pb.id)
                                         <option value="{{ p.id }}">
@@ -37,11 +48,59 @@
                                         </option>
                                     @endif
                                 @endeach
+                            @endeach  --}}
+
+                            <input class="input" oninput="search(this.value)" type="text" placeholder="Search auto part"><br><br>
+
+                            @each(p in part)
+                            @each(pb in part_brand)
+                            @if(p.partbrand_id == pb.id)
+                              <label name="p" id="p{{ p.id }}" ><label class="b-radio radio">
+                                <input type="radio" name="partid" value="{{ p.id }}"><span class="check"></span>
+                                <span class="control-label">{{ p.id +' '+ pb.partbrand +' '+ p.partname }}</span>
+                              </label></label>
+                            @endif
                             @endeach
+                            
+                            <script>
+                               function search(s) {
+                                 let p = document.getElementsByName("p");
+                                 for( let i=0; i < p.length; i++ ) {
+                                    if(s.length != 0) {
+                                      p[i].hidden = true;
+                                    }else p[i].hidden = false;
+                                  }
+
+                                  @each(p in part)
+                                  var pname = '{{ p.partname }}', pid = 'p{{ p.id }}'                                  
+                                  for( let j=0; j < s.length; j++ ) {
+                                  for( let i=0; i < pname.length; i++ ) {
+                                    if( s[j] == pname[i] ) {
+                                      //console.log(s+' '+pid+' '+pname)
+                                      document.getElementById(pid).removeAttribute("hidden");
+                                      
+                                      if( s.length > pname.length ) {
+                                        document.getElementById(pid).hidden = true;
+                                      }
+                                    }
+                                  }
+                                  }
+                                  @endeach 
+                               }
+                            </script>
+
+                            @endeach
+                            
+
                         @endif
 
+                        @if(isFromAddPart == true || psfl_id != null)
                     </select>
                 </div>
+                @endif
+                
+                
+
               </div>
             </div>
           </div>
@@ -103,7 +162,7 @@
               <div class="field">
                 <div class="control">
                     <input name="productyear" class="input" type="number"
-                    min="1900" max="2021" placeholder="Year of manufacture, Between 1900 to 2099">
+                    min="1900" max="2023" placeholder="Year of manufacture, Between 1900 to 2099">
                 </div>
               </div>
             </div>

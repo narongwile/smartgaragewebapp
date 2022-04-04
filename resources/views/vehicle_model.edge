@@ -1,0 +1,172 @@
+@layout('layouts/app')
+
+
+@section('content')
+<div class="tile is-ancestor">
+    <div class="tile is-parent">
+      <div class="card tile is-child">
+        <header class="card-header">
+          <p class="card-header-title">
+            <span class="icon"><i class="mdi mdi-account-circle default"></i></span>
+            Vehicle Brands
+          </p>
+
+            <a href="/vehicle_brand_add" class="card-header-icon"><button class="button is-small is-link " type="button" >
+            <span >Add</span>
+            </button></a>
+        </header>
+        <div class="card-content">
+            <div class="table-wrapper has-mobile-cards">
+                <table class="table is-fullwidth is-striped is-hoverable is-sortable is-fullwidth">
+                  <thead>
+                      <tr>
+                          <th></th>
+                          <th>id</th>
+                          <th>Brand</th>
+                          <th></th>
+                          </tr>
+                  </thead>
+                      @each(vb in vehiclebrand)
+                      <tbody>
+                          <tr>
+                              <td class="is-image-cell">
+                                  <div class="image">
+                                  <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="is-rounded">
+                                      </div>
+                                </td>
+      
+                              <td data-label="vbrand_id">{{ vb.id }}</td>
+                              <td data-label="vbrand">{{ vb.vehicle_brand }}</td>
+                              <td class="is-actions-cell">
+                                  <div class="buttons is-right">
+
+                                      <a href="{{ route('vehicles.add.model', {id: vb.id}) }}"><button class="button is-small is-link " type="button">
+                                          <span >+Model</span>
+                                          </button></a>
+
+                                      <a href="{{ route('vehicles.update.brand', {id: vb.id}) }}"><button class="button is-small is-primary " type="button">
+                                          <span class="icon"><i class="mdi mdi-eye"></i></span>
+                                          </button></a>
+
+                                      <button class="button is-small is-danger jb-modal" id="{{ vb.id }}" onclick="deleteVehicleBrand(this.id)" data-target="myModalBrand" type="button">
+                                          <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                                          </button>
+                                      </div>
+                                </td>
+                            </tr>
+                      </tbody>
+                      @endeach    
+                      <script>
+                        function deleteVehicleBrand(clicked_id) {
+                            document.getElementById("delvehiclebrand").href = "/vehicle_brand_delete/" + clicked_id;
+                        }
+                      </script>
+                      <div id="myModalBrand" class="modal">
+                        <div class="modal-background jb-modal-close"></div>
+                        <div class="modal-card">
+                          <header class="modal-card-head">
+                            <p class="modal-card-title">Confirm action</p>
+                            <button class="delete jb-modal-close" aria-label="close"></button>
+                          </header>
+                          <section class="modal-card-body">
+                            <p>This will permanently delete <b>Some Object</b></p>
+                          </section>
+                          <footer class="modal-card-foot">
+                            <button class="button jb-modal-close">Cancel</button>
+                            <a id="delvehiclebrand" href="/vehicle_brand_delete/"><button class="button is-danger jb-modal-close">Delete</button></a>
+                          </footer>
+                        </div>
+                        <button class="modal-close is-large jb-modal-close" aria-label="close"></button>
+                      </div>
+                  </table>
+              </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile is-parent">
+      <div class="card tile is-child">
+        <header class="card-header">
+          <p class="card-header-title">
+            <span class="icon"><i class="mdi mdi-account default"></i></span>
+            Vehicle Models
+          </p>
+
+            <a href="/vehicle_model_add" class="card-header-icon"><button class="button is-small is-link " type="button" >
+            <span >Add</span>
+            </button></a>
+        </header>
+        <div class="card-content">
+              <div class="table-wrapper has-mobile-cards">
+                  <table class="table is-fullwidth is-striped is-hoverable is-sortable is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>id</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th></th>
+                          </tr>
+                    </thead>
+                        @each(vm in vehiclemodel)
+                        <tbody>
+                            <tr>
+                                <td class="is-image-cell">
+                                    <div class="image">
+                                    <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="is-rounded">
+                                        </div>
+                                  </td>
+        
+                                <td data-label="vmodel_id">{{ vm.id }}</td>
+
+                                @each(vb in vehiclebrand)
+                                @if(vb.id == vm.vehiclebrand_id)
+                                    <td data-label="vbrand">{{ vb.vehicle_brand }}</td>
+                                @endif                        
+                                @endeach
+
+                                <td data-label="vmodel">{{ vm.vehicle_model }}</td>                               
+                                <td class="is-actions-cell">
+                                    <div class="buttons is-right">
+                                        <a href="{{ route('vehicles.update.model', {id: vm.id}) }}"><button class="button is-small is-primary " type="button">
+                                            <span class="icon"><i class="mdi mdi-eye"></i></span>
+                                            </button></a>
+                                        <button class="button is-small is-danger jb-modal" id="{{ vm.id }}" onclick="deleteVehicleModel(this.id)" data-target="myModalType" type="button">
+                                            <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                                          </button>
+                                      </div>
+                                  </td>
+                              </tr>
+                          </tbody>
+                        @endeach
+                        <script>
+                          function deleteVehicleModel(clicked_id) {
+                              document.getElementById("delvmodel").href = "/vehicle_model_delete/" + clicked_id;
+                          }
+                        </script>
+                        <div id="myModalType" class="modal">
+                          <div class="modal-background jb-modal-close"></div>
+                          <div class="modal-card">
+                            <header class="modal-card-head">
+                              <p class="modal-card-title">Confirm action</p>
+                              <button class="delete jb-modal-close" aria-label="close"></button>
+                            </header>
+                            <section class="modal-card-body">
+                              <p>This will permanently delete <b>Some Object</b></p>
+                            </section>
+                            <footer class="modal-card-foot">
+                              <button class="button jb-modal-close">Cancel</button>
+                              <a id="delvmodel" href="/vehicle_model_delete/"><button class="button is-danger jb-modal-close">Delete</button></a>
+                            </footer>
+                          </div>
+                          <button class="modal-close is-large jb-modal-close" aria-label="close"></button>
+                        </div>
+                  </table>
+                </div>
+          </div>
+        </div>
+    </div>
+
+  </div>
+  
+@endsection

@@ -1,43 +1,5 @@
 @layout('layouts/app')
 
-@section('header')
-<div class="level">
-    <div class="level-left">
-      <div class="level-item">
-        <ul>
-          <li>Admin</li>
-          <li>Profile</li>
-        </ul>
-      </div>
-    </div>
-    <div class="level-right">
-      <div class="level-item">
-        <div class="buttons is-right">
-          <a href="https://admin-one-html.justboil.me/" target="_blank" class="button is-primary">
-            <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
-            <span>Premium Demo</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-@endsection
-
-@section('head')
-<div class="hero-body">
-    <div class="level">
-      <div class="level-left">
-        <div class="level-item"><h1 class="title">
-          Profile
-        </h1></div>
-      </div>
-      <div class="level-right" style="display: none;">
-        <div class="level-item"></div>
-      </div>
-    </div>
-  </div>
-@endsection
-
 @section('content')
 <div class="tile is-ancestor">
     <div class="tile is-parent">
@@ -45,13 +7,13 @@
         <header class="card-header">
           <p class="card-header-title">
             <span class="icon"><i class="mdi mdi-account-circle default"></i></span>
-            Edit Profile
+            Edit Customer
           </p>
         </header>
         <div class="card-content">
-          <form action="/profile" method="POST">
+          <form action="/customer_update/{{ id }}" method="POST">
             {{ csrfField() }}
-            <div class="field is-horizontal">
+            {{--  <div class="field is-horizontal">
               <div class="field-label is-normal"><label class="label">Avatar</label></div>
               <div class="field-body">
                 <div class="field">
@@ -66,7 +28,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>  --}}
             <hr>
             <div class="field is-horizontal">
               <div class="field-label is-normal">
@@ -75,8 +37,9 @@
               <div class="field-body">
                 <div class="field">
                   <div class="control">
-                    <input type="text" autocomplete="on" name="fname" value="{{ auth.user.fname }}" class="input" disabled>
+                    <input type="text" autocomplete="on" name="fname" value="{{ fname }}" class="input" required>
                   </div>
+                  <p class="help">Required. Customer firstname</p>
                 </div>
               </div>
             </div>
@@ -87,8 +50,9 @@
               <div class="field-body">
                 <div class="field">
                   <div class="control">
-                    <input type="text" autocomplete="on" name="lname" value="{{ auth.user.lname }}" class="input" disabled>
+                    <input type="text" autocomplete="on" name="lname" value="{{ lname }}" class="input" required>
                   </div>
+                  <p class="help">Required. Customer lastname</p>
                 </div>
               </div>
             </div>
@@ -99,9 +63,9 @@
               <div class="field-body">
                 <div class="field">
                   <div class="control">
-                    <input type="number" autocomplete="on" name="tel" value="{{ auth.user.tel }}" class="input" required>
+                    <input type="number" autocomplete="on" name="tel" value="{{ tel }}" class="input" required>
                   </div>
-                  <p class="help">Required. Your tel number</p>
+                  <p class="help">Required. Customer phone number</p>
                 </div>
               </div>
             </div>
@@ -112,24 +76,54 @@
               <div class="field-body">
                 <div class="field">
                   <div class="control">
-                    <input type="email" autocomplete="on" name="email" value="{{ auth.user.email }}" class="input" readonly>
+                    <input type="email" autocomplete="on" name="email" value="{{ email }}" class="input" required>
                   </div>
+                  <p class="help">Required. Customer e-mail</p>
                 </div>
               </div>
             </div>
             <hr>
+
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">Department</label>
+                <label class="label">Company</label>
               </div>
               <div class="field-body">
                 <div class="field">
                   <div class="control">
-                    <input type="text" autocomplete="on" name="department" value="{{ auth.user.department }}" class="input" disabled>
+                    <input type="text" autocomplete="on" name="company" value="{{ company }}" class="input">
                   </div>
                 </div>
               </div>
             </div>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Customer Tax ID</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                        @if( customer_tax_id != null )
+                      <input type="text" autocomplete="on" name="customer_tax_id" value="{{ customer_tax_id }}" class="input">
+                      @else
+                      <input type="text" autocomplete="on" name="customer_tax_id" class="input">
+                      @endif
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Address</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <input type="text" autocomplete="on" name="address" value="{{ address }}" class="input">
+                    </div>
+                  </div>
+                </div>
+              </div>
             <hr>
             <div class="field is-horizontal">
               <div class="field-label is-normal"></div>
@@ -152,7 +146,7 @@
         <header class="card-header">
           <p class="card-header-title">
             <span class="icon"><i class="mdi mdi-account default"></i></span>
-            Profile
+            Customer Profile
           </p>
         </header>
         <div class="card-content">
@@ -163,88 +157,43 @@
           <div class="field">
             <label class="label">Fullname</label>
             <div class="control is-clearfix">
-              <input type="text" readonly value="{{ auth.user.fname+' '+auth.user.lname }}" class="input is-static">
+              <input type="text" readonly value="{{ fname+' '+lname }}" class="input is-static">
+            </div>
+          </div>          
+          <div class="field">
+            <label class="label">Tel</label>
+            <div class="control is-clearfix">
+              <input type="number" readonly value="{{ tel }}" class="input is-static">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">E-mail</label>
+            <div class="control is-clearfix">
+              <input type="text" readonly value="{{ email }}" class="input is-static">
             </div>
           </div>
           <hr>
           <div class="field">
-            <label class="label">E-mail</label>
+            <label class="label">Company</label>
             <div class="control is-clearfix">
-              <input type="text" readonly value="{{ auth.user.email }}" class="input is-static">
+              <input type="text" readonly value="{{ company }}" class="input is-static">
             </div>
           </div>
           <div class="field">
-            <label class="label">Tel</label>
+            <label class="label">Customer Tax ID</label>
             <div class="control is-clearfix">
-              <input type="number" readonly value="{{ auth.user.tel }}" class="input is-static">
+              <input type="text" readonly value="{{ customer_tax_id }}" class="input is-static">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Address</label>
+            <div class="control is-clearfix">
+              <input type="text" readonly value="{{ address }}" class="input is-static">
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="card">
-    <header class="card-header">
-      <p class="card-header-title">
-        <span class="icon"><i class="mdi mdi-lock default"></i></span>
-        Change Password
-      </p>
-    </header>
-    <div class="card-content">
-      <form>
-        <div class="field is-horizontal">
-          <div class="field-label is-normal">
-            <label class="label">Current password</label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <input type="password" name="password_current" autocomplete="current-password" class="input" required>
-              </div>
-              <p class="help">Required. Your current password</p></div>
-          </div>
-        </div>
-        <hr>
-        <div class="field is-horizontal">
-          <div class="field-label is-normal">
-            <label class="label">New password</label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <input type="password" autocomplete="new-password" name="password" class="input" required>
-              </div>
-              <p class="help">Required. New password</p>
-            </div>
-          </div>
-        </div>
-        <div class="field is-horizontal">
-          <div class="field-label is-normal">
-            <label class="label">Confirm password</label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <input type="password" autocomplete="new-password" name="password_confirmation" class="input" required>
-              </div>
-              <p class="help">Required. New password one more time</p>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <div class="field is-horizontal">
-          <div class="field-label is-normal"></div>
-          <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <button type="submit" class="button is-primary">
-                  Submit
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+  
 @endsection
