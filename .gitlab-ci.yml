@@ -25,5 +25,5 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "Compile complete."
     - echo "++++++++++++++++++++++++++++++"
     - cat $ID_RSA
-    - cat $SERVER_IP
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "MSSQL_PASSWORD=$MSSQL_PASSWORD docker-compose up -d"
     
