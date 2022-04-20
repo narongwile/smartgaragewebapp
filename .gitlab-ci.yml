@@ -18,12 +18,16 @@ stages:          # List of stages for jobs, and their order of execution
   - test
   - deploy
 
+variables:
+  DEV_SSH: "ssh -i $ID_RSA $SERVER_USER@$SERVER_IP"
+
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
+  image: alpine:latest
   script:
     - echo "Compiling the code..."
     - echo "Compile complete."
     - echo "++++++++++++++++++++++++++++++"
     - chmod og= $ID_RSA
     #- ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "MSSQL_PASSWORD=$MSSQL_PASSWORD docker-compose up -d"
-    - ssh -i $ID_RSA $SERVER_USER@$SERVER_IP "MSSQL_PASSWORD=$MSSQL_PASSWORD docker-compose up -d"
+    - $DEV_SSH "MSSQL_PASSWORD=$MSSQL_PASSWORD docker-compose up -d"
