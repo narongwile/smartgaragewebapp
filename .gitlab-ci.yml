@@ -23,7 +23,7 @@ stages:          # List of stages for jobs, and their order of execution
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
-  image: alpine:latest
+  #image: alpine:latest
   before_script:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "hostname && echo 'Welcome!!!'"
   script:
