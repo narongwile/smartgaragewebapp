@@ -28,6 +28,6 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "Compiling the code..."
     - echo "Compile complete."
     - echo "++++++++++++++++++++++++++++++"
-    - chmod og= $ID_RSA
+    #- chmod og= $ID_RSA
     #- ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "MSSQL_PASSWORD=$MSSQL_PASSWORD docker-compose up -d"
     - $DEV_SSH "MSSQL_PASSWORD=$MSSQL_PASSWORD docker-compose up -d"
