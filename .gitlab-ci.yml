@@ -25,7 +25,6 @@ build-job:
   stage: deploy
   image: alpine:latest
   script:
-    - chmod og= $STAGE_ID_RSA
+    - chmod og= $ID_RSA
     - apk update && apk add openssh-client
-    # stop existing docker container & remove images
-    - ssh -i $STAGE_ID_RSA -o StrictHostKeyChecking=no $STAGE_SERVER_USER@$STAGE_SERVER_IP "docker stop $CI_PROJECT_NAME || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "hostname"
