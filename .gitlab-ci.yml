@@ -25,10 +25,7 @@ build-job:       # This job runs in the build stage, which runs first.
   stage: build
   image: alpine:latest
   before_script:
-    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )' 
-    - eval $(ssh-agent -s)
-    - ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "hostname && echo 'Welcome!!!'"
   script:
     - echo "Compiling the code..."
     - echo "Compile complete."
