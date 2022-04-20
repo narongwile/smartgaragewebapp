@@ -19,7 +19,7 @@ services:
       MSSQL_SERVER: smartgaragedbserver.database.windows.net
       MSSQL_PORT: 1433
       MSSQL_USER: nrkwine
-      MSSQL_PASSWORD: NRK@wine2544
+      MSSQL_PASSWORD: ${MSSQL_PASSWORD}
       MSSQL_DB_NAME: smartgaragedb
   web:
     image: nginx
