@@ -24,11 +24,20 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   image: alpine:latest
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )' 
+    - eval $(ssh-agent -s)
+    - echo "$ID_RSA" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
   script:
     - echo "Compiling the code..."
     - echo "Compile complete."
     - echo "++++++++++++++++++++++++++++++"
-    - chmod og= $ID_RSA
-    - apk update && apk add openssh-client
+    #- chmod og= $ID_RSA
+    #- apk update && apk add openssh-client
     #- ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "MSSQL_PASSWORD=$MSSQL_PASSWORD docker-compose up -d"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "MSSQL_PASSWORD=$MSSQL_PASSWORD docker-compose up -d"
+    #- ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "MSSQL_PASSWORD=$MSSQL_PASSWORD docker-compose up -d"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "hostname && echo 'Welcome!!!' > welcome.txt"
