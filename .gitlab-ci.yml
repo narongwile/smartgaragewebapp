@@ -27,7 +27,7 @@ mirror-github:
     - cd smartgaragewebapp.git
     - git config --global user.email "$GITHUB_EMAIL"
     - git reset --soft HEAD~1
-    - git push --mirror https://$GITHUB_ACCESS_TOKEN@github.com/$MIRROR_USERNAME/smartgaragewebapp.git
+    - git push --main https://$GITHUB_ACCESS_TOKEN@github.com/$MIRROR_USERNAME/smartgaragewebapp.git
     - cd ..
     - rm -rf smartgaragewebapp.git
 
