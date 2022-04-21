@@ -24,8 +24,9 @@ variables:
 deploy-test:
   stage: deploy
   image: alpine:latest
-  script:
+  before_script:
     - chmod og= $ID_RSA
     - apk update && apk add openssh-client
+  script:
     - $REMOTE_SERVER "hostname"
     #- $REMOTE_SERVER "cd /home/nrkwine/smartgaragewebapp && docker-compose up -d"
