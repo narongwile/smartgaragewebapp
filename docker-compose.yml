@@ -16,9 +16,9 @@ services:
       APP_KEY: jlG45rVkU1PSx7DBngfjQ3RfozrY_kk0
       SESSION_DRIVER: cookie
       DB_CONNECTION: mssql
-      MSSQL_SERVER: smartgaragedbserver.database.windows.net
+      MSSQL_SERVER: ${MSSQL_SERVER}
       MSSQL_PORT: 1433
-      MSSQL_USER: nrkwine
+      MSSQL_USER: ${MSSQL_USER}
       MSSQL_PASSWORD: ${MSSQL_PASSWORD}
       MSSQL_DB_NAME: smartgaragedb
   web:

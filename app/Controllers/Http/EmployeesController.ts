@@ -23,7 +23,7 @@ export default class EmployeesController {
 
     public async showAddStaff({ view }: HttpContextContract) {
         const fs = require('fs')
-        const departments = JSON.parse(fs.readFileSync('resources/json/departments.json'))
+        const departments = JSON.parse(fs.readFileSync('public/departments.json'))
         return view.render('staff_add', {
             feature: 'Add',
             departments: departments,
@@ -72,14 +72,14 @@ export default class EmployeesController {
     public async showUpdateStaff({ view, params }: HttpContextContract) {
         const staff = await Employee.findOrFail(params.id)
         const fs = require('fs')
-        const departments = JSON.parse(fs.readFileSync('resources/json/departments.json'))
-        const permissions = JSON.parse(fs.readFileSync('resources/json/management.json'))
+        const departments = JSON.parse(fs.readFileSync('public/departments.json'))
+        const permissions = JSON.parse(fs.readFileSync('public/management.json'))
 
         const permission = await Database.from('permissions')
         .select('management')
         .where('employee_id', params.id)
 
-        let npms_value = JSON.parse(fs.readFileSync('resources/json/management.json'))
+        let npms_value = JSON.parse(fs.readFileSync('public/management.json'))
         const npms = new Array()
 
         for( let i=0; i < permissions.length; i++ ) {

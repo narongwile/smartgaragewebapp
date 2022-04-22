@@ -1,7 +1,7 @@
 # Build AdonisJS
 FROM node:16-alpine as builder
 # Set directory for all files
-WORKDIR ~/smartgaragewebapp
+WORKDIR .
 # Copy over package.json files
 COPY package*.json ./
 # Install all packages
@@ -26,9 +26,9 @@ ENV PORT=3333
 ENV CACHE_VIEWS=true
 
 # Set home dir
-WORKDIR ~/smartgaragewebapp
+WORKDIR .
 # Copy over built files
-COPY --from=builder ~/smartgaragewebapp/build .
+COPY --from=builder ./build .
 # Install only required packages
 RUN npm ci --production
 # Expose port to outside world

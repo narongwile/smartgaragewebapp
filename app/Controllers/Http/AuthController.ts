@@ -6,7 +6,7 @@ export default class AuthController {
   public showRegister({ view }: HttpContextContract) {
     const fs = require('fs')
 
-    const rawdata = fs.readFileSync('resources/json/departments.json')
+    const rawdata = fs.readFileSync('public/departments.json')
     const department = JSON.parse(rawdata)
 
     //console.log(student.find(item => item.brand == 'Honda'))

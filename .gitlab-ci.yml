@@ -20,6 +20,10 @@ stages:          # List of stages for jobs, and their order of execution
   - release
   - deploy
 
+variables:
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
 mirror-github:
   stage: mirror
   script:
@@ -30,6 +34,15 @@ mirror-github:
     - git push --mirror https://$GITHUB_ACCESS_TOKEN@github.com/$MIRROR_USERNAME/smartgaragewebapp.git
     - cd ..
     - rm -rf smartgaragewebapp.git
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+build:
+  stage: build
+  script:
+    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
 
 deploy-test:
   stage: deploy
