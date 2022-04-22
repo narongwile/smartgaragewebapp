@@ -24,6 +24,15 @@ ENV HOST=0.0.0.0
 # Set port to listen
 ENV PORT=3333
 ENV CACHE_VIEWS=true
+
+ENV APP_KEY=jlG45rVkU1PSx7DBngfjQ3RfozrY_kk0
+ENV SESSION_DRIVER=cookie
+ENV DB_CONNECTION=mssql
+ENV MSSQL_SERVER=smartgaragedbserver.database.windows.net
+ENV MSSQL_PORT=1433
+ENV MSSQL_USER=nrkwine
+ENV MSSQL_PASSWORD=NRK@wine2544
+ENV MSSQL_DB_NAME=smartgaragedb
 # Set home dir
 WORKDIR /home/nrkwine/smartgaragewebapp
 # Copy over built files
