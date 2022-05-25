@@ -79,6 +79,47 @@
             </div>
           </div>
         <hr>
+        <div class="field has-check is-horizontal">
+          <div class="field-label"><label class="label">Compatible vehicle models</label></div>
+          <div class="field-body">
+            <div class="field">
+
+              @each(v_brand in v_brand)
+              <a onclick="showModel('{{ v_brand.vehicle_brand }}')"><button class="button is-small" type="button" >
+                <span >{{ v_brand.vehicle_brand }}</span>
+                </button></a>
+
+              <div class="field is-grouped-multiline is-grouped">
+
+                @each(v_model in v_model)
+                @if(v_model.vehiclebrand_id == v_brand.id)
+                <div class="control" id="{{ v_brand.vehicle_brand }}" style="display: none;">
+                  <label class="b-checkbox checkbox"><input type="checkbox" value="{{ v_model.id }}" name="vehiclemodel_id">
+                    <span class="check is-primary"></span>
+                    <span class="control-label">{{ v_model.vehicle_model }}</span>
+                  </label>
+                </div>
+                @endif
+                @endeach
+
+              </div>
+              @endeach
+
+              <script>
+                function showModel(vbrand) {
+                  var x = document.getElementById(vbrand);
+                  if(x.style.display === "none") {
+                    x.style.display = "block";
+                  }else {
+                    x.style.display = "none";
+                  }
+                }
+              </script>
+              
+            </div>
+          </div>
+        </div>
+        <hr>
         <div class="field is-horizontal">
           <div class="field-label">
             <!-- Left empty for spacing -->

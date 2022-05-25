@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Part from 'App/Models/Part'
 import PartBrand from 'App/Models/PartBrand'
+import PartCondition from 'App/Models/PartCondition'
 import PartType from 'App/Models/PartType'
 import Stock from 'App/Models/Stock'
 
@@ -28,6 +29,21 @@ export default class InventoriesController {
     update_part.partquantity += parseInt(request.all().qtyinstock)
     await update_part.save()
     console.log(update_part.$isPersisted)
+
+    const part_cdt = await PartCondition.query().where('part_id', request.all().partid).where('condition', request.all().condition)
+    if( part_cdt[0] != null ) {      
+      part_cdt[0].partquantity += parseInt(request.all().qtyinstock)
+      await part_cdt[0].save()
+      console.log(part_cdt[0].$isPersisted)
+    }else {
+      const part_cdt = new PartCondition()
+      await part_cdt.fill({
+        part_id: request.all().partid,
+        condition: request.all().condition,
+        partquantity: request.all().qtyinstock,
+      }).save()
+      console.log(part_cdt.$isPersisted)
+    }
 
     const part = await Part.all()
     const part_brand = await PartBrand.all()
@@ -113,12 +129,22 @@ export default class InventoriesController {
     part.partquantity += parseInt(request.all().qtyinstock)
     await part.save()
     console.log('quantity part: '+part.$isPersisted)
+    
+    const part_cdt = await PartCondition.query().where('part_id', stock.part_id).where('condition', request.all().condition)
+    part_cdt[0].partquantity -= qty_stock
+    part_cdt[0].partquantity += parseInt(request.all().qtyinstock)
+    await part_cdt[0].save()
 
     response.redirect('/stock_list')
   }
+
   public async delete({ params, response }: HttpContextContract) {
     const stock = await Stock.findOrFail(params.id)
     const part = await Part.findOrFail(stock.part_id)
+    const part_cdt = await PartCondition.query().where('part_id', stock.part_id).where('condition', stock.condition)
+    
+    part_cdt[0].partquantity -= stock.qty_in_stock
+    await part_cdt[0].save()
 
     part.partquantity -= stock.qty_in_stock
     await part.save()

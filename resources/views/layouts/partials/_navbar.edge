@@ -167,8 +167,19 @@
                   </ul>
               </li>
         </ul>
-      <p class="menu-label">Vehicle&Part Management</p>
+      <p class="menu-label">Part&Maintenance Management</p>
       <ul class="menu-list">
+        <li>
+                @if(request.url() == '/maintenance')
+                <a href="/maintenance" class="has-icon is-active">
+                @else
+                  <a href="/maintenance" class="has-icon ">
+                @endif
+                    <span class="icon"><i class="mdi mdi-hammer-wrench"></i></span>
+                    <span class="menu-item-label">Maintenances</span>
+                </a>
+              </li>
+              
             <li>
                 @if(request.url() == '/vehicles')
                 <a href="/vehicles" class="is-active has-icon">
@@ -183,40 +194,26 @@
 
             <li>
                 @if(request.url() == '/part_list')
-                <a class="has-icon has-dropdown-icon">
+                <a href="/part_list" class="has-icon is-active">
                   @else
                   <a href="/part_list" class="has-icon">
                   @endif
                     <span class="icon"><i class="mdi mdi-steering"></i></span>
                     <span class="menu-item-label">Auto parts</span>
-                    {{--  <div class="dropdown-icon">
-                        <span class="icon"><i class="mdi mdi-plus"></i></span>
-                    </div>  --}}
                 </a>
-                {{--  <ul>
-                    <li>
-                        @if(request.url() == '/part_list')
-                        <a href="/part_list" class="is-active">
-                          @else
-                            <a href="/part_list">
-                        @endif
-                        <span>Part List</span>
-                        </a>
-                    </li>
-                    
-                    <li>
-                        @if(request.url() == '/part_add')
-                        <a href="/part_add" class="is-active">
-                          @else
-                            <a href="/part_add">
-                        @endif
-                        <span>Part Add</span>
-                        </a>
-                    </li>
-                  
-                </ul>  --}}
               </li>
+              
 
+              <li>
+                @if(request.url() == '/stock_list')
+                <a href="/stock_list" class="has-icon is-active">
+                @else
+                  <a href="/stock_list" class="has-icon">
+                @endif
+                    <span class="icon"><i class="mdi mdi-ship-wheel"></i></span>
+                    <span class="menu-item-label">Inventory</span>
+                  </a>
+              </li>
 
             <li>
                 <a class="has-icon has-dropdown-icon">
@@ -246,76 +243,20 @@
                         <span>Part Brand&Type</span>
                         </a>
                       </li>
+
+                      <li>
+                        @if(request.url() == '/service')
+                        <a href="/service" class="is-active">
+                          @else
+                            <a href="/service">
+                            @endif
+                        <span>Maintenance Services</span>
+                        </a>
+                      </li>
                       
                   </ul>
               </li>
-            <li>
-                <a class="has-icon has-dropdown-icon">
-                    <span class="icon"><i class="mdi mdi-hammer-wrench"></i></span>
-                    <span class="menu-item-label">Maintenances</span>
-                    <div class="dropdown-icon">
-                        <span class="icon"><i class="mdi mdi-plus"></i></span>
-                    </div>
-                </a>
-                <ul>
-                    <li>
-                        @if(request.url() == '/maintain_list')
-                        <a href="/maintain_list" class="is-active">
-                          @else
-                            <a href="/maintain_list">
-                          @endif
-                          <span>Maintain List</span>
-                          </a>
-                      </li>
-                    <li>
-                        @if(request.url() == '/maintain_details')
-                        <a href="/maintain_details" class="is-active">
-                          @else
-                            <a href="/maintain_details">
-                          @endif
-                          <span>Maintain Details</span>
-                          </a>
-                      </li>
-                    <li>
-                        @if(request.url() == '/maintain_invoices')
-                        <a href="/maintain_invoices" class="is-active">
-                          @else
-                            <a href="/maintain_invoices">
-                          @endif
-                          <span>Maintain Invoices</span>
-                          </a>
-                      </li>
-                  </ul>
-              </li>
-            <li>
-                <a class="has-icon has-dropdown-icon">
-                    <span class="icon"><i class="mdi mdi-ship-wheel"></i></span>
-                    <span class="menu-item-label">Inventory</span>
-                    <div class="dropdown-icon">
-                        <span class="icon"><i class="mdi mdi-plus"></i></span>
-                    </div>
-                  </a>
-                <ul>
-                    <li>
-                        @if(request.url() == '/stock_list')
-                        <a href="/stock_list" class="is-active">
-                          @else
-                            <a href="/stock_list">
-                          @endif
-                          <span>Stock List</span>
-                          </a>
-                      </li>
-                    <li>
-                        @if(request.url() == '/stock_part')
-                        <a href="/stock_part" class="is-active">
-                          @else
-                            <a href="/stock_part">
-                          @endif
-                          <span>Stock Auto part</span>
-                          </a>
-                      </li>
-                  </ul>
-              </li>
+              
         </ul>
       <p class="menu-label">User Management</p>
       <ul class="menu-list">

@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
-import OrderPart from './OrderPart'
 import Employee from './Employee'
 import Vehicle from './Vehicle'
 import Garage from './Garage'
+import ServiceMaintenance from './ServiceMaintenance'
+import Receipt from './Receipt'
 
 export default class Maintenance extends BaseModel {
   @column({ isPrimary: true })
@@ -19,6 +20,9 @@ export default class Maintenance extends BaseModel {
   public employee_id: number
 
   @column()
+  public receipt_id: number
+
+  @column()
   public start_date:  DateTime
 
   @column()
@@ -29,21 +33,6 @@ export default class Maintenance extends BaseModel {
 
   @column()
   public comment: string
-
-  @column()
-  public maintain_cost: number
-
-  @column()
-  public payment_date:  DateTime
-
-  @column()
-  public quotation_id:  number
-
-  @column()
-  public invoice_id:  number
-
-  @column()
-  public receipt_id:  number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -60,6 +49,9 @@ export default class Maintenance extends BaseModel {
   @belongsTo( ()=> Garage)
   public garages: BelongsTo<typeof Garage>
 
-  @hasMany( ()=> OrderPart)
-  public order_parts: HasMany<typeof OrderPart>
+  @belongsTo( ()=> Receipt)
+  public receipts: BelongsTo<typeof Receipt>
+
+  @hasMany( ()=> ServiceMaintenance)
+  public service_maintenances: HasMany<typeof ServiceMaintenance>
 }

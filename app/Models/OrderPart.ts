@@ -1,17 +1,17 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
-import Maintenance from './Maintenance'
-import Part from './Part'
+import PartCondition from './PartCondition'
+import ServiceMaintenance from './ServiceMaintenance'
 
 export default class OrderPart extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public maintenance_id:  number
+  public service_maintenance_id:  number
 
   @column()
-  public part_id: number
+  public part_condition_id: number
 
   @column()
   public order_date:  DateTime
@@ -28,9 +28,9 @@ export default class OrderPart extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo( ()=> Maintenance)
-  public maintenances:  BelongsTo<typeof Maintenance>
+  @belongsTo( ()=> ServiceMaintenance)
+  public service_maintenances:  BelongsTo<typeof ServiceMaintenance>
 
-  @belongsTo ( ()=> Part)
-  public parts: BelongsTo<typeof Part>
+  @belongsTo ( ()=> PartCondition)
+  public part_conditions: BelongsTo<typeof PartCondition>
 }

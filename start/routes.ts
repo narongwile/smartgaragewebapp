@@ -102,6 +102,13 @@ Route.get('/vehicle_brand_delete/:id', 'CategoriesController.deleteVehicleBrand'
 
 Route.get('/vehicle_model_delete/:id', 'CategoriesController.deleteVehicleModel').as('vehicles.delete.model')
 
+Route.get('/maintenance', 'MaintenancesController.showMaintenances')
+
+Route.get('/maintenance_checkVehicle', 'MaintenancesController.showCheckLicense')
+Route.post('/maintenance_checkVehicle', 'MaintenancesController.checkLicense')
+
+Route.post('/vehicle_add', 'MaintenancesController.addVehicle')
+
 
 Route.get('/customer_list', 'CustomersController.showCustomer')
 
@@ -119,8 +126,6 @@ Route.get('/staff_update/:id', 'EmployeesController.showUpdateStaff').as('staff.
 Route.post('/staff_update/:id', 'EmployeesController.updateStaff')
 Route.post('/staff_update_permission/:id', 'EmployeesController.updateStaffPermission')
 Route.get('/staff_delete/:id', 'EmployeesController.deleteStaff').as('staff.delete')
-
-//https://medium.com/@tanakorn0412/%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B8%B3-auto-deploy-%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2-circle-ci-%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B9%80%E0%B8%8B%E0%B8%B4%E0%B8%9F%E0%B9%80%E0%B8%A7%E0%B8%AD%E0%B8%A3%E0%B9%8C-linux-digital-ocean-droplet-db1425e6271c
 
 Route.post('/garage_profile', 'GaragesController.update')
 Route.get('/garage_profile', async ({ view }) => {
@@ -143,10 +148,5 @@ Route.get('/tables', async ({ view }) => {
 
 Route.get('/forms', async ({ view }) => {
   return view.render('forms')
-})
-
-Route.get('/t', async ({ view }) => {
-  const part = await Database.from('parts').select('*').orderBy('id', 'asc')
-  return view.render('t', {part: part})
 })
 

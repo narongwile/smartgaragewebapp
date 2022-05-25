@@ -13,6 +13,7 @@ import PartType from './PartType'
 import OrderPart from './OrderPart'
 import Stock from './Stock'
 import PartModel from './PartModel'
+import PartCondition from './PartCondition'
 
 export default class Part extends BaseModel {
   @column({ isPrimary: true })
@@ -45,8 +46,8 @@ export default class Part extends BaseModel {
   @belongsTo(() => PartType)
   public part_types: BelongsTo<typeof PartType>
 
-  @hasMany(() => OrderPart)
-  public order_parts: HasMany<typeof OrderPart>
+  @hasMany(() => PartCondition)
+  public part_conditions: HasMany<typeof PartCondition>
 
   @hasMany(() => Stock)
   public stocks: HasMany<typeof Stock>
