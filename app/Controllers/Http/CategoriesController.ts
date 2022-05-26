@@ -4,6 +4,7 @@ import PartBrand from 'App/Models/PartBrand'
 import PartType from 'App/Models/PartType'
 import VehicleBrand from 'App/Models/VehicleBrand'
 import VehicleModel from 'App/Models/VehicleModel'
+import Service from 'App/Models/Service'
 
 export default class CategoriesController {
   public async showPartBrandType({ view }: HttpContextContract) {
@@ -199,8 +200,11 @@ export default class CategoriesController {
   public async updateVehicleModel({ request, response }: HttpContextContract) {
     console.log(request.all())
     const vehiclemodel = await VehicleModel.findOrFail(request.all().id)
-    const vehiclebrand = await VehicleBrand.findByOrFail('vehicle_brand', request.all().vehiclebrand)
-    
+    const vehiclebrand = await VehicleBrand.findByOrFail(
+      'vehicle_brand',
+      request.all().vehiclebrand
+    )
+
     vehiclemodel.vehiclebrand_id = vehiclebrand.id
     vehiclemodel.vehicle_model = request.all().vehiclemodel
 
@@ -217,5 +221,61 @@ export default class CategoriesController {
     await vehiclemodel?.delete()
 
     response.redirect('/vehicle_model')
+  }
+
+  public async showService({ view }: HttpContextContract) {
+    const services = await Database.from('services').select('*').orderBy('id', 'asc')
+
+    return view.render('service_list', {
+      feature: 'Services',
+      services: services,
+    })
+  }
+
+  public async showAddService({ view }: HttpContextContract) {
+    return view.render('service_add', {
+      feature: 'Add Service',
+    })
+  }
+
+  public async addService({ request, response }: HttpContextContract) {
+    console.log({ request })
+
+    const service = new Service()
+    await service
+      .fill({
+        service: request.all().service,
+        cost: request.all().cost,
+      })
+      .save()
+
+    response.redirect('/service_list')
+  }
+
+  public async showUpdateService({ view, params }: HttpContextContract) {
+    const service = await Service.find(params.id)
+
+    return view.render('service_update', {
+      feature: 'Update Service',
+      service: service?.service,
+      cost: service?.cost,
+      id: params.id,
+    })
+  }
+
+  public async updateService({ request, response, params }: HttpContextContract) {
+    const service = await Service.findOrFail(params.id)
+    service.service = request.all().service
+    service.cost = request.all().cost
+    await service.save()
+
+    response.redirect('/service_list')
+  }
+
+  public async deleteService({ params, response }: HttpContextContract) {
+    const service = await Service.findOrFail(params.id)
+    await service?.delete()
+
+    response.redirect('/service_list')
   }
 }

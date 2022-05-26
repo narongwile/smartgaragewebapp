@@ -31,6 +31,7 @@
     "@adonisjs/session": "^6.1.1",
     "@adonisjs/shield": "^7.0.6",
     "@adonisjs/view": "^6.1.1",
+    "bulma": "^0.9.4",
     "luxon": "^2.1.1",
     "mssql": "^7.2.0",
     "node-fetch": "^2.6.1",

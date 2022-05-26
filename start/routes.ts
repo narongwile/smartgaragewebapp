@@ -19,7 +19,6 @@
 */
 // import Database from '@ioc:Adonis/Lucid/Database'
 import Route from '@ioc:Adonis/Core/Route'
-import Database from '@ioc:Adonis/Lucid/Database'
 import Garage from 'App/Models/Garage'
 
 // Route.get('/', async ({ view }) => {
@@ -94,16 +93,15 @@ Route.get('/vehicle_model', 'CategoriesController.showVehicleModel')
 
 Route.get('/vehicle_brand_update/:id', 'CategoriesController.showUpdateVehicleBrand').as('vehicles.update.brand')
 Route.post('/vehicle_brand_update/:id', 'CategoriesController.updateVehicleBrand')
-
 Route.get('/vehicle_model_update/:id', 'CategoriesController.showUpdateVehicleModel').as('vehicles.update.model')
 Route.post('/vehicle_model_update/:id', 'CategoriesController.updateVehicleModel')
-
 Route.get('/vehicle_brand_delete/:id', 'CategoriesController.deleteVehicleBrand').as('vehicles.delete.brand')
-
 Route.get('/vehicle_model_delete/:id', 'CategoriesController.deleteVehicleModel').as('vehicles.delete.model')
+Route.post('/vehicle_add', 'MaintenancesController.addVehicle')
 
 
 
+Route.get('/maintenance/:status', 'MaintenancesController.filterMaintenancesByStatus')
 Route.get('/maintenance', 'VehicleMaintenancesController.showMaintenances')
 Route.get('/vehicle', 'VehicleMaintenancesController.showVehicles')
 
@@ -123,13 +121,17 @@ Route.post('/vehicle_update', 'VehicleMaintenancesController.updateVehicle')
 
 
 Route.get('/customer_list', 'CustomersController.showCustomer')
+Route.get('/service_list', 'CategoriesController.showService')
+Route.get('/service_add', 'CategoriesController.showAddService')
+Route.post('/service_add', 'CategoriesController.addService')
+Route.get('/service_update/:id', 'CategoriesController.showUpdateService').as('service.update')
+Route.post('/service_update/:id', 'CategoriesController.updateService')
+Route.get('/service_delete/:id', 'CategoriesController.deleteService').as('service.delete')
 
+Route.get('/customer_list', 'CustomersController.showCustomer')
 Route.get('/customer_update/:id', 'CustomersController.showUpdate').as('customer.update')
 Route.post('/customer_update/:id', 'CustomersController.update')
-
 Route.get('/customer_delete/:id', 'CustomersController.delete').as('customer.delete')
-
-
 
 Route.get('/staff_add', 'EmployeesController.showAddStaff')
 Route.post('/staff_add', 'EmployeesController.addStaff')
