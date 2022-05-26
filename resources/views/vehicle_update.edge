@@ -1,0 +1,296 @@
+@layout('layouts/app')
+
+@section('content')
+<div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        <span class="icon"><i class="mdi mdi-ballot"></i></span>
+        Vehicle
+      </p>
+    </header>
+    <div class="card-content">
+      <form action="/vehicle_update" method="POST">
+        {{ csrfField() }}
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Vehicle license plate number</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input name="license_id" class="input" type="text" value="{{ vehicle.license_id }}" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Vehicle model</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select name="vehiclemodel_id">
+                            @each(vbs in vbs)
+                            @each(vms in vms)
+                            @if(vms.vehiclebrand_id == vbs.id)
+                            @if(vmodel.id == vms.id)
+                            <option value="{{ vmodel.id }}" selected>                                            
+                              {{ vbrand.vehicle_brand +' '+ vmodel.vehicle_model }}
+                              </option>
+                            @else
+                            <option value="{{ vms.id }}">                                            
+                                {{ vbs.vehicle_brand +' '+ vms.vehicle_model }}
+                                </option>
+                            @endif
+                            @endif
+                            @endeach
+                            @endeach
+                        </select>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Colour</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  @if(vehicle.colour)
+                  <input name="colour" class="input" type="color" value="{{ vehicle.colour }}" required>
+                  @else
+                  <input name="colour" class="input" type="color" required>
+                  @endif
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <hr>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Customer</label>
+            </div>
+            <div class="field-body">
+              {{--  @if( cname == null )  --}}
+              <div class="field">
+                <div class="control">
+                  <a onclick="selectCustomer('existingCustomers')"><button class="button is-small" type="button" >
+                    <span >Existing customer</span>
+                    </button></a>
+                    
+                  <a onclick="selectCustomer('newCustomer')"><button class="button is-small" type="button" >
+                    <span >New customer</span>
+                    </button></a>
+                </div>
+                <br>
+                
+                <div class="control" id="existingCustomers" style="display: block;">
+                    <div class="select is-fullwidth">
+                        <select name="customer_id">
+                            @each(customer in customer)
+                            @if(vehicle.customer_id == customer.id)
+                            <option value="{{ customer.id }}" id="scid" selected>                                            
+                                {{ customer.fname +' '+ customer.lname }}
+                                </option>
+                            @else
+                            <option value="{{ customer.id }}" id="cid">                                            
+                                {{ customer.fname +' '+ customer.lname }}
+                                </option>
+                            @endif
+                            @endeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control" id="newCustomer" style="display: none;">
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">Firstname</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field">
+                          <div class="control">
+                            <input class="input" type="text" autocomplete="on" name="fname" id="fname">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">Lastname</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field">
+                          <div class="control">
+                            <input class="input" type="text" autocomplete="on" name="lname" id="lname">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">Tel</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field">
+                          <div class="control">
+                            <input class="input" type="number" autocomplete="on" name="tel" id="tel">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">E-mail</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field">
+                          <div class="control">
+                            <input class="input" type="email" autocomplete="on" name="email" id="email">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    
+                    <a onclick="selectCCustomer()"><button class="button is-small" type="button" >
+                      <span >Corporate customers</span>
+                      </button></a><br>
+                      <script>
+                        function selectCCustomer() {
+                          if(document.getElementById('CCustomer').style.display === "none") {
+                            document.getElementById('CCustomer').style.display = "block";
+
+                            document.getElementById('company').required = true;
+                            document.getElementById('taxid').required = true;
+                            document.getElementById('address').required = true;
+                          }else {
+                            document.getElementById('CCustomer').style.display = "none";
+
+                            document.getElementById('company').required = false;
+                            document.getElementById('taxid').required = false;
+                            document.getElementById('address').required = false;
+                            document.getElementById('company').value = null;
+                            document.getElementById('taxid').value = null;
+                            document.getElementById('address').value = null;
+                          }
+                        }
+                      </script>
+                      <div class="control" id="CCustomer" style="display: none;">
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label class="label">Company</label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field">
+                              <div class="control">
+                                <input class="input" type="text" autocomplete="on" name="company" id="company">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label class="label">Tax ID</label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field">
+                              <div class="control">
+                                <input class="input" type="number" autocomplete="on" name="taxid" id="taxid">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label class="label">Address</label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field">
+                              <div class="control">
+                                <input class="input" type="text" autocomplete="on" name="address" id="address">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                <script>
+                  function selectCustomer(customer) {
+                    var existingCustomers = document.getElementById('existingCustomers');
+                    var newCustomer = document.getElementById('newCustomer');
+
+                    if(customer === "existingCustomers") {
+                      existingCustomers.style.display = "block";
+                      newCustomer.style.display = "none";
+                      
+                      document.getElementById("fname").required = false;
+                      document.getElementById("lname").required = false;
+                      document.getElementById("tel").required = false;
+                      document.getElementById("email").required = false;
+
+                      document.getElementById("fname").value = null;
+                      document.getElementById("lname").value = null;
+                      document.getElementById("tel").value = null;
+                      document.getElementById("email").value = null;
+                      document.getElementById("company").value = null;
+                      document.getElementById("taxid").value = null;
+                      document.getElementById("address").value = null;
+
+                      document.getElementById("cid").disabled = false;
+                      document.getElementById("scid").disabled = false;
+                    }
+                    if(customer === "newCustomer") {
+                      newCustomer.style.display = "block";
+                      existingCustomers.style.display = "none";
+                      document.getElementById("fname").required = true;
+                      document.getElementById("lname").required = true;
+                      document.getElementById("tel").required = true;
+                      document.getElementById("email").required = true;
+
+                      document.getElementById("cid").disabled = true;
+                      document.getElementById("scid").disabled = true;
+                    }
+                  }
+                </script>
+                
+              </div>
+              {{--  @endif  --}}
+            </div>
+        </div>
+
+        <hr>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <!-- Left empty for spacing -->
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="field is-grouped">
+                <div class="control">
+                  <button type="submit" class="button is-primary">
+                    <span>Submit</span>
+                  </button>
+                </div>
+                <div class="control">
+                  <button type="reset" class="button is-primary is-outlined">
+                    <span>Reset</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+@endsection

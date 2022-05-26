@@ -102,12 +102,24 @@ Route.get('/vehicle_brand_delete/:id', 'CategoriesController.deleteVehicleBrand'
 
 Route.get('/vehicle_model_delete/:id', 'CategoriesController.deleteVehicleModel').as('vehicles.delete.model')
 
-Route.get('/maintenance', 'MaintenancesController.showMaintenances')
 
-Route.get('/maintenance_checkVehicle', 'MaintenancesController.showCheckLicense')
-Route.post('/maintenance_checkVehicle', 'MaintenancesController.checkLicense')
 
-Route.post('/vehicle_add', 'MaintenancesController.addVehicle')
+Route.get('/maintenance', 'VehicleMaintenancesController.showMaintenances')
+Route.get('/vehicle', 'VehicleMaintenancesController.showVehicles')
+
+Route.get('/maintenance_checkLicense', 'VehicleMaintenancesController.showCheckLicense')
+Route.post('/maintenance_checkLicense', 'VehicleMaintenancesController.checkLicense')
+
+Route.post('/vehicle_maintenance_add', 'VehicleMaintenancesController.addVehicleMaintenance')
+
+Route.get('/vehicle_maintenance_add/:id', 'VehicleMaintenancesController.addMaintenanceFromVehicle')
+
+Route.get('/maintenance_delete/:id', 'VehicleMaintenancesController.deleteMaintenance').as('maintenances.delete')
+Route.get('/vehicle_delete/:id', 'VehicleMaintenancesController.deleteVehicle').as('vehicles.delete')
+
+
+Route.get('/vehicle_update/:id', 'VehicleMaintenancesController.showUpdateVehicle').as('vehicles.update')
+Route.post('/vehicle_update', 'VehicleMaintenancesController.updateVehicle')
 
 
 Route.get('/customer_list', 'CustomersController.showCustomer')

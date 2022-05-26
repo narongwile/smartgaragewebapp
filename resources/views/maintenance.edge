@@ -8,7 +8,7 @@
         Maintenances
         </p>
 
-        <a href="/maintenance_checkVehicle" class="card-header-icon"><button class="button is-small is-link " type="button" >
+        <a href="/maintenance_checkLicense" class="card-header-icon"><button class="button is-small is-link " type="button" >
             <span >New vehicle maintenance</span>
             </button></a>
 
@@ -23,16 +23,15 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>MaintenanceID</th>
+                        <th>ID</th>
                         <th>Vehicle</th>
+                        <th>Started At</th>
+                        <th>Status</th>
                         <th>Employee</th>
-                        <th>Start</th>
-                        <th>End</th>
-                        <th>Created At</th>
                         <th></th>
                     </tr>
                 </thead>
-                {{--  @each(part in part)
+                @each(m in maintenance)
                 <tbody>
                     <tr>
                         <td class="is-image-cell">
@@ -40,36 +39,40 @@
                             <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="is-rounded">
                                 </div>
                             </td>
-                        <td data-label="partid">{{ part.id }}</td>
+                        <td data-label="mid">{{ m.id }}</td>
 
-                        <td data-label="partname">{{ part.partname }}</td>
-
-                        @each(pb in part_brand)
-                        @if(pb.id == part.partbrand_id)
-                            <td data-label="partbrand">{{ pb.partbrand }}</td>
-                        @endif                        
+                        @each(vb in vbrand)
+                        @each(vm in vmodel)
+                        @each(v in vehicle)
+                        @if(v.vehiclemodel_id == vm.id && vm.vehiclebrand_id == vb.id && m.vehicle_id == v.id)
+                        <td data-label="v">{{ vb.vehicle_brand +' '+ vm.vehicle_model +' '+ v.license_id }}</td>
+                        @endif
                         @endeach
+                        @endeach
+                        @endeach
+                        
+                        <small class="has-text-grey is-abbr-like">
+                        <td data-label="msd">{{ m.start_date.toFormat("YYYY-MM-DD") }}</td>
+                        </small>
 
-                        @each(pt in part_type)
-                        @if(pt.id == part.parttype_id)
-                        <td data-label="parttype">{{ pt.parttype }}</td>
-                        @endif                        
-                        @endeach                        
                         
-                        <td data-label="partquantity">{{ part.partquantity }}</td>
+                        <td data-label="ms">{{ m.status }}</td>           
                         
-                        <td data-label="Created">
-                            <small class="has-text-grey is-abbr-like" >{{ part.created_at }}</small>
-                            </td>
+                        @each(e in employee)
+                        @if(e.id == m.employee_id)
+                        <td data-label="e">{{ e.fname +' '+ e.lname }}</td>
+                        @endif
+                        @endeach
+                        
                         <td class="is-actions-cell">
                             <div class="buttons is-right">
-                                <a href="/stock_part/{{ part.id }}"><button class="button is-small is-info" type="button" >
-                                    <span >Stock</span>
+                                <a href="/service/{{ m.id }}"><button class="button is-small is-info" type="button" >
+                                    <span >Services</span>
                                     </button></a>
-                                <a href="{{ route('parts.update', {id: part.id}) }}"><button class="button is-small is-primary " type="button">
+                                {{--  <a href="{{ route('maintenances.update', {id: m.id}) }}"><button class="button is-small is-primary " type="button">
                                     <span class="icon"><i class="mdi mdi-eye"></i></span>
-                                    </button></a>
-                                <button class="button is-small is-danger jb-modal" id="{{ part.id }}" onclick="deletePart(this.id)" data-target="myModal" type="button">
+                                    </button></a>  --}}
+                                <button class="button is-small is-danger jb-modal" id="{{ m.id }}" onclick="deleteM(this.id)" data-target="myModal" type="button">
                                     <span class="icon"><i class="mdi mdi-trash-can"></i></span>
                                     </button>
                                 </div>
@@ -77,10 +80,10 @@
                         </tr>
                     </tbody>
                     
-                @endeach  --}}
+                @endeach
                 <script>
-                    function deletePart(clicked_id) {
-                        document.getElementById("delpart").href = "/part_delete/" + clicked_id;
+                    function deleteM(clicked_id) {
+                        document.getElementById("delm").href = "/maintenance_delete/" + clicked_id;
                     }
                 </script>
                 <div id="myModal" class="modal">
@@ -95,7 +98,7 @@
                       </section>
                       <footer class="modal-card-foot">
                         <button class="button jb-modal-close">Cancel</button>
-                        <a id="delpart" href="/part_delete/"><button class="button is-danger jb-modal-close">Delete</button></a>
+                        <a id="delm" href="/maintenance_delete/"><button class="button is-danger jb-modal-close">Delete</button></a>
                       </footer>
                     </div>
                     <button class="modal-close is-large jb-modal-close" aria-label="close"></button>
