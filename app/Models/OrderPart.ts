@@ -28,7 +28,9 @@ export default class OrderPart extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo( ()=> ServiceMaintenance)
+  @belongsTo( ()=> ServiceMaintenance, {
+    foreignKey: 'service_maintenance_id',
+  })
   public service_maintenances:  BelongsTo<typeof ServiceMaintenance>
 
   @belongsTo ( ()=> PartCondition, {

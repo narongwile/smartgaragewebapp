@@ -3,9 +3,6 @@
       <a class="navbar-item is-hidden-desktop jb-aside-mobile-toggle">
         <span class="icon"><i class="mdi mdi-forwardburger mdi-24px"></i></span>
       </a>
-      <div class="navbar-item has-control">
-        <div class="control"><input placeholder="Search everywhere..." class="input"></div>
-      </div>
     </div>
     <div class="navbar-brand is-right">
       <a class="navbar-item is-hidden-desktop jb-navbar-menu-toggle" data-target="navbar-menu">
@@ -16,31 +13,13 @@
       <div class="navbar-end">
         <div class="navbar-item has-dropdown has-dropdown-with-icons has-divider is-hoverable">
           <a class="navbar-link is-arrowless">
-            <span class="icon"><i class="mdi mdi-menu"></i></span>
-            <span>Sample Menu</span>
+            <span class="icon"></span>
+            
             <span class="icon">
-            <i class="mdi mdi-chevron-down"></i>
+            
           </span>
           </a>
-          <div class="navbar-dropdown">
-            <a href="/profile" class="navbar-item">
-              <span class="icon"><i class="mdi mdi-account"></i></span>
-              <span>My Profile</span>
-            </a>
-            <a class="navbar-item">
-              <span class="icon"><i class="mdi mdi-settings"></i></span>
-              <span>Settings</span>
-            </a>
-            <a class="navbar-item">
-              <span class="icon"><i class="mdi mdi-email"></i></span>
-              <span>Messages</span>
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              <span class="icon"><i class="mdi mdi-logout"></i></span>
-              <span>Log Out</span>
-            </a>
-          </div>
+          
         </div>
         <div class="navbar-item has-dropdown has-dropdown-with-icons has-divider has-user-avatar is-hoverable">
           <a class="navbar-link is-arrowless">
@@ -124,48 +103,6 @@
               </li>
             @endif
             
-            
-
-            <li>
-                <a class="has-icon has-dropdown-icon">
-                    <span class="icon"><i class="mdi mdi-account-cash"></i></span>
-                    <span class="menu-item-label">Accounts</span>
-                    <div class="dropdown-icon">
-                        <span class="icon"><i class="mdi mdi-plus"></i></span>
-                    </div>
-                </a>
-                <ul>
-                    <li>
-                        @if(request.url() == '/invoices')
-                          <a href="/invoices" class="is-active">
-                            @else
-                              <a href="/invoices">
-                        @endif
-                        <span>Invoices</span>
-                        </a>
-                    </li>
-                    <li>
-                        @if(request.url() == '/quotation')
-                          <a href="/quotation" class="is-active">
-                            @else
-                              <a href="/quotation">
-                        @endif
-                        <span>Quotation</span>
-                        </a>
-                    </li>
-                    @if(auth.user.department == 'CEO' || auth.user.department == 'Admin')
-                        <li>
-                            @if(request.url() == '/expenses')
-                            <a href="/expenses" class="is-active">
-                              @else
-                                <a href="/expenses">
-                            @endif
-                            <span>Expenses</span>
-                            </a>
-                          </li>
-                    @endif
-                  </ul>
-              </li>
         </ul>
       <p class="menu-label">Part&Maintenance Management</p>
       <ul class="menu-list">
@@ -298,50 +235,19 @@
               </li>             
         @endif
         
-        <li>
-          <a href="/forms" class="has-icon">
-            <span class="icon"><i class="mdi mdi-square-edit-outline"></i></span>
-            <span class="menu-item-label">Forms</span>
-          </a>
-          </li>
+      
         </ul>
-      <p class="menu-label">About</p>
-      <ul class="menu-list">
-            <li>
-                <a href="https://admin-one-html.justboil.me/" target="_blank" class="has-icon">
-                    <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
-                    <span class="menu-item-label">Premium Demo</span>
-                </a>
-              </li>
-            <li>
-                <a href="https://justboil.me/bulma-admin-template/one-html" class="has-icon">
-                    <span class="icon"><i class="mdi mdi-help-circle"></i></span>
-                    <span class="menu-item-label">About</span>
-                </a>
-              </li>
-        </ul>
+      
     </div>
 </aside>
 <section class="section is-title-bar">
     <div class="level">
     <div class="level-left">
       <div class="level-item">
-        <ul>
-          <li>Department</li>
-          <li>{{ auth.user.department }}</li>
-        </ul>
+        
       </div>
     </div>
-    <div class="level-right">
-      <div class="level-item">
-        <div class="buttons is-right">
-          <a href="/maintenance_checkLicense" class="button is-primary">
-            <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
-            <span>New Vehicle Maintenance</span>
-          </a>
-        </div>
-      </div>
-    </div>
+   
 </div>
 </section>
 <section class="hero is-hero-bar">

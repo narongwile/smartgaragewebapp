@@ -11,7 +11,7 @@ export default class Maintenance extends BaseModel {
   public id: number
 
   @column()
-  public vehicle_id:  number
+  public vehicle_id: number
 
   @column()
   public garage_id: number
@@ -23,13 +23,13 @@ export default class Maintenance extends BaseModel {
   public receipt_id: number
 
   @column()
-  public start_date:  DateTime
+  public start_date: DateTime
 
   @column()
-  public end_date:  DateTime
+  public end_date: DateTime
 
   @column()
-  public status:  string
+  public status: string
 
   @column()
   public comment: string
@@ -40,7 +40,7 @@ export default class Maintenance extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo( ()=> Employee)
+  @belongsTo(() => Employee)
   public employees: BelongsTo<typeof Employee>
 
   @belongsTo( ()=> Vehicle, {
@@ -48,12 +48,14 @@ export default class Maintenance extends BaseModel {
   })
   public vehicles:  BelongsTo<typeof Vehicle>
 
-  @belongsTo( ()=> Garage)
+  @belongsTo(() => Garage)
   public garages: BelongsTo<typeof Garage>
 
-  @belongsTo( ()=> Receipt)
+  @belongsTo(() => Receipt)
   public receipts: BelongsTo<typeof Receipt>
 
-  @hasMany( ()=> ServiceMaintenance)
+  @hasMany(() => ServiceMaintenance, {
+    foreignKey: 'maintenance_id',
+  })
   public service_maintenances: HasMany<typeof ServiceMaintenance>
 }
