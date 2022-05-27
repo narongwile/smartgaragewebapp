@@ -120,7 +120,6 @@ Route.get('/vehicle_update/:id', 'VehicleMaintenancesController.showUpdateVehicl
 Route.post('/vehicle_update', 'VehicleMaintenancesController.updateVehicle')
 
 
-Route.get('/customer_list', 'CustomersController.showCustomer')
 Route.get('/service_list', 'CategoriesController.showService')
 Route.get('/service_add', 'CategoriesController.showAddService')
 Route.post('/service_add', 'CategoriesController.addService')
