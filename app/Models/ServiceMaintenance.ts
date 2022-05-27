@@ -20,12 +20,18 @@ export default class ServiceMaintenance extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo( ()=> Service)
+  @belongsTo( ()=> Service, {
+    foreignKey: 'service_id'
+  })
   public services:  BelongsTo<typeof Service>
 
-  @belongsTo ( ()=> Maintenance)
+  @belongsTo ( ()=> Maintenance, {
+    foreignKey: 'maintenance_id'
+  })
   public maintenances: BelongsTo<typeof Maintenance>
 
-  @hasMany(() => OrderPart)
+  @hasMany(() => OrderPart, {
+    foreignKey: 'service_maintenance_id'
+  })
   public order_parts: HasMany<typeof OrderPart>
 }

@@ -26,10 +26,14 @@ export default class Vehicle extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo( ()=> Customer)
+  @belongsTo( ()=> Customer, {
+    foreignKey: 'customer_id'
+  })
   public customers: BelongsTo<typeof Customer>
 
-  @belongsTo( ()=> VehicleModel)
+  @belongsTo( ()=> VehicleModel, {
+    foreignKey: 'vehiclemodel_id'
+  })
   public vehicle_models:  BelongsTo<typeof VehicleModel>
 
   @hasMany( ()=> Maintenance)

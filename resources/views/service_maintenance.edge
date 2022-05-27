@@ -1,0 +1,127 @@
+@layout('layouts/app')
+
+@section('content')
+<div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        <span class="icon"><i class="mdi mdi-ballot"></i></span>
+        Vehicle Maintenance
+      </p>
+    </header>
+    <div class="card-content">
+      <form action="/vehicle_maintenance_add" method="POST">
+        {{ csrfField() }}
+        @each(vehicle in vehicle)
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Vehicle license plate number</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input name="license_id" class="input" type="text" value="{{ vehicle.license_id }}" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Vehicle model</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                    <input name="vmodel" class="input" type="text" value="{{ vehicle.model }}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Colour</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <input name="colour" class="input" type="color" value="{{ vehicle.colour }}" required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <hr>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Customer</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                      <input name="customer" class="input" type="text" value="{{ vehicle.customer }}" required>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Customer tel</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                      <input name="ctel" class="input" type="tel" value="{{ vehicle.tel }}" required>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        @endeach        
+        <hr>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Services</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  
+                    @each(s in service)
+                    <label class="is-rounded">
+                        <span class="control-label">{{ s.service +', cost: ฿'+ s.cost }}</span>
+                    </label><br>
+                    @endeach
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <hr>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <!-- Left empty for spacing -->
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="field is-grouped">
+                <div class="control">
+                  <a href="/maintenanceSuccess/{{ mid }}"><button class="button is-primary">
+                    <span>Success</span>
+                  </button></a>
+                </div>
+                <div class="control">
+                  <a href="/maintenanceCancle/{{ mid }}"><button class="button is-danger is-outlined">
+                    <span>Cancle</span>
+                  </button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+@endsection

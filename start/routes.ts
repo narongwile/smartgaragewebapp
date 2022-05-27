@@ -119,6 +119,8 @@ Route.get('/vehicle_delete/:id', 'VehicleMaintenancesController.deleteVehicle').
 Route.get('/vehicle_update/:id', 'VehicleMaintenancesController.showUpdateVehicle').as('vehicles.update')
 Route.post('/vehicle_update', 'VehicleMaintenancesController.updateVehicle')
 
+Route.get('/service/:id', 'ServiceMaintenancesController.showServiceMaintenance')
+
 
 Route.get('/service_list', 'CategoriesController.showService')
 Route.get('/service_add', 'CategoriesController.showAddService')

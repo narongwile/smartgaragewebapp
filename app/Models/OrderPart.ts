@@ -31,6 +31,8 @@ export default class OrderPart extends BaseModel {
   @belongsTo( ()=> ServiceMaintenance)
   public service_maintenances:  BelongsTo<typeof ServiceMaintenance>
 
-  @belongsTo ( ()=> PartCondition)
+  @belongsTo ( ()=> PartCondition, {
+    foreignKey: 'part_condition_id'
+  })
   public part_conditions: BelongsTo<typeof PartCondition>
 }

@@ -10,7 +10,6 @@ import {
 } from '@ioc:Adonis/Lucid/Orm'
 import PartBrand from './PartBrand'
 import PartType from './PartType'
-import OrderPart from './OrderPart'
 import Stock from './Stock'
 import PartModel from './PartModel'
 import PartCondition from './PartCondition'
@@ -40,7 +39,9 @@ export default class Part extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => PartBrand)
+  @belongsTo(() => PartBrand, {
+    foreignKey: 'partbrand_id'
+  })
   public part_brands: BelongsTo<typeof PartBrand>
 
   @belongsTo(() => PartType)

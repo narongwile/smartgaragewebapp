@@ -19,7 +19,9 @@ export default class VehicleModel extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo( ()=> VehicleBrand)
+  @belongsTo( ()=> VehicleBrand, {
+    foreignKey: 'vehiclebrand_id'
+  })
   public vehicle_brands:  BelongsTo<typeof VehicleBrand>
 
   @hasMany( ()=> PartModel)

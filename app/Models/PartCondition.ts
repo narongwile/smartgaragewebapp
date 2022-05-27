@@ -22,7 +22,9 @@ export default class PartCondition extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => Part)
+  @belongsTo(() => Part, {
+    foreignKey: 'part_id'
+  })
   public parts: BelongsTo<typeof Part>
 
   @hasMany(() => OrderPart)

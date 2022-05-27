@@ -43,7 +43,9 @@ export default class Maintenance extends BaseModel {
   @belongsTo( ()=> Employee)
   public employees: BelongsTo<typeof Employee>
 
-  @belongsTo( ()=> Vehicle)
+  @belongsTo( ()=> Vehicle, {
+    foreignKey: 'vehicle_id'
+  })
   public vehicles:  BelongsTo<typeof Vehicle>
 
   @belongsTo( ()=> Garage)
