@@ -149,9 +149,7 @@ Route.get('/garage_profile', async ({ view }) => {
 })
 
 
-Route.get('/dashboard', async ({ view }) => {
-  return view.render('dashboard', {feature: 'Dashboard'})
-})
+Route.get('/dashboard', 'DashboardController.showDashboard')
 
 Route.get('/profile', 'EmployeesController.profile')
 Route.post('/profile', 'EmployeesController.updateProfile')
