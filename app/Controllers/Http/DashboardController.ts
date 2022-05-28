@@ -11,7 +11,7 @@ export default class DashboardController {
       .from('maintenances')
       .select('*')
       .where('status', 'LIKE', 'Success')
-      .preload('vehicles', (q) => {})
+      .preload('vehicles', () => {})
       .preload('service_maintenances', (q) => {
         q.preload('order_parts').preload('services')
       })
@@ -20,7 +20,7 @@ export default class DashboardController {
       .from('maintenances')
       .select('*')
       .where('status', 'NOT LIKE', 'Success')
-      .preload('vehicles', (q) => {})
+      .preload('vehicles', () => {})
 
     const allMaintenancesResult = await Maintenance.query()
       .from('maintenances')
