@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Maintenance from 'App/Models/Maintenance'
 import OrderPart from 'App/Models/OrderPart'
-import Part from 'App/Models/Part'
 import PartCondition from 'App/Models/PartCondition'
 import Service from 'App/Models/Service'
 import ServiceMaintenance from 'App/Models/ServiceMaintenance'
