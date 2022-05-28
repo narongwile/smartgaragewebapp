@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import Employee from 'App/Models/Employee'
+import Permission from 'App/Models/Permission'
 
 export default class AuthController {
   public showRegister({ view }: HttpContextContract) {
@@ -44,8 +45,9 @@ export default class AuthController {
     return response.redirect('/dashboard')
   }
 
-  public async logout({ auth, response }: HttpContextContract) {
+  public async logout({ auth, response, session }: HttpContextContract) {
     await auth.use('web').logout()
+    session.clear()
 
     return response.redirect('/')
   }
@@ -63,6 +65,13 @@ export default class AuthController {
     // await auth.use('web').login(user)
     try {
       await auth.use('web').attempt(email, password)
+
+      const user = await Employee.findByOrFail('email', email)
+      const permissResult = await Permission.query().where('employee_id', user.id)
+      const permiss = permissResult.map((p) => p.management)
+      permiss.forEach((p) => {
+        session.forget(p)
+      })
 
       return response.redirect('/dashboard')
     } catch (error) {

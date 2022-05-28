@@ -1,24 +1,38 @@
 [
-    {
-      "management": "Auto part"
-    },
-    {
-      "management": "Inventory"
-    },
-    {
-      "management": "Auto part brand&type"
-    },
-    {
-        "management": "Vehicle"
-    },
-    {
-        "management": "Vehicle model"
-    },
-    {
-        "management": "Customer"
-    },
-    {
-        "management": "Maintain"
-    }
-  ]
-  
+  {
+    "management": "Dashboard"
+  },
+  {
+    "management": "Garage Profile"
+  },
+  {
+    "management": "Maintenances"
+  },
+  {
+    "management": "Vehicle"
+  },
+  {
+    "management": "Auto part"
+  },
+  {
+    "management": "Inventory"
+  },
+  {
+    "management": "Vehicle model"
+  },
+  {
+    "management": "Part Brand&Type"
+  },
+  {
+    "management": "Maintenance Services"
+  },
+  {
+    "management": "Profile"
+  },
+  {
+    "management": "Customers"
+  },
+  {
+    "management": "Staff Management"
+  }
+]
