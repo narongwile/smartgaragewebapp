@@ -36,7 +36,7 @@
 
         <div style="display: flex; justify-content: space-between; padding: 8px; background-color: #f2f2f2;">
             <div class="is-horizontal is-fullwidth " style="padding: 8px;">
-                Status: <b>{{selected}}</b>
+               
             </div>
             <div class="field is-horizontal is-fullwidth has-mobile-sort-spaced">
                 <div class="field-label is-normal">
@@ -46,14 +46,14 @@
                     <div class="field is-narrow">
                         <div class="control">
                             <div class="select is-fullwidth">
-                                <select id="status" name="status" onchange="selectStatus(this.value)">
-                                    <option disabled selected>Select Status</option>
-                                    <option value="show-all">Show All</option>
-                                    <option value="waiting">Waiting</option>
-                                    <option value="in-progress">In progress</option>
-                                    <option value="pending-payment">Pending payment</option>
-                                    <option value="success">Success</option>
-                                    <option value="cancel">Cancel</option>
+                                <select id="status" name="status" onchange="selectStatus()">
+                                
+                                    <option selected value="Show All">Show All</option>
+                                    <option value="Waiting">Waiting</option>
+                                    <option value="In progress">In progress</option>
+                                    <option value="Pending Payment">Pending payment</option>
+                                    <option value="Success">Success</option>
+                                    <option value="Cancel">Cancel</option>
                                 </select>
                             </div>
                         </div>
@@ -62,8 +62,38 @@
             </div>
         </div>
         <script>
-            function selectStatus(status) {
-              window.location.href = '/maintenance/'+status;
+            function selectStatus() {
+              //window.location.href = '/maintenance/'+status;
+              const status = document.getElementById('status').value
+                console.log(status)
+                if (status != 'Show All') {
+                    const maintenances = document.getElementsByName('mstatus')
+
+                    for (let index = 0; index < maintenances.length; index++) {
+                        const m = maintenances[index];
+                        var $rows = $('#table tr');
+                        $(document).ready(function() {
+                            $rows.eq(index).show();
+                        });
+                    }
+                    
+                    
+                    for (let index = 0; index < maintenances.length; index++) {
+                        const m = maintenances[index];
+                        //console.log(m.innerText)
+                        if (m.innerText != status) {
+                            var $rows = $('#table tr');
+                            $(document).ready(function() {
+                                $rows.eq(index).hide();
+                                //console.log($rows[index])
+                            });
+                        }
+                    
+                    }
+                    
+                } else {
+                    window.location.href = '/maintenance'
+                }
             }
             function search() {
                 const plate = document.getElementById('search').value
@@ -141,7 +171,7 @@
                             </small>
 
 
-                            <td data-label="ms">{{ m.status }}</td>
+                            <td name="mstatus" data-label="ms">{{ m.status }}</td>
 
                             @each(e in employee)
                             @if(e.id == m.employee_id)
@@ -192,22 +222,7 @@
                 </table>
             </div>
             <div class="notification">
-                <div class="level">
-                    <div class="level-left">
-                        <div class="level-item">
-                            <div class="buttons has-addons">
-                                <button type="button" class="button is-active">1</button>
-                                <button type="button" class="button">2</button>
-                                <button type="button" class="button">3</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="level-right">
-                        <div class="level-item">
-                            <small>Page 1 of 3</small>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
