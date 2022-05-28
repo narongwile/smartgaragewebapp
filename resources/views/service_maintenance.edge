@@ -9,8 +9,7 @@
       </p>
     </header>
     <div class="card-content">
-      <form action="/vehicle_maintenance_add" method="POST">
-        {{ csrfField() }}
+      
         @each(vehicle in vehicle)
         <div class="field is-horizontal">
           <div class="field-label is-normal">
@@ -45,7 +44,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <input name="colour" class="input" type="color" value="{{ vehicle.colour }}" required>
+                  <input name="colour" class="input" type="color" value="{{ vehicle.colour }}" readonly>
                 </div>
               </div>
             </div>
@@ -55,12 +54,12 @@
 
         <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label">Customer</label>
+              <label class="label">Customer name</label>
             </div>
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                      <input name="customer" class="input" type="text" value="{{ vehicle.customer }}" required>
+                      <input name="customer" class="input" type="text" value="{{ vehicle.customer }}" readonly>
                     </div>
                   </div>
             </div>
@@ -72,7 +71,7 @@
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                      <input name="ctel" class="input" type="tel" value="{{ vehicle.tel }}" required>
+                      <input name="ctel" class="input" type="tel" value="{{ vehicle.tel }}" readonly>
                     </div>
                   </div>
             </div>
@@ -86,15 +85,290 @@
             </div>
             <div class="field-body">
               <div class="field">
+
                 <div class="control">
-                  
-                    @each(s in service)
-                    <label class="is-rounded">
-                        <span class="control-label">{{ s.service +', cost: ฿'+ s.cost }}</span>
-                    </label><br>
-                    @endeach
-                  
+                  <div class="dropdown">
+                      <button onclick="myFunction('Service')" class="dropbtn">Add service maintenance</button>
+                      <div id="myDropdownService" class="dropdown-content">
+                        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction('Service')">
+                        @each(s in services)
+                        <a href="/service_maintenance_add/{{ mid }}/{{ s.service }}">{{ s.service }}</a>
+                        @endeach
+                      </div>
+                    </div>
+              </div>
+
+                <div class="card-content">
+
+                  @each(s in service)
+                    <div style="display: flex; justify-content: space-between; padding: 8px; background-color: #f2f2f2;">
+                        <div class="is-horizontal is-fullwidth " style="padding: 8px;">
+                            Service: {{ s.service +', Cost: ฿'+ s.cost }}<b></b>
+                        </div>
+                          <div class="field is-horizontal is-fullwidth has-mobile-sort-spaced is-right">
+                              <div class="field-body">
+                                  <div class="field is-narrow">
+                                      <div class="control">
+                                          <div class="dropdown">
+                                              <button onclick="myFunction({{ s.id }})" class="dropbtn">Choose auto parts</button>
+                                              <div id="myDropdown{{ s.id }}" class="dropdown-content">
+                                                <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction({{ s.id }})">
+                                                
+                                                @each(p in parts)
+                                                <a href="/order_part_add/{{ mid }}/{{ s.id }}/{{ p.id }}/{{ p.price }}/{{ p.quantity }}">{{ p.part +' '+ p.condition +' '+ p.price }}</a>
+                                                @endeach
+                                              </div>
+                                            </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+
+                              <div class="buttons is-right">
+                                  <button class="button is-small is-danger jb-modal"
+                                      onclick="deleteS({{ mid }}, {{ s.id }})" data-target="myModalS" type="button">
+                                      <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                                  </button>
+                              </div>
+                          </div>                          
+
+                        <div id="myModalS" class="modal">
+                            <div class="modal-background jb-modal-close"></div>
+                            <div class="modal-card">
+                                <header class="modal-card-head">
+                                    <p class="modal-card-title">Confirm action</p>
+                                    <button class="delete jb-modal-close" aria-label="close"></button>
+                                </header>
+                                <section class="modal-card-body">
+                                    <p>This will permanently delete <b>Some Object</b></p>
+                                </section>
+                                <footer class="modal-card-foot">
+                                    <button class="button jb-modal-close">Cancel</button>
+                                    <a id="delmmyModalS" href="/service_maintenance_delete/"><button
+                                            class="button is-danger jb-modal-close">Delete</button></a>
+                                </footer>
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+                    <div class="b-table has-pagination">
+                        <div class="table-wrapper has-mobile-cards">
+                            <table class="table is-fullwidth is-striped is-hoverable is-sortable is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>OrderID</th>
+                                        <th>Order At</th>
+                                        <th>Part</th>
+                                        <th>Condition</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody id="table">
+                                    <tr>
+                                        <td class="is-image-cell">
+                                        </td>
+                                        <td name="mid" data-label="mid"></td>
+                                        <td data-label="v"></td>
+                                        
+                                        <small class="has-text-grey is-abbr-like">
+                                            <td data-label="msd"></td>
+                                        </small>
+
+                                        <td data-label="ms"></td>
+            
+                                        <td data-label="e"></td>
+
+                                        <td data-label="e"></td>
+            
+                                        <td class="is-actions-cell">
+                                            {{--  <div class="buttons is-right">
+                                                <a href="/service/{{ m.id }}"><button class="button is-small is-info" type="button">
+                                                        <span>Services</span>
+                                                    </button></a>
+                                                <a href="{{ route('maintenances.update', {id: m.id}) }}"><button
+                                                        class="button is-small is-primary " type="button">
+                                                        <span class="icon"><i class="mdi mdi-eye"></i></span>
+                                                    </button></a>
+                                                <button class="button is-small is-danger jb-modal" id="{{ m.id }}"
+                                                    onclick="deleteM(this.id)" data-target="myModal" type="button">
+                                                    <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                                                </button>
+                                            </div>  --}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+            
+                                
+                                <script>
+                                    function deleteM(clicked_id) {
+                                    document.getElementById("delmmyModalS").href = "/maintenance_delete/" + clicked_id;
+                                }
+                                </script>
+                                <div id="myModal" class="modal">
+                                    <div class="modal-background jb-modal-close"></div>
+                                    <div class="modal-card">
+                                        <header class="modal-card-head">
+                                            <p class="modal-card-title">Confirm action</p>
+                                            <button class="delete jb-modal-close" aria-label="close"></button>
+                                        </header>
+                                        <section class="modal-card-body">
+                                            <p>This will permanently delete <b>Some Object</b></p>
+                                        </section>
+                                        <footer class="modal-card-foot">
+                                            <button class="button jb-modal-close">Cancel</button>
+                                            <a id="delm" href="/maintenance_delete/"><button
+                                                    class="button is-danger jb-modal-close">Delete</button></a>
+                                        </footer>
+                                    </div>
+                            </table>
+                        </div>
+                      </div>
+                  @endeach
+                    <script>
+                        function deleteS(mid, sid) {
+                          document.getElementById("delm").href = "/service_maintenance_delete/" + mid + "/" + sid;
+                        }
+                        /* When the user clicks on the button,
+                        toggle between hiding and showing the dropdown content */
+                        function myFunction(id) {
+                                document.getElementById("myDropdown"+id).classList.toggle("show");
+                            }  
+
+                        function filterFunction(id) {
+                            var input, filter, ul, li, a, i;
+                            input = document.getElementById("myInput");
+                            filter = input.value.toUpperCase();
+                            div = document.getElementById("myDropdown"+id);
+                            a = div.getElementsByTagName("a");
+                            for (i = 0; i < a.length; i++) {
+                                txtValue = a[i].textContent || a[i].innerText;
+                                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                    a[i].style.display = "";
+                                } else {
+                                    a[i].style.display = "none";
+                                }
+                            }
+                        }
+                    </script>
+            
+            
+                    {{--  <div class="b-table has-pagination">
+                        <div class="table-wrapper has-mobile-cards">
+                            <table class="table is-fullwidth is-striped is-hoverable is-sortable is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>ID</th>
+                                        <th>Vehicle</th>
+                                        <th>Started At</th>
+                                        <th>Status</th>
+                                        <th>Employee</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                @each(m in maintenance)
+                                <tbody id="table">
+                                    <tr>
+                                        <td class="is-image-cell">
+                                            <div class="image">
+                                                <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg"
+                                                    class="is-rounded">
+                                            </div>
+                                        </td>
+                                        <td name="mid" data-label="mid">{{ m.id }}</td>
+            
+                                        @each(vb in vbrand)
+                                        @each(vm in vmodel)
+                                        @each(v in vehicle)
+                                        @if(v.vehiclemodel_id == vm.id && vm.vehiclebrand_id == vb.id && m.vehicle_id == v.id)
+                                        <td data-label="v">{{ vb.vehicle_brand +' '+ vm.vehicle_model +' '+ v.license_id }}</td>
+                                        @endif
+                                        @endeach
+                                        @endeach
+                                        @endeach
+            
+                                        <small class="has-text-grey is-abbr-like">
+                                            <td data-label="msd">{{ m.start_date.toFormat("YYYY-MM-DD") }}</td>
+                                        </small>
+            
+            
+                                        <td data-label="ms">{{ m.status }}</td>
+            
+                                        @each(e in employee)
+                                        @if(e.id == m.employee_id)
+                                        <td data-label="e">{{ e.fname +' '+ e.lname }}</td>
+                                        @endif
+                                        @endeach
+            
+                                        <td class="is-actions-cell">
+                                            <div class="buttons is-right">
+                                                <a href="/service/{{ m.id }}"><button class="button is-small is-info" type="button">
+                                                        <span>Services</span>
+                                                    </button></a>
+                                                <a href="{{ route('maintenances.update', {id: m.id}) }}"><button
+                                                        class="button is-small is-primary " type="button">
+                                                        <span class="icon"><i class="mdi mdi-eye"></i></span>
+                                                    </button></a>
+                                                <button class="button is-small is-danger jb-modal" id="{{ m.id }}"
+                                                    onclick="deleteM(this.id)" data-target="myModal" type="button">
+                                                    <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+            
+                                @endeach
+                                <script>
+                                    function deleteM(clicked_id) {
+                                    document.getElementById("delm").href = "/maintenance_delete/" + clicked_id;
+                                }
+                                </script>
+                                <div id="myModal" class="modal">
+                                    <div class="modal-background jb-modal-close"></div>
+                                    <div class="modal-card">
+                                        <header class="modal-card-head">
+                                            <p class="modal-card-title">Confirm action</p>
+                                            <button class="delete jb-modal-close" aria-label="close"></button>
+                                        </header>
+                                        <section class="modal-card-body">
+                                            <p>This will permanently delete <b>Some Object</b></p>
+                                        </section>
+                                        <footer class="modal-card-foot">
+                                            <button class="button jb-modal-close">Cancel</button>
+                                            <a id="delm" href="/maintenance_delete/"><button
+                                                    class="button is-danger jb-modal-close">Delete</button></a>
+                                        </footer>
+                                    </div>
+                            </table>
+                        </div>
+                        <div class="notification">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <div class="buttons has-addons">
+                                            <button type="button" class="button is-active">1</button>
+                                            <button type="button" class="button">2</button>
+                                            <button type="button" class="button">3</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <small>Page 1 of 3</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  --}}
                 </div>
+
               </div>
             </div>
           </div>
@@ -121,7 +395,6 @@
             </div>
           </div>
         </div>
-      </form>
     </div>
   </div>
 @endsection

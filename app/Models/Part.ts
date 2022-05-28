@@ -50,7 +50,9 @@ export default class Part extends BaseModel {
   @hasMany(() => PartCondition)
   public part_conditions: HasMany<typeof PartCondition>
 
-  @hasMany(() => Stock)
+  @hasMany(() => Stock, {
+    foreignKey: 'part_id'
+  })
   public stocks: HasMany<typeof Stock>
 
   @hasMany(() => PartModel)
