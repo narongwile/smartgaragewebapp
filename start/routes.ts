@@ -120,11 +120,13 @@ Route.get('/vehicle_update/:id', 'VehicleMaintenancesController.showUpdateVehicl
 Route.post('/vehicle_update', 'VehicleMaintenancesController.updateVehicle')
 
 Route.get('/service/:id', 'ServiceMaintenancesController.showServiceMaintenance')
+Route.get('/service/:id/:pmodal', 'ServiceMaintenancesController.showServiceMaintenance')
 Route.get('/service_maintenance_add/:mid/:service', 'ServiceMaintenancesController.addServiceMaintenance')
 Route.get('/service_maintenance_delete/:mid/:id', 'ServiceMaintenancesController.deleteServiceMaintenance')
 
-Route.get('/order_part_add/:mid/:sid/:pid/:price/:quantity', 'ServiceMaintenancesController.addOrderPart')
+Route.post('/order_part_add/:mid/:sid/:pid/:price', 'ServiceMaintenancesController.addOrderPart')
 Route.get('/order_part_delete/:mid/:id', 'ServiceMaintenancesController.deleteOrderPart')
+Route.post('/order_part_update/:mid/:id', 'ServiceMaintenancesController.updateOrderPart')
 
 Route.get('/service_list', 'CategoriesController.showService')
 Route.get('/service_add', 'CategoriesController.showAddService')

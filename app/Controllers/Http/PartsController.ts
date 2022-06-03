@@ -91,7 +91,7 @@ export default class PartsController {
 
     const vbrand = await Database.from('vehicle_brands').select('*').orderBy('vehicle_brand', 'asc')
     const vmodel = await Database.from('vehicle_models').select('*').orderBy('vehicle_model', 'asc')
-    const part_model = await Database.from('part_models').select('*').where('part_id', id)
+    const part_model = await PartModel.query().where('part_id', id)
     console.log(part_model.length)
 
     return view.render('part_update', {

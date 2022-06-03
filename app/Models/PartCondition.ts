@@ -16,6 +16,9 @@ export default class PartCondition extends BaseModel {
   @column()
   public partquantity: number
 
+  @column()
+  public price: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

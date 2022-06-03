@@ -35,9 +35,4 @@ export default class Stock extends BaseModel {
 
   @belongsTo(() => Part)
   public parts: BelongsTo<typeof Part>
-
-  // @computed()
-  // public get stockOn(){
-  //   return this.instock_date.toFormat('yyyy LLL dd')
-  // }
 }

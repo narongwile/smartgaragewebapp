@@ -33,7 +33,8 @@ export default class InventoriesController {
     const part_cdt = await PartCondition.query().where('part_id', request.all().partid).where('condition', request.all().condition)
     if( part_cdt[0] != null ) {      
       part_cdt[0].partquantity += parseInt(request.all().qtyinstock)
-      await part_cdt[0].save()
+      part_cdt[0].price = parseInt(request.all().buyprice)
+      await part_cdt[0] .save()
       console.log(part_cdt[0].$isPersisted)
     }else {
       const part_cdt = new PartCondition()
@@ -41,6 +42,7 @@ export default class InventoriesController {
         part_id: request.all().partid,
         condition: request.all().condition,
         partquantity: request.all().qtyinstock,
+        price: request.all().buyprice,
       }).save()
       console.log(part_cdt.$isPersisted)
     }
@@ -130,7 +132,18 @@ export default class InventoriesController {
     await part.save()
     console.log('quantity part: '+part.$isPersisted)
     
+
     const part_cdt = await PartCondition.query().where('part_id', stock.part_id).where('condition', request.all().condition)
+    .preload('parts', (q) => {
+      q.preload('stocks', (q) => {
+        q.select('id').where('condition', request.all().condition).orderBy('id', 'desc')
+      })
+    })
+    console.log("Stock ID: "+part_cdt[0].parts.stocks.map((s) => ({ stock_id: s.id })))
+    if(part_cdt[0].parts.stocks[0].id == stock.id) {
+      part_cdt[0].price = stock.buy_price
+      console.log("update price from stock id: "+part_cdt[0].parts.stocks[0].id)
+    }
     part_cdt[0].partquantity -= qty_stock
     part_cdt[0].partquantity += parseInt(request.all().qtyinstock)
     await part_cdt[0].save()
@@ -142,6 +155,17 @@ export default class InventoriesController {
     const stock = await Stock.findOrFail(params.id)
     const part = await Part.findOrFail(stock.part_id)
     const part_cdt = await PartCondition.query().where('part_id', stock.part_id).where('condition', stock.condition)
+    .preload('parts', (q) => {
+      q.preload('stocks', (q) => {
+        q.select('id', 'buy_price').where('condition', stock.condition).orderBy('id', 'desc')
+      })
+    })
+    console.log("Stock ID: "+part_cdt[0].parts.stocks.map((s) => ({ stock_id: s.id })))
+    if(part_cdt[0].parts.stocks[0].id == stock.id) {
+      if(part_cdt[0].parts.stocks[1] != null) {}
+      part_cdt[0].price = part_cdt[0].parts.stocks[1].buy_price
+      console.log("update price from stock id: "+part_cdt[0].parts.stocks[1].id)
+    }
     
     part_cdt[0].partquantity -= stock.qty_in_stock
     await part_cdt[0].save()

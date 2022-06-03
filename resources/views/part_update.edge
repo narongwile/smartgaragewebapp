@@ -132,7 +132,7 @@
           <div class="field-label"><label class="label">Compatible vehicle models</label></div>
           <div class="field-body">
             <div class="field">
-
+              
               @each(v_brand in v_brand)
               <a onclick="showModel('{{ v_brand.vehicle_brand }}')"><button class="button is-small" type="button" >
                 <span >{{ v_brand.vehicle_brand }}</span>
@@ -140,12 +140,13 @@
 
               <div class="field is-grouped-multiline is-grouped">
 
+                <div class="control" id="{{ v_brand.vehicle_brand }}" style="display: none;">
                 @each(v_model in v_model)
                 @if(v_model.vehiclebrand_id == v_brand.id)
                 
                 
                 @if(part_model.length == 0)
-                  <div class="control" id="{{ v_brand.vehicle_brand }}">
+                  <div class="control">
                     <label class="b-checkbox checkbox"><input type="checkbox" value="{{ v_model.id }}" name="vehiclemodel_id">
                       <span class="check is-primary"></span>
                       <span class="control-label">{{ v_model.vehicle_model }}</span>
@@ -153,28 +154,30 @@
                   </div>
                 @else
                   
-                  
-                  <div class="control" id="{{ v_brand.vehicle_brand }}">
-                    @each(part_model in part_model)
+                    {{--  @each(part_model in part_model)
                     @if(part_model.vehiclemodel_id == v_model.id)
+                  <div class="control">
                     <label class="b-checkbox checkbox"><input type="checkbox" value="{{ v_model.id }}" name="vehiclemodel_id" checked>
-                      {{--  <span class="check is-primary"></span>  --}}
-                    @else
-                    <label class="b-checkbox checkbox"><input type="checkbox" value="{{ v_model.id }}" name="vehiclemodel_id">
-                    @endif
-                    @endeach  
                       <span class="check is-primary"></span>
                       <span class="control-label">{{ v_model.vehicle_model }}</span>
                     </label>
-                    
                   </div>
-                  
-                  
+                    @else  --}}
+                    <div class="control">
+                    <label class="b-checkbox checkbox"><input type="checkbox" value="{{ v_model.id }}" name="vehiclemodel_id">
+                      <span class="check is-primary"></span>
+                      <span class="control-label">{{ v_model.vehicle_model }}</span>
+                    </label>
+                  </div>
+                    {{--  @endif
+                    @endeach 
+                    --}}
                 @endif
                     
 
                 @endif
                 @endeach
+                </div>
 
               </div>
               @endeach

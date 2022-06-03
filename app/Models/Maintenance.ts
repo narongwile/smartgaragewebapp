@@ -54,8 +54,6 @@ export default class Maintenance extends BaseModel {
   @belongsTo(() => Receipt)
   public receipts: BelongsTo<typeof Receipt>
 
-  @hasMany(() => ServiceMaintenance, {
-    foreignKey: 'maintenance_id',
-  })
+  @hasMany(() => ServiceMaintenance)
   public service_maintenances: HasMany<typeof ServiceMaintenance>
 }

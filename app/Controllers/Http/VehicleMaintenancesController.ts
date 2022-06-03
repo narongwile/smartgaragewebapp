@@ -198,7 +198,7 @@ export default class VehicleMaintenancesController {
                     console.log('service_maintenance: ' + service_maintenance.$isPersisted);
                 }
             }
-            maintenance.status = 'In Progress'
+            maintenance.status = 'In progress'
             await maintenance.save()
         }
 

@@ -78,23 +78,9 @@
                 <div class="control">
                   <div class="select is-fullwidth">
                     <select name="condition">
-                        @if(stock.condition == 'New Product')
-                          <option value="New Product" selected>                                            
-                                New Product
+                          <option value="{{ stock.condition }}" >                                            
+                            {{ stock.condition }}
                             </option>
-                            <option value="Used Product">                                            
-                                Used Product
-                            </option>
-                        @endif
-
-                        @if(stock.condition == 'Used Product')
-                          <option value="New Product" >                                            
-                                New Product
-                            </option>
-                            <option value="Used Product" selected>                                            
-                                Used Product
-                            </option>
-                        @endif
                     </select>
                   </div>
                 </div>
