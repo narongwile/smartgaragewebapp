@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Database from '@ioc:Adonis/Lucid/Database'
+//import Database from '@ioc:Adonis/Lucid/Database'
 import Garage from 'App/Models/Garage'
-import { FixedOffsetZone } from 'luxon'
+//import { FixedOffsetZone } from 'luxon'
 import Maintenance from '../../Models/Maintenance'
 
 export default class DashboardController {
@@ -11,7 +11,7 @@ export default class DashboardController {
       .from('maintenances')
       .select('*')
       .where('status', 'LIKE', 'Success')
-      .preload('vehicles', (q) => {})
+      .preload('vehicles', () => {})
       .preload('service_maintenances', (q) => {
         q.preload('order_parts').preload('services')
       })
@@ -20,12 +20,12 @@ export default class DashboardController {
       .from('maintenances')
       .select('*')
       .where('status', 'NOT LIKE', 'Success')
-      .preload('vehicles', (q) => {})
+      .preload('vehicles', () => {})
 
     const allMaintenancesResult = await Maintenance.query()
       .from('maintenances')
       .select('*')
-      .preload('service_maintenances', (q) => {})
+      .preload('service_maintenances', () => {})
 
     const vehicleSuccess = maintenancesSuccessResult.map((m) => ({
       vehicle: m.vehicles,
