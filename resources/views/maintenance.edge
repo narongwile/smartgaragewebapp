@@ -26,15 +26,19 @@
         <a href="/maintenance_checkLicense" class="card-header-icon"><button class="button is-small is-link "
                 type="button">
                 <span>New vehicle maintenance</span>
+            </button>
+        </a>
+        <a href="/maintenance/print" class="card-header-icon"><button class="button is-small is-link " type="button">
+                <span>Print</span>
             </button></a>
 
-       
+
     </header>
     <div class="card-content">
 
         <div style="display: flex; justify-content: space-between; padding: 8px; background-color: #f2f2f2;">
             <div class="is-horizontal is-fullwidth " style="padding: 8px;">
-               
+
             </div>
             <div class="field is-horizontal is-fullwidth has-mobile-sort-spaced">
                 <div class="field-label is-normal">
@@ -45,7 +49,7 @@
                         <div class="control">
                             <div class="select is-fullwidth">
                                 <select id="status" name="status" onchange="selectStatus()">
-                                
+
                                     <option selected value="Show All">Show All</option>
                                     <option value="Waiting">Waiting</option>
                                     <option value="In progress">In progress</option>
@@ -61,70 +65,57 @@
         </div>
         <script>
             function selectStatus() {
-              //window.location.href = '/maintenance/'+status;
               const status = document.getElementById('status').value
                 console.log(status)
+                const maintenances = document.getElementsByName('mstatus')
                 if (status != 'Show All') {
-                    const maintenances = document.getElementsByName('mstatus')
-
+                    
                     for (let index = 0; index < maintenances.length; index++) {
                         const m = maintenances[index];
+                        var $rows = $('#table tr');
+                        $(document).ready(function() {
+                            if (m.innerText != status) {
+                                $rows.eq(index).hide();
+                            } else {
+                                $rows.eq(index).show();
+                            }
+                        });
+                    }
+                    
+                } else {
+                    for (let index = 0; index < maintenances.length; index++) {
                         var $rows = $('#table tr');
                         $(document).ready(function() {
                             $rows.eq(index).show();
                         });
                     }
-                    
-                    
-                    for (let index = 0; index < maintenances.length; index++) {
-                        const m = maintenances[index];
-                        //console.log(m.innerText)
-                        if (m.innerText != status) {
-                            var $rows = $('#table tr');
-                            $(document).ready(function() {
-                                $rows.eq(index).hide();
-                                //console.log($rows[index])
-                            });
-                        }
-                    
-                    }
-                    
-                } else {
-                    window.location.href = '/maintenance'
                 }
             }
             function search() {
                 const plate = document.getElementById('search').value
                 console.log(plate)
-                if (plate != '') {
-                    const maintenances = document.getElementsByName('mid')
+                const maintenances = document.getElementsByName('mcar')
 
+                if (plate != '') {
                     for (let index = 0; index < maintenances.length; index++) {
                         const m = maintenances[index];
+                        var $rows = $('#table tr');
+                        $(document).ready(function() {
+                            if (m.innerText.toLowerCase().includes(plate.toLowerCase())) {
+                                $rows.eq(index).show();
+                            } else {
+                                $rows.eq(index).hide();
+                            }
+                        });
+                    }                    
+                } else {
+                    for (let index = 0; index < maintenances.length; index++) {
                         var $rows = $('#table tr');
                         $(document).ready(function() {
                             $rows.eq(index).show();
                         });
                     }
-                    
-                    
-                    for (let index = 0; index < maintenances.length; index++) {
-                        const m = maintenances[index];
-                        //console.log(m.innerText)
-                        if (m.innerText != plate) {
-                            var $rows = $('#table tr');
-                            $(document).ready(function() {
-                                $rows.eq(index).hide();
-                                //console.log($rows[index])
-                            });
-                        }
-                    
-                    }
-                    
-                } else {
-                    window.location.href = '/maintenance'
                 }
-                
             }
         </script>
 
@@ -147,7 +138,7 @@
                     <tbody id="table">
                         <tr>
                             <td class="is-image-cell">
-                               
+
                             </td>
                             <td name="mid" data-label="mid">{{ m.id }}</td>
 
@@ -155,7 +146,8 @@
                             @each(vm in vmodel)
                             @each(v in vehicle)
                             @if(v.vehiclemodel_id == vm.id && vm.vehiclebrand_id == vb.id && m.vehicle_id == v.id)
-                            <td data-label="v">{{ vb.vehicle_brand +' '+ vm.vehicle_model +' '+ v.license_id }}</td>
+                            <td name="mcar" data-label="v">{{ vb.vehicle_brand +' '+ vm.vehicle_model +' '+ v.license_id
+                                }}</td>
                             @endif
                             @endeach
                             @endeach
@@ -218,7 +210,7 @@
                 </table>
             </div>
             <div class="notification">
-                
+
             </div>
         </div>
     </div>

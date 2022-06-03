@@ -4,7 +4,7 @@ import Customer from 'App/Models/Customer'
 import Vehicle from 'App/Models/Vehicle'
 import VehicleBrand from 'App/Models/VehicleBrand'
 import VehicleModel from 'App/Models/VehicleModel'
-import Maintenance from 'App/Models/Maintenance'
+import puppeteer from 'puppeteer'
 
 export default class MaintenancesController {
   public async showMaintenances({ view }: HttpContextContract) {
@@ -98,18 +98,21 @@ export default class MaintenancesController {
     return view.render('maintenance_add', {})
   }
 
-  public async filterMaintenancesByStatus({ params, view }: HttpContextContract) {
-    let maintenances: Maintenance[]
-    if (params.status == 'show all') {
-      maintenances = await Maintenance.all()
-    } else {
-      maintenances = await Maintenance.query().where('status', 'LIKE', '%' + params.status + '%')
-    }
+  public async generateHtmlToPdf() {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
 
-    return view.render('maintenance', {
-      feature: 'Maintenances',
-      selected: params.status,
-      maintenances: maintenances,
-    })
+    // 1. Create PDF from URL
+    await page.goto('https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pdf')
+    await page.pdf({ path: 'api.pdf', format: 'A4' })
+
+    // 2. Create PDF from static HTML
+    const htmlContent = `<body>
+  <h1>An example static HTML to PDF</h1>
+  </body>`
+    await page.setContent(htmlContent)
+    await page.pdf({ path: 'html.pdf', format: 'A4' })
+
+    await browser.close()
   }
 }

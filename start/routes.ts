@@ -101,7 +101,8 @@ Route.post('/vehicle_add', 'MaintenancesController.addVehicle')
 
 
 
-Route.get('/maintenance/:status', 'MaintenancesController.filterMaintenancesByStatus')
+Route.get('/maintenance/print', 'MaintenancesController.generateHtmlToPdf')
+
 Route.get('/maintenance', 'VehicleMaintenancesController.showMaintenances')
 Route.get('/vehicle', 'VehicleMaintenancesController.showVehicles')
 
