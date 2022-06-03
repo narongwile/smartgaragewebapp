@@ -146,8 +146,9 @@ export default class ServiceMaintenancesController {
         service_id: (await Service.findByOrFail('service', params.service)).id,
       }).save()
       console.log("service maintenance: " + service_maintenance.$isPersisted)
-      services[0].maintenances.status = 'In progress'
-      await services[0].maintenances.save()
+      const maintenance = await Maintenance.findOrFail(params.mid)
+      maintenance.status = 'In progress'
+      await maintenance.save()
     }
     response.redirect(url) 
   }
