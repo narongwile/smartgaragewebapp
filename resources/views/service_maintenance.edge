@@ -87,6 +87,7 @@
               <div class="field">
 
                 <div class="control">
+                  @if(status == 'Waiting' || status == 'In progress')
                   <div class="dropdown">
                       <button onclick="myFunction('Service')" class="dropbtn">Add service maintenance</button>
                       <div id="myDropdownService" class="dropdown-content">
@@ -97,6 +98,7 @@
                         @endeach
                       </div>
                     </div>
+                    @endif
                 </div>
 
                 <div class="card-content">
@@ -109,10 +111,12 @@
                         <div class="is-horizontal is-fullwidth " style="padding: 8px;">
                             Service: {{ s.service +', Cost: ฿'+ s.cost }}<b></b>
                         </div>
+                        @if(status == 'Waiting' || status == 'In progress')
                           <div class="field is-horizontal is-fullwidth has-mobile-sort-spaced is-right">
                               <div class="field-body">
                                   <div class="field is-narrow">
                                       <div class="control">
+                                        
                                           <div class="dropdown">
                                               <button onclick="myFunction({{ s.id }})" class="dropbtn">Add part</button>
                                               <div id="myDropdown{{ s.id }}" class="dropdown-content">
@@ -218,6 +222,7 @@
                                                     
                                               </div>
                                             </div>
+                                            
                                           </div>
                                     </div>
                               </div>
@@ -229,7 +234,8 @@
                                       <span class="icon"><i class="mdi mdi-trash-can"></i></span>
                                   </button>
                               </div>
-                          </div>                          
+                          </div>  
+                          @endif                        
 
                         <div id="myModalS" class="modal">
                             <div class="modal-background jb-modal-close"></div>
@@ -285,16 +291,24 @@
                                         <form action="" method="POST" id="updateP{{op.id}}">
                                           {{ csrfField() }}
                                         <td data-label="qty">
+
+                                          @if(status == 'Waiting' || status == 'In progress')
+
                                           @each(p in parts)
                                           @if(op.pid == p.id)
                                           <input name="quantity" class="input" type="number"
                                           value="{{ op.quantity }}" min="0" max="{{ p.quantity + op.quantity }}">
                                           @endif
-                                          @endeach                                          
+                                          @endeach              
+                                          
+                                          @else
+                                          {{ op.quantity }}
+                                          @endif
                                         </td>
                                         <td data-label="price">{{ op.price }}</td>
             
                                         <td class="is-actions-cell">
+                                          @if(status == 'Waiting' || status == 'In progress')
                                             <div class="buttons is-right">
                                               <button onclick="updateOP({{op.id}})" class="button is-small is-info">
                                                 <span>Update</span>
@@ -309,6 +323,7 @@
                                                     <span class="icon"><i class="mdi mdi-trash-can"></i></span>
                                                 </button>
                                             </div>
+                                            @endif
                                         </td>
                                       </tr>
                                   @endif
@@ -450,27 +465,59 @@
           </div>
 
         <hr>
+        <form id="status" action="/maintenance/{{ mid }}" method="GET">
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Comment</label>
+          </div>
+          <div class="field-body">
+              <div class="field">
+                  <div class="control">
+                    @if(comment)
+                    <textarea name="comment" class="textarea">{{comment}}</textarea>
+                    @else
+                    <textarea name="comment" placeholder="Comment" class="textarea"></textarea>
+                    @endif
+                  </div>
+                </div>
+          </div>
+      </div>
         <div class="field is-horizontal">
           <div class="field-label">
             <!-- Left empty for spacing -->
           </div>
+          
           <div class="field-body">
             <div class="field">
               <div class="field is-grouped">
+                @if(status == 'Waiting' || status == 'In progress')
+                @if(status != 'Waiting')
                 <div class="control">
-                  <a href="/maintenanceSuccess/{{ mid }}"><button class="button is-primary">
-                    <span>Success</span>
-                  </button></a>
+                    <button onclick="updateStatus('pendingPayment')" class="button is-primary">
+                    <span>Pending payment</span>
+                  </button>
                 </div>
+                @endif
                 <div class="control">
-                  <a href="/maintenanceCancle/{{ mid }}"><button class="button is-danger is-outlined">
+                    <button onclick="updateStatus('cancle')" class="button is-danger is-outlined">
                     <span>Cancle</span>
-                  </button></a>
+                  </button>
                 </div>
+                @endif
               </div>
             </div>
           </div>
+        </form>
         </div>
+        <script>
+          function updateStatus(status) {
+            if(status == 'pendingPayment') {
+              document.getElementById('status').action = "/maintenance/{{ mid }}/" + "pendingPayment";
+            }else if(status == 'cancle') {
+              document.getElementById('status').action = "/maintenance/{{ mid }}/" + "cancle";
+            }
+          }
+        </script>
     </div>
   </div>
 @endsection

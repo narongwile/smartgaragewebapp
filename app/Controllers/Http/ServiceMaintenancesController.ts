@@ -121,6 +121,7 @@ export default class ServiceMaintenancesController {
       mid: maintenance[0].id,
       total_part_cost: total_part_cost,
       pmodal: params.pmodal,
+      comment: maintenance[0].comment,
     })
   }
 

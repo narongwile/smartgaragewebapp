@@ -100,6 +100,9 @@ Route.get('/vehicle_model_delete/:id', 'CategoriesController.deleteVehicleModel'
 Route.post('/vehicle_add', 'MaintenancesController.addVehicle')
 
 
+Route.get('/maintenance/:id/pendingPayment', 'MaintenancesController.pendingPaymentStatus')
+Route.get('/maintenance/:id/success', 'MaintenancesController.successStatus')
+Route.get('/maintenance/:id/cancle', 'MaintenancesController.cancleStatus')
 
 Route.get('/maintenance/print', 'MaintenancesController.generateHtmlToPdf')
 

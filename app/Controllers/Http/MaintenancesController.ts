@@ -1,101 +1,70 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Database from '@ioc:Adonis/Lucid/Database'
-import Customer from 'App/Models/Customer'
-import Vehicle from 'App/Models/Vehicle'
-import VehicleBrand from 'App/Models/VehicleBrand'
-import VehicleModel from 'App/Models/VehicleModel'
+import Maintenance from 'App/Models/Maintenance'
+import OrderPart from 'App/Models/OrderPart'
+import Receipt from 'App/Models/Receipt'
+import ServiceMaintenance from 'App/Models/ServiceMaintenance'
+import { DateTime } from 'luxon'
 import puppeteer from 'puppeteer'
 
 export default class MaintenancesController {
-  public async showMaintenances({ view }: HttpContextContract) {
-    return view.render('maintenance', {
-      feature: 'Maintenances',
-    })
+  public async pendingPaymentStatus({ response, params, request }: HttpContextContract) {
+    const maintenance = await Maintenance.findOrFail(params.id)
+    maintenance.status = 'Pending payment'
+    maintenance.end_date = DateTime.now()
+    maintenance.comment = request.all().comment
+    await maintenance.save()
+    response.redirect('/maintenance')
   }
 
-  public async showCheckLicense({ view }: HttpContextContract) {
-    return view.render('maintenance_check_vehicle', {
-      feature: 'Vehicle Maintenance',
-    })
-  }
+  public async successStatus({ response, params }: HttpContextContract) {
+    let total_cost = 0
+    const service_maintenance = await ServiceMaintenance.query().where('maintenance_id', params.id)
+    .preload('services', () => {})
+    .preload('order_parts', () => {})
 
-  public async checkLicense({ view, request, response }: HttpContextContract) {
-    console.log(request.all())
-    if (request.all().license_id == null || request.all().license_id == 'null')
-      response.redirect('back')
-
-    if ((await Vehicle.findBy('license_id', request.all().license_id)) == null) {
-      const vmodel = await Database.from('vehicle_models')
-        .select('*')
-        .orderBy('vehicle_model', 'asc')
-      const vbrand = await Database.from('vehicle_brands')
-        .select('*')
-        .orderBy('vehicle_brand', 'asc')
-      const customer = await Database.from('customers').select('*').orderBy('fname', 'asc')
-      return view.render('vehicle_add', {
-        feature: 'Add Vehicle',
-        license_id: request.all().license_id,
-        v_brand: vbrand,
-        v_model: vmodel,
-        customer: customer,
-      })
-    } else {
-      const vehicle = await Vehicle.findBy('license_id', request.all().license_id)
-      const vmodel = await VehicleModel.find(vehicle?.vehiclemodel_id)
-      const vbrand = await VehicleBrand.find(vmodel?.vehiclebrand_id)
-      const customer = await Customer.find(vehicle?.customer_id)
-      return view.render('maintenance_add', {
-        feature: 'Add Maintenance',
-        customer: customer?.fname + ' ' + customer?.lname,
-        vbrand: vbrand?.vehicle_brand,
-        vmodel: vmodel?.vehicle_model,
-        vehicle: vehicle,
-      })
+    for( let i=0; i < service_maintenance.length; i++ ) {
+      total_cost += service_maintenance[i].services.cost
+      for( let j=0; i < service_maintenance[i].order_parts.length; j++ ) {
+        total_cost += service_maintenance[i].order_parts[j].sell_price
+      }
     }
+
+    const receipt = new Receipt()
+    await receipt.fill({
+      payment_date: DateTime.now(),
+      cost: total_cost,
+    }).save()
+
+    const maintenance = await Maintenance.findOrFail(params.id)
+    maintenance.status = 'Success'
+    maintenance.receipt_id = receipt.id
+    await maintenance.save()
+    response.redirect('/maintenance')
   }
 
-  public async addVehicle({ request, view }: HttpContextContract) {
-    console.log(request.all())
-
-    if (!request.all().customer_id) {
-      const customer = new Customer()
-      await customer
-        .fill({
-          fname: request.all().fname,
-          lname: request.all().lname,
-          tel: request.all().tel,
-          email: request.all().email,
-          company: request.all().company,
-          customer_tax_id: request.all().taxid,
-          address: request.all().address,
-          password: '1',
-        })
-        .save()
-      console.log('customer: ' + customer.$isPersisted)
-
-      const vehicle = new Vehicle()
-      await vehicle
-        .fill({
-          customer_id: customer.id,
-          vehiclemodel_id: request.all().vehiclemodel_id,
-          license_id: request.all().license_id,
-          colour: request.all().colour,
-        })
-        .save()
-      console.log('vehicle: ' + vehicle.$isPersisted)
-    } else {
-      const vehicle = new Vehicle()
-      await vehicle
-        .fill({
-          customer_id: request.all().customer_id,
-          vehiclemodel_id: request.all().vehiclemodel_id,
-          license_id: request.all().license_id,
-          colour: request.all().colour,
-        })
-        .save()
-      console.log('vehicle: ' + vehicle.$isPersisted)
+  public async cancleStatus({ response, params, request }: HttpContextContract) {
+    const maintenance = await Maintenance.findOrFail(params.id)
+    const service_maintenance = await ServiceMaintenance.query()
+    .where('maintenance_id', params.id)
+    
+    for(let i=0; i < service_maintenance.length; i++) {
+      const order_part = await OrderPart.query()
+      .where('service_maintenance_id', service_maintenance[i].id)
+      .preload('part_conditions', (q) => {
+        q.preload('parts', () => {})
+      })
+      for( let i=0; i < order_part.length; i++ ) {
+        order_part[i].part_conditions.parts.partquantity += order_part[i].quantity
+        await order_part[i].part_conditions.parts.save()
+        order_part[i].part_conditions.partquantity += order_part[i].quantity
+        await order_part[i].part_conditions.save()
+      }
+      await service_maintenance[i].delete()
     }
-    return view.render('maintenance_add', {})
+    maintenance.status = 'Cancle'
+    maintenance.comment = request.all().comment
+    await maintenance.save()
+    response.redirect('/maintenance')
   }
 
   public async generateHtmlToPdf() {
