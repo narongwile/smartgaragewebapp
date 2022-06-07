@@ -68,7 +68,7 @@ export default class MaintenancesController {
   }
 
   public async generateHtmlToPdf() {
-    const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch({ headless: true })
     const page = await browser.newPage()
 
     // 1. Create PDF from URL
