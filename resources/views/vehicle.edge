@@ -8,6 +8,46 @@
         Vehicles
         </p>
 
+        <div class="card-header-title" style="display: flex; justify-content: space-between; padding: 8px;">
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input id="search" onkeyup="search()" name="search" class="input" type="search" placeholder="Search license plate">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function search() {
+            const customer = document.getElementById('search').value
+            const cus = document.getElementsByName('cust')
+
+            if (customer != '') {
+                for (let index = 0; index < cus.length; index++) {
+                    const m = cus[index];
+                    var $rows = $('#table tr');
+                    $(document).ready(function() {
+                        if (m.innerText.toLowerCase().includes(customer.toLowerCase())) {
+                            $rows.eq(index).show();
+                        } else {
+                            $rows.eq(index).hide();
+                        }
+                    });
+                }                    
+            } else {
+                for (let index = 0; index < cus.length; index++) {
+                    var $rows = $('#table tr');
+                    $(document).ready(function() {
+                        $rows.eq(index).show();
+                    });
+                }
+            }
+        }
+        </script>
+
      
     </header>
     <div class="card-content">
@@ -27,13 +67,13 @@
                     </tr>
                 </thead>
                 @each(v in vehicle)
-                <tbody>
+                <tbody id="table">
                     <tr>
                         <td class="is-image-cell">
                             </td>
                         <td data-label="id">{{ v.id }}</td>
 
-                        <td data-label="vlid">{{ v.license_id }}</td>
+                        <td name="cust" data-label="vlid">{{ v.license_id }}</td>
                         
                         @each(vb in vbrand)
                         @each(vm in vmodel)
