@@ -1,0 +1,95 @@
+@layout('layouts/page')
+
+@section('content')
+<div class="is-max-w-lg mx-auto has-text-centered mb-6"></div>
+<div class="is-relative is-max-w-3xl mx-auto mb-6">
+    <center><img src="https://shuffle.dev/metis-assets/elements/pattern-small.png" alt=""></center>
+    <div style="position:absolute; top: 3%; left: 9%; width: 82%; height: 90%;">
+        <div class="columns">
+            <div class="column is-4 is-offset-4">
+                <div class="box">
+                    <h2 class="title has-text-centered">Customer</h2>
+
+                    @if(flashMessages.has('notification'))
+                        <div class="notification is-danger is-light">
+                            {{ flashMessages.get('notification') }}
+                        </div>
+                    @endif
+
+                    @if(message)
+                    <div class="notification is-primary is-light">
+                        {{ message }}
+                    </div>
+                    @endif
+
+                    @if(password)
+                    <form action="/customer/vehicles" method="POST">
+                    @else
+                    <form action="/customer/send_email" method="POST">
+                    @endif
+                        {{ csrfField() }}
+
+                        <div class="field">
+                            <label class="label">Email</label>
+
+                            <div class="control">
+                                <input
+                                type="email"
+                                class="input"
+                                name="email"
+                                value="{{ email || '' }}"
+                                required
+                                @if(email)
+                                readonly
+                                @endif
+                                >
+                            </div>
+                        </div>
+
+                        @if(password)
+                        <div class="field">
+                            <label class="label">Password</label>
+
+                            <div class="control">
+                                <input
+                                type="text"
+                                class="input"
+                                name="password"
+                                maxlength="6"
+                                required
+                                onkeyup="verifyPassword(this.value)"
+                                >
+                            </div>
+                            <p id="passwd_incorrect" class="help is-danger">Password incorrect</p>
+                            <p id="passwd_correct" class="help is-primary">Password correct</p>
+                        </div>
+
+                        <script>
+                            window.onload = function() {
+                                document.getElementById('passwd_correct').style.display = "none";
+                                document.getElementById('passwd_incorrect').style.display = "none";
+                            }
+                            function verifyPassword(password) {
+                                if(password == '{{ password }}') {
+                                    document.getElementById('continue').disabled = false;
+                                    document.getElementById('passwd_incorrect').style.display = "none";
+                                    document.getElementById('passwd_correct').style.display = "block";
+                                }else {
+                                    document.getElementById('continue').disabled = true;
+                                    document.getElementById('passwd_incorrect').style.display = "block";
+                                    document.getElementById('passwd_correct').style.display = "none";
+                                }
+                            }
+                        </script>
+                        @endif
+
+                        <div class="control">
+                            <button id="continue" type="submit" class="button is-link is-fullwidth">Continue</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

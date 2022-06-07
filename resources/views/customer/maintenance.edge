@@ -1,0 +1,142 @@
+@layout('layouts/page')
+
+@section('content')
+<div class="is-max-w-lg mx-auto has-text-centered mb-6"></div>
+<div class="is-relative is-max-w-3xl mx-auto mb-6">
+    <center><img src="https://shuffle.dev/metis-assets/elements/pattern-small.png" alt=""></center>
+    <div style="position:absolute; top: 3%; left: 9%; width: 82%; height: 90%;">
+        <div class="columns">
+            <div class="column is-9 is-offset-1">
+                <div class="box">
+                    <h2 class="title has-text-centered">Welcome, {{ customer }}</h2>
+
+                    <div class="card has-table has-mobile-sort-spaced">
+                        <header class="card-header">
+                          <p class="card-header-title">
+                            <span class="icon"><i class="mdi mdi-hammer-wrench"></i></span>
+                            Maintenance: {{ vehicle[0].model +' '+ vehicle[0].license_id }}
+                            </p>
+                    
+                         
+                        </header>
+                        <div class="card-content">
+                          <div class="b-table has-pagination">
+                            <div class="table-wrapper has-mobile-cards">
+                              <table class="table is-fullwidth is-striped is-hoverable is-sortable is-fullwidth">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Status</th>
+                                            <th>Start at</th>
+                                            <th>Finish at</th>
+                                            <th>Total cost</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    @each(m in maintenance)
+                                    <tbody>
+                                        <tr>
+                                            <td class="is-image-cell">
+                                                </td>
+                    
+                                            <td data-label="mstatus">{{ m.status }}</td>
+                                            
+                                            <td data-label="mstart">{{ m.start }}</td>       
+                                            
+                                            <td data-label="mfinish">{{ m.finish }}</td>
+
+                                            <td data-label="mcost">
+                                                {{ m.cost }}
+                                            </td>
+                                            
+                                            <td class="is-actions-cell">
+                                                <div class="buttons is-right">
+                                                    <button class="button is-small is-primary jb-modal" type="button" 
+                                                    data-target="myModal" 
+                                                    onclick="technical('{{ m.technical }}', '{{ m.ttel }}', '{{ m.comment }}')">
+                                                        <span >Technical</span>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        
+                                    @endeach
+                                    <script>
+                                        function technical(name, tel, comment) {
+                                            console.log(name)
+                                            console.log(tel)
+                                            console.log(comment)
+                                            document.getElementById('tname').innerHTML = name
+                                            document.getElementById('ttel').innerHTML = tel
+                                            document.getElementById('comment').innerHTML = comment
+                                        }
+                                    </script>
+
+                                    
+                                    
+                                    <div id="myModal" class="modal">
+                                        <div class="modal-background jb-modal-close"></div>
+                                        <div class="modal-card">
+                                            <header class="modal-card-head">
+                                                <p class="modal-card-title">Technical</p>
+                                                <button class="delete jb-modal-close" aria-label="close"></button>
+                                            </header>
+                                            <section class="modal-card-body">
+                                                  <div class="field is-horizontal">
+                                                    <div class="field-label is-normal">
+                                                    <label class="label">Name</label>
+                                                    </div>
+                                                    <div class="field-body">
+                                                        <div class="field">
+                                                            <div class="control">
+                                                            <p id="tname"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="field is-horizontal">
+                                                    <div class="field-label is-normal">
+                                                    <label class="label">Phone number</label>
+                                                    </div>
+                                                    <div class="field-body">
+                                                        <div class="field">
+                                                            <div class="control">
+                                                                <p id="ttel"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                  <div class="field is-horizontal">
+                                                        <div class="field-label is-normal">
+                                                        <label class="label">Comment</label>
+                                                        </div>
+                                                        <div class="field-body">
+                                                            <div class="field">
+                                                                <div class="control">
+                                                                <textarea class="textarea" id="comment" value="" readonly></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </section>
+                                            <footer class="modal-card-foot">
+                                                <button class="button jb-modal-close">Close</button>
+                                            </footer>
+                                        </div>
+                                    </div>
+
+                                </table>
+                                </div>
+                                <div class="notification">
+                                    
+                                    </div>
+                            </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

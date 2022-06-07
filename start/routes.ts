@@ -102,7 +102,7 @@ Route.post('/vehicle_add', 'MaintenancesController.addVehicle')
 
 Route.get('/maintenance/:id/pendingPayment', 'MaintenancesController.pendingPaymentStatus')
 Route.get('/maintenance/:id/success', 'MaintenancesController.successStatus')
-Route.get('/maintenance/:id/cancle', 'MaintenancesController.cancleStatus')
+Route.get('/maintenance/:id/cancel', 'MaintenancesController.cancelStatus')
 
 Route.get('/maintenance/print', 'MaintenancesController.generateHtmlToPdf')
 
@@ -163,6 +163,11 @@ Route.get('/dashboard', 'DashboardController.showDashboard')
 
 Route.get('/profile', 'EmployeesController.profile')
 Route.post('/profile', 'EmployeesController.updateProfile')
+
+Route.get('/customer/login', 'CustomersController.showLogin')
+Route.post('/customer/send_email', 'CustomersController.sendEmail')
+Route.post('/customer/vehicles', 'CustomersController.vehicleCustomer')
+Route.get('/customer/vehicles/:id', 'CustomersController.vehicleMaintenance')
 
 
 Route.get('/tables', async ({ view }) => {

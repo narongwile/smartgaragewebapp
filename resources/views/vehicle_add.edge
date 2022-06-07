@@ -29,21 +29,58 @@
               <label class="label">Vehicle model</label>
             </div>
             <div class="field-body">
-              <div class="field">
-                <div class="control">
+              <div class="field is-narrow">
+                <div class="control is-fullwidth" style="width:100%;">
                     <div class="select is-fullwidth">
                         <select name="vehiclemodel_id">
-                            @each(v_brand in v_brand)
-                            @each(v_model in v_model)
-                            @if(v_model.vehiclebrand_id == v_brand.id)
-                            <option value="{{ v_model.id }}">                                            
-                                {{ v_brand.vehicle_brand +' '+ v_model.vehicle_model }}
-                                </option>
-                            @endif
-                            @endeach
-                            @endeach
+                            <input id="search" class="input" oninput="searchModel()" type="text"
+                                placeholder="Search vehicle model"><br><br>
+                              <div class="is-fullwidth" style="overflow:auto;border:1px solid black;padding:2%; max-height:300px; width:100%; ">
+
+                                @each(v_brand in v_brand)
+                                @each(v_model in v_model)
+                                @if(v_model.vehiclebrand_id == v_brand.id)
+                                <label name="p" id="p{{ v_model.id }}" style="width:100%;"><label class="b-radio radio">
+                                    <input type="radio" name="vmodelid" value="{{ v_model.id }}"><span class="check"></span>
+                                    <span name="vmodel" class="control-label" hi>{{ v_brand.vehicle_brand +' '+ v_model.vehicle_model }}</span>
+                                  </label><hr></label>
+                                @endif
+                                @endeach
+                                @endeach
+                              </div>
                         </select>
                     </div>
+
+
+
+                    <script>
+                      function searchModel() {
+                              const search = document.getElementById('search').value
+                              console.log(search)
+                              const model = document.getElementsByName('vmodel')
+              
+                              if (search != '') {
+                                  for (let index = 0; index < model.length; index++) {
+                                      const m = model[index];
+                                      var $p = $("label[name$='p']");
+                                      $(document).ready(function() {
+                                          if (m.innerText.toLowerCase().includes(search.toLowerCase())) {
+                                              $p.eq(index).show();
+                                          } else {
+                                              $p.eq(index).hide();
+                                          }
+                                      });
+                                  }                    
+                              } else {
+                                  for (let index = 0; index < model.length; index++) {
+                                      var $p = $("label[name$='p']");
+                                      $(document).ready(function() {
+                                          $p.eq(index).show();
+                                      });
+                                  }
+                              }
+                          }
+                    </script>
                 </div>
               </div>
             </div>

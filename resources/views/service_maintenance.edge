@@ -44,7 +44,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <input name="colour" class="input" type="color" value="{{ vehicle.colour }}" readonly>
+                  <input disabled name="colour" class="input" type="color" value="{{ vehicle.colour }}" readonly>
                 </div>
               </div>
             </div>
@@ -244,9 +244,6 @@
                                     <p class="modal-card-title">Confirm action</p>
                                     <button class="delete jb-modal-close" aria-label="close"></button>
                                 </header>
-                                <section class="modal-card-body">
-                                    <p>This will permanently delete <b>Some Object</b></p>
-                                </section>
                                 <footer class="modal-card-foot">
                                     <button class="button jb-modal-close">Cancel</button>
                                     <a id="delmmyModalS" href="/service_maintenance_delete/"><button
@@ -499,8 +496,8 @@
                 </div>
                 @endif
                 <div class="control">
-                    <button onclick="updateStatus('cancle')" class="button is-danger is-outlined">
-                    <span>Cancle</span>
+                    <button onclick="updateStatus('cancel')" class="button is-danger is-outlined">
+                    <span>Cancel</span>
                   </button>
                 </div>
                 @endif
@@ -513,8 +510,8 @@
           function updateStatus(status) {
             if(status == 'pendingPayment') {
               document.getElementById('status').action = "/maintenance/{{ mid }}/" + "pendingPayment";
-            }else if(status == 'cancle') {
-              document.getElementById('status').action = "/maintenance/{{ mid }}/" + "cancle";
+            }else if(status == 'cancel') {
+              document.getElementById('status').action = "/maintenance/{{ mid }}/" + "cancel";
             }
           }
         </script>

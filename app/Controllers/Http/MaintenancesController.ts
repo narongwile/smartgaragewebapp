@@ -42,7 +42,7 @@ export default class MaintenancesController {
     response.redirect('/maintenance')
   }
 
-  public async cancleStatus({ response, params, request }: HttpContextContract) {
+  public async cancelStatus({ response, params, request }: HttpContextContract) {
     const maintenance = await Maintenance.findOrFail(params.id)
     const service_maintenance = await ServiceMaintenance.query()
     .where('maintenance_id', params.id)
@@ -61,7 +61,7 @@ export default class MaintenancesController {
       }
       await service_maintenance[i].delete()
     }
-    maintenance.status = 'Cancle'
+    maintenance.status = 'Cancel'
     maintenance.comment = request.all().comment
     await maintenance.save()
     response.redirect('/maintenance')
@@ -72,8 +72,8 @@ export default class MaintenancesController {
     const page = await browser.newPage()
 
     // 1. Create PDF from URL
-    await page.goto('https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pdf')
-    await page.pdf({ path: 'api.pdf', format: 'A4' })
+    // await page.goto('https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pdf')
+    // await page.pdf({ path: 'api.pdf', format: 'A4' })
 
     // 2. Create PDF from static HTML
     const htmlContent = `<body>

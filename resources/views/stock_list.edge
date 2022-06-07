@@ -24,8 +24,8 @@
                     <th>Type</th>
                     <th>Condition</th>
                     <th>Year</th>
+                    <th>Price</th>
                     <th>Quantity</th>
-                    <th>Purchase Price</th>
                     <th>Purchase Date</th>
                     <th>Warranty Date</th>
                     <th></th>
@@ -60,8 +60,8 @@
                         
                         <td data-label="condition">{{ s.condition }}</td>
                         <td data-label="productyear">{{ s.product_year }}</td>
-                        <td data-label="quantity">{{ s.qty_in_stock }}</td>
                         <td data-label="buyprice">{{ s.buy_price }}</td>
+                        <td data-label="quantity">{{ s.qty_in_stock }}</td>
 
                         <td data-label="purchasedate">
                             <small class="has-text-grey is-abbr-like">{{ s.instock_date.toFormat("YYYY-MM-DD") }}</small>

@@ -30,9 +30,6 @@
                 <tbody>
                     <tr>
                         <td class="is-image-cell">
-                            <div class="image">
-                            <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="is-rounded">
-                                </div>
                             </td>
                         <td data-label="id">{{ v.id }}</td>
 
@@ -54,7 +51,7 @@
                         @endif
                         @endeach       
                         
-                        <td data-label="colour"><input type="color" value="{{ v.colour }}" readonly></td>
+                        <td data-label="colour"><input disabled type="color" value="{{ v.colour }}" readonly></td>
 
                         @each(c in customer)
                         @if(c.id == v.customer_id)
@@ -91,9 +88,6 @@
                         <p class="modal-card-title">Confirm action</p>
                         <button class="delete jb-modal-close" aria-label="close"></button>
                       </header>
-                      <section class="modal-card-body">
-                        <p>This will permanently delete <b>Some Object</b></p>
-                      </section>
                       <footer class="modal-card-foot">
                         <button class="button jb-modal-close">Cancel</button>
                         <a id="delm" href="/vehicle_delete/"><button class="button is-danger jb-modal-close">Delete</button></a>

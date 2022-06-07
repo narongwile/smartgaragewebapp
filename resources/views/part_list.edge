@@ -57,7 +57,7 @@
                         <td data-label="partquantity">{{ part.partquantity }}</td>
                         
                         <td data-label="Created">
-                            <small class="has-text-grey is-abbr-like" >{{ part.created_at }}</small>
+                            <small class="has-text-grey is-abbr-like" >{{ part.created_at.toFormat("YYYY-MM-DD") }}</small>
                             </td>
                         <td class="is-actions-cell">
                             <div class="buttons is-right">

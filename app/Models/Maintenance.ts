@@ -40,7 +40,9 @@ export default class Maintenance extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => Employee)
+  @belongsTo(() => Employee, {
+    foreignKey: 'employee_id'
+  })
   public employees: BelongsTo<typeof Employee>
 
   @belongsTo( ()=> Vehicle, {
@@ -51,7 +53,9 @@ export default class Maintenance extends BaseModel {
   @belongsTo(() => Garage)
   public garages: BelongsTo<typeof Garage>
 
-  @belongsTo(() => Receipt)
+  @belongsTo(() => Receipt, {
+    foreignKey: 'receipt_id'
+  })
   public receipts: BelongsTo<typeof Receipt>
 
   @hasMany(() => ServiceMaintenance, {

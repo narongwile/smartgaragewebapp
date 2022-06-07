@@ -1,6 +1,6 @@
 <nav class="navbar is-link">
     <div class="container">
-        <div class="navbar-brand">
+        <div class="navbar-brand ">
             <a class="navbar-item" href="/">
                 <img class="rotating"  src="https://cssninjastudio.github.io/krypton/img/logo/krypton.svg" alt>
                 <span class="brand-name">SmartGarage</span>
@@ -15,24 +15,6 @@
 
     <div class="navbar-menu">
         <div class="navbar-end">
-            
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">
-                  Auto Parts
-                </a>        
-                <div class="navbar-dropdown">
-                  <a href="/parts/stock" class="navbar-item">
-                    <span class="icon">
-                    <i class="fas fa-sign-out-alt"></i>
-                    </span><span>Stock</span>
-                  </a>
-                  <a href="/parts" class="navbar-item">
-                        <span class="icon">
-                        <i class="fas fa-sign-out-alt"></i>
-                        </span><span>View</span>
-                  </a>
-                </div>
-            </div>
 
             @if(auth.isLoggedIn)
                 <div class="navbar-item has-dropdown is-hoverable">
@@ -52,11 +34,11 @@
                     </div>
                 </div>
 
-            @else
+            {{--  @else
                 <div class="navbar-brand">
                     <a href="/register" class="navbar-item">Register</a>
                     <a href="/login" class="navbar-item">Login</a>
-                </div>
+                </div>  --}}
             @endif
 
         </div>

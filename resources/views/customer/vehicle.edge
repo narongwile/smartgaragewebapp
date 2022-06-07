@@ -1,0 +1,71 @@
+@layout('layouts/page')
+
+@section('content')
+<div class="is-max-w-lg mx-auto has-text-centered mb-6"></div>
+<div class="is-relative is-max-w-3xl mx-auto mb-6">
+    <center><img src="https://shuffle.dev/metis-assets/elements/pattern-small.png" alt=""></center>
+    <div style="position:absolute; top: 3%; left: 9%; width: 82%; height: 90%;">
+        <div class="columns">
+            <div class="column is-9 is-offset-1">
+                <div class="box">
+                    <h2 class="title has-text-centered">Welcome, {{ customer }}</h2>
+
+                    <div class="card has-table has-mobile-sort-spaced">
+                        <header class="card-header">
+                          <p class="card-header-title">
+                            <span class="icon"><i class="mdi mdi-car"></i></span>
+                            Vehicles
+                            </p>
+                    
+                         
+                        </header>
+                        <div class="card-content">
+                          <div class="b-table has-pagination">
+                            <div class="table-wrapper has-mobile-cards">
+                              <table class="table is-fullwidth is-striped is-hoverable is-sortable is-fullwidth">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>License ID</th>
+                                            <th>Model</th>
+                                            <th>Colour</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    @each(v in vehicle)
+                                    <tbody>
+                                        <tr>
+                                            <td class="is-image-cell">
+                                                </td>
+                    
+                                            <td data-label="vlid">{{ v.license_id }}</td>
+                                            
+                                            <td data-label="model">{{ v.model }}</td>       
+                                            
+                                            <td data-label="colour"><input disabled type="color" value="{{ v.colour }}" readonly></td>
+                                            
+                                            <td class="is-actions-cell">
+                                                <div class="buttons is-right">
+                                                    <a href="/customer/vehicles/{{ v.id }}"><button class="button is-small is-info" type="button" >
+                                                        <span >Maintenance details</span>
+                                                        </button></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        
+                                    @endeach
+                                </table>
+                                </div>
+                                <div class="notification">
+                                    
+                                    </div>
+                            </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

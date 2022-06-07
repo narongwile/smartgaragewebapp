@@ -8,6 +8,46 @@
         Staffs
         </p>
 
+        <div class="card-header-title" style="display: flex; justify-content: space-between; padding: 8px;">
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input id="search" onkeyup="search()" name="search" class="input" type="search" placeholder="Search staff name">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function search() {
+            const staff = document.getElementById('search').value
+            const cus = document.getElementsByName('sfn')
+
+            if (staff != '') {
+                for (let index = 0; index < cus.length; index++) {
+                    const m = cus[index];
+                    var $rows = $('#table tr');
+                    $(document).ready(function() {
+                        if (m.innerText.toLowerCase().includes(staff.toLowerCase())) {
+                            $rows.eq(index).show();
+                        } else {
+                            $rows.eq(index).hide();
+                        }
+                    });
+                }                    
+            } else {
+                for (let index = 0; index < cus.length; index++) {
+                    var $rows = $('#table tr');
+                    $(document).ready(function() {
+                        $rows.eq(index).show();
+                    });
+                }
+            }
+        }
+        </script>
+
         <a href="/staff_add" class="card-header-icon"><button class="button is-small is-link " type="button" >
             <span >Add staff</span>
             </button></a>
@@ -31,7 +71,7 @@
                     </tr>
                 </thead>
                 @each(s in staff)
-                <tbody>
+                <tbody id="table">
                     <tr>
                         <td class="is-image-cell">
                             <div class="image">
@@ -40,7 +80,7 @@
                             </td>
                         <td data-label="id">{{ s.id }}</td>
 
-                        <td data-label="sname">{{ s.fname +' '+ s.lname }}</td>
+                        <td name="sfn" data-label="sname">{{ s.fname +' '+ s.lname }}</td>
                         
                         <td data-label="sd">{{ s.department }}</td>
                         
@@ -49,17 +89,20 @@
                         <td data-label="stel">{{ s.tel }}</td>
                         
                         <td data-label="Created">
-                            <small class="has-text-grey is-abbr-like" >{{ s.created_at }}</small>
+                            <small class="has-text-grey is-abbr-like" >{{ s.created_at.toFormat("YYYY-MM-DD") }}</small>
                             </td>
                         <td class="is-actions-cell">
                             <div class="buttons is-right">
-                                
+                                @if(auth.user.department == 'CEO')
                                 <a href="{{ route('staff.update', {id: s.id}) }}"><button class="button is-small is-primary " type="button">
                                     <span class="icon"><i class="mdi mdi-eye"></i></span>
                                     </button></a>
+
+                                    
                                 <button class="button is-small is-danger jb-modal" id="{{ s.id }}" onclick="deleteStaff(this.id)" data-target="myModal" type="button">
                                     <span class="icon"><i class="mdi mdi-trash-can"></i></span>
                                     </button>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

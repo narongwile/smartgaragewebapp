@@ -11,6 +11,7 @@
     <div class="card-content">
       <form action="/vehicle_maintenance_add" method="POST">
         {{ csrfField() }}
+        
         <div class="field is-horizontal">
           <div class="field-label is-normal">
             <label class="label">Vehicle license plate number</label>
@@ -24,32 +25,73 @@
           </div>
         </div>
 
-        <div class="field is-horizontal">
+        <div class="field is-horizontal has-check">
             <div class="field-label is-normal">
               <label class="label">Vehicle model</label>
             </div>
             <div class="field-body">
-              <div class="field">
-                <div class="control">
-                    <div class="select is-fullwidth">
-                        <select name="vehiclemodel_id">
+              <div class="field is-narrow">
+                <div class="control is-fullwidth" style="width:100%;">
+                          @if(!vbrand)
+                          <script>
+                            function searchModel() {
+                                    const search = document.getElementById('search').value
+                                    console.log(search)
+                                    const model = document.getElementsByName('vmodel')
+                    
+                                    if (search != '') {
+                                        for (let index = 0; index < model.length; index++) {
+                                            const m = model[index];
+                                            var $p = $("label[name$='p']");
+                                            $(document).ready(function() {
+                                                if (m.innerText.toLowerCase().includes(search.toLowerCase())) {
+                                                    $p.eq(index).show();
+                                                } else {
+                                                    $p.eq(index).hide();
+                                                }
+                                            });
+                                        }                    
+                                    } else {
+                                        for (let index = 0; index < model.length; index++) {
+                                            var $p = $("label[name$='p']");
+                                            $(document).ready(function() {
+                                                $p.eq(index).show();
+                                            });
+                                        }
+                                    }
+                                }
+                          </script>
+                        
+                          <input id="search" class="input" oninput="searchModel()" type="text"
+                                placeholder="Search vehicle model"><br><br>
+                            <div class="is-fullwidth" style="overflow:auto;border:1px solid black;padding:2%; max-height:250px; width:100%; ">
+                              
+
                             @each(v_brand in v_brand)
                             @each(v_model in v_model)
                             @if(v_model.vehiclebrand_id == v_brand.id)
-                            <option value="{{ v_model.id }}">                                            
-                                {{ v_brand.vehicle_brand +' '+ v_model.vehicle_model }}
-                                </option>
+                            <label name="p" id="p{{ v_model.id }}" style="width:100%;"><label class="b-radio radio">
+                              <input required type="radio" name="vehiclemodel_id" value="{{ v_model.id }}"><span class="check"></span>
+                              <span name="vmodel" class="control-label" >{{ v_brand.vehicle_brand +' '+ v_model.vehicle_model }}</span>
+                            </label><hr></label>
+                          
                             @endif
                             @endeach
                             @endeach
+                          </div>
+                          
+                          @else
 
-                            @if(vbrand)
-                            <option value="{{ vmodel.id }}">                                            
-                              {{ vbrand.vehicle_brand +' '+ vmodel.vehicle_model }}
-                              </option>
-                            @endif
-                        </select>
-                    </div>
+                            <div class="select is-fullwidth">
+                              <select name="vehiclemodel_id">
+                                
+                                
+                                <option value="{{ vmodel.id }}">                                            
+                                  {{ vbrand.vehicle_brand +' '+ vmodel.vehicle_model }}
+                                  </option>
+                              </select>
+                            </div> 
+                          @endif
                 </div>
               </div>
             </div>
@@ -63,7 +105,7 @@
               <div class="field">
                 <div class="control">
                   @if(vcolour)
-                  <input name="colour" class="input" type="color" value="{{ vcolour }}" required>
+                  <input disabled name="colour" class="input" type="color" value="{{ vcolour }}" required>
                   @else
                   <input name="colour" class="input" type="color" required>
                   @endif
@@ -90,19 +132,53 @@
                     <span >New customer</span>
                     </button></a>
                 </div>
-                <br>
-                
-                <div class="control" id="existingCustomers" style="display: none;">
-                    <div class="select is-fullwidth">
-                        <select name="customer_id">
-                            @each(customer in customer)
-                            <option value="{{ customer.id }}" id="cid">                                            
-                                {{ customer.fname +' '+ customer.lname }}
-                                </option>
-                            @endeach
-                        </select>
-                    </div>
-                </div>
+                <div class="control is-fullwidth" id="existingCustomers" style="width:100%;display: none;">
+                  
+                     <script>
+                       function searchCustomer() {
+                               const search = document.getElementById('searchC').value
+                               console.log(search)
+                               const customer = document.getElementsByName('customer')
+               
+                               if (search != '') {
+                                   for (let index = 0; index < customer.length; index++) {
+                                       const m = customer[index];
+                                       var $p = $("label[name$='cus']");
+                                       $(document).ready(function() {
+                                           if (m.innerText.toLowerCase().includes(search.toLowerCase())) {
+                                               $p.eq(index).show();
+                                           } else {
+                                               $p.eq(index).hide();
+                                           }
+                                       });
+                                   }                    
+                               } else {
+                                   for (let index = 0; index < customer.length; index++) {
+                                       var $p = $("label[name$='cus']");
+                                       $(document).ready(function() {
+                                           $p.eq(index).show();
+                                       });
+                                   }
+                               }
+                           }
+                     </script>
+                       
+                         <input id="searchC" class="input" oninput="searchCustomer()" type="text"
+                               placeholder="Search customer"><br><br>
+                           <div class="is-fullwidth" style="overflow:auto;border:1px solid black;padding:2%; max-height:250px; width:100%; ">
+                             
+
+                           @each(customer in customer)
+
+                           <label name="cus" id="cus{{ customer.id }}" style="width:100%;"><label class="b-radio radio">
+                             <input id="cid" type="radio" name="customer_id" value="{{ customer.id }}"><span class="check"></span>
+                             <span name="customer" class="control-label" >{{ customer.fname +' '+ customer.lname }}</span>
+                           </label><hr></label>
+                           
+                           @endeach
+                         </div>
+                         
+               </div>
 
                 <div class="control" id="newCustomer" style="display: none;">
                     <div class="field is-horizontal">
