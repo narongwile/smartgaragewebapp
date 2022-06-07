@@ -19,7 +19,7 @@ export default class DashboardController {
     const maintenancesNotSuccessResult = await Maintenance.query()
       .from('maintenances')
       .select('*')
-      .where('status', 'NOT LIKE', 'Success')
+      .where('status', 'NOT LIKE', 'Success').andWhere('status', 'NOT LIKE', 'Cancel')
       .preload('vehicles', () => {})
 
     const allMaintenancesResult = await Maintenance.query()
@@ -120,16 +120,16 @@ export default class DashboardController {
             maintenancesGraph[8]++
             break
           case 9:
-            maintenancesGraph[9]
+            maintenancesGraph[9]++
             break
           case 10:
-            maintenancesGraph[10]
+            maintenancesGraph[10]++
             break
           case 11:
-            maintenancesGraph[11]
+            maintenancesGraph[11]++
             break
           case 12:
-            maintenancesGraph[12]
+            maintenancesGraph[12]++
             break
         }
       }
