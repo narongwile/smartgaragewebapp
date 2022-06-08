@@ -5,7 +5,7 @@ WORKDIR .
 # Copy over package.json files
 COPY package*.json ./
 # Install all packages
-RUN rm -rf node_modules && rm -rf package-lock.json && npm instal
+RUN npm instal
 RUN npm update
 # Copy over source code
 COPY . .
