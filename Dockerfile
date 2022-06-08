@@ -5,7 +5,7 @@ WORKDIR .
 # Copy over package.json files
 COPY package*.json ./
 # Install all packages
-RUN npm instal
+RUN npm install
 RUN npm update
 # Copy over source code
 COPY . .
