@@ -6,6 +6,7 @@ WORKDIR .
 COPY package*.json ./
 # Install all packages
 RUN npm install
+RUN npm update
 # Copy over source code
 COPY . .
 # Build AdonisJS for production
