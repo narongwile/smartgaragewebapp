@@ -22,8 +22,8 @@ services:
       MSSQL_USER: ${MSSQL_USER}
       MSSQL_PASSWORD: ${MSSQL_PASSWORD}
       MSSQL_DB_NAME: smartgaragedb
-      MAILGUN_API_KEY: 784adb1bda0c746404d58c89feb3c154-523596d9-9bbaf224
-      MAILGUN_DOMAIN: sandboxac9c6e3f21884a63822330fea1603803.mailgun.org
+      MAILGUN_API_KEY: ${MAILGUN_API_KEY}
+      MAILGUN_DOMAIN: ${MAILGUN_DOMAIN}
   web:
     image: nginx
     container_name: nginx
