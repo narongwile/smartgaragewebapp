@@ -18,7 +18,7 @@ export default mailConfig({
   | a mailer
   |
   */
-  mailer: 'mailgun',
+  mailer: 'smtp',
 
   /*
   |--------------------------------------------------------------------------
@@ -75,6 +75,16 @@ export default mailConfig({
       baseUrl: 'https://api.mailgun.net/v3',
       key: Env.get('MAILGUN_API_KEY'),
       domain: Env.get('MAILGUN_DOMAIN'),
+    },
+    smtp: {
+      driver: 'smtp',
+      host: Env.get('SMTP_HOST') as string,
+      port: Env.get('SMTP_PORT') as string,
+      auth: {
+        type: 'login',
+        user: 'mobicquiz@gmail.com',
+        pass: 'mobic303',
+      }
     },
 
     /*

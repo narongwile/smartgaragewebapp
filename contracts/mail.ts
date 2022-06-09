@@ -10,6 +10,7 @@ import mailConfig from '../config/mail'
 
 declare module '@ioc:Adonis/Addons/Mail' {
   interface MailersList extends InferMailersFromConfig<typeof mailConfig> {
-    mailgun: MailDrivers['mailgun']
+    mailgun: MailDrivers['mailgun'],
+    smtp: MailDrivers['smtp'],
   }
 }
