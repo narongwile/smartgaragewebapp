@@ -2,8 +2,9 @@ version: '3'
 
 services:
   app:
+    image: ${CONTAINER_TEST_IMAGE}
     # Build dockerfile
-    build: .
+    #build: .
     # Restart container in case of crashes etc
     restart: always
     # Set API to use host networking
@@ -21,8 +22,8 @@ services:
       MSSQL_USER: ${MSSQL_USER}
       MSSQL_PASSWORD: ${MSSQL_PASSWORD}
       MSSQL_DB_NAME: smartgaragedb
-      MAILGUN_API_KEY: f1d8330f6ccb108590bc6f7dd33149af-523596d9-57e268a4
-      MAILGUN_DOMAIN: sandbox5dd856b1368a41999ce79469d7a5b481.mailgun.org
+      MAILGUN_API_KEY: ${MAILGUN_API_KEY}
+      MAILGUN_DOMAIN: ${MAILGUN_DOMAIN}
   web:
     image: nginx
     container_name: nginx
