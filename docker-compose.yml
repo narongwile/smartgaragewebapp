@@ -2,7 +2,8 @@ version: '3'
 
 services:
   app:
-    image: ${CONTAINER_TEST_IMAGE}
+    image: registry.gitlab.com/narongwile/smartgaragewebapp:latest
+    container_name: smartgaragewebapp
     # Build dockerfile
     #build: .
     # Restart container in case of crashes etc
@@ -24,6 +25,7 @@ services:
       MSSQL_DB_NAME: smartgaragedb
       MAILGUN_API_KEY: ${MAILGUN_API_KEY}
       MAILGUN_DOMAIN: ${MAILGUN_DOMAIN}
+
   web:
     image: nginx
     container_name: nginx
