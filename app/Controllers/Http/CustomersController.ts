@@ -120,24 +120,25 @@ export default class CustomersController {
     }))
 
     return view.render('customer/vehicle', {
-      customer: customer.fname +' '+ customer.lname,
+      customer: customer.fname + ' ' + customer.lname,
       vehicle: vehicle,
     })
   }
 
   public async vehicleMaintenance({ view, params }: HttpContextContract) {
-    const maintenance = (await Maintenance.query()
-    .where('vehicle_id', params.id)
-    .preload('employees', () => {})
-    .preload('receipts', () => {})
+    const maintenance = (
+      await Maintenance.query()
+        .where('vehicle_id', params.id)
+        .preload('employees', () => {})
+        .preload('receipts', () => {})
     ).map((m) => ({
       status: m.status,
-      start: m.start_date.toFormat("YYYY-MM-DD"),
-      finish: (m.end_date == null) ? 'pending' : m.end_date.toFormat("YYYY-MM-DD"),
-      comment: (m.comment == null) ? 'No comment' : m.comment,
-      technical: m.employees.fname +' '+ m.employees.lname,
+      start: m.start_date.toFormat('YYYY-MM-DD'),
+      finish: m.end_date == null ? 'pending' : m.end_date.toFormat('YYYY-MM-DD'),
+      comment: m.comment == null ? 'No comment' : m.comment,
+      technical: m.employees.fname + ' ' + m.employees.lname,
       ttel: m.employees.tel,
-      cost: (m.receipt_id == null) ? 'pending' : m.receipts.cost,
+      cost: m.receipt_id == null ? 'pending' : m.receipts.cost,
     }))
     const vehicle = (
       await Vehicle.query()
