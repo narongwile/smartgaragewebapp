@@ -9,10 +9,10 @@ export default class Stock extends BaseModel {
   @column()
   public part_id: number
 
-  @column()
+  @column.dateTime()
   public instock_date: DateTime
 
-  @column()
+  @column.dateTime()
   public warranty_date: DateTime
 
   @column()

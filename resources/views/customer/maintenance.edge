@@ -8,13 +8,17 @@
         <div class="columns">
             <div class="column is-9 is-offset-1">
                 <div class="box">
-                    <h2 class="title has-text-centered">Welcome, {{ customer }}</h2>
+                    <h2 class="title has-text-centered">Welcome,
+                         {{ customer }}
+                    </h2>
 
                     <div class="card has-table has-mobile-sort-spaced">
                         <header class="card-header">
                           <p class="card-header-title">
                             <span class="icon"><i class="mdi mdi-hammer-wrench"></i></span>
-                            Maintenance: {{ vehicle[0].model +' '+ vehicle[0].license_id }}
+                            Maintenance: <button class="button is-link is-light is-rounded" type="button" >
+                                {{ vehicle[0].model +' '+ vehicle[0].license_id }}
+                                </button>
                             </p>
                     
                          
@@ -26,35 +30,103 @@
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>Status</th>
+                                            <th>
+                                                                <div class="select is-fullwidth is-rounded is-link">
+                                                                    <select id="status" name="status" onchange="selectStatus()">
+                                    
+                                                                        <option selected value="Show All">Status</option>
+                                                                        <option value="Waiting">Waiting</option>
+                                                                        <option value="In progress">In progress</option>
+                                                                        <option value="Pending payment">Pending payment</option>
+                                                                        <option value="Success">Success</option>
+                                                                        <option value="Cancel">Cancel</option>
+                                                                    </select>
+                                                                </div>
+                                                                <script>
+                                                                    function selectStatus() {
+                                                                        const status = document.getElementById('status').value
+                                                                            console.log(status)
+                                                                            const maintenances = document.getElementsByName('mstatus')
+                                                                            if (status != 'Show All') {
+                                                                                
+                                                                                for (let index = 0; index < maintenances.length; index++) {
+                                                                                    const m = maintenances[index];
+                                                                                    var $rows = $('#table tr');
+                                                                                    $(document).ready(function() {
+                                                                                        if (m.innerText != status) {
+                                                                                            $rows.eq(index).hide();
+                                                                                        } else {
+                                                                                            $rows.eq(index).show();
+                                                                                        }
+                                                                                    });
+                                                                                }
+                                                                                
+                                                                            } else {
+                                                                                for (let index = 0; index < maintenances.length; index++) {
+                                                                                    var $rows = $('#table tr');
+                                                                                    $(document).ready(function() {
+                                                                                        $rows.eq(index).show();
+                                                                                    });
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                </script>
+                                            </th>
                                             <th>Start at</th>
                                             <th>Finish at</th>
-                                            <th>Total cost</th>
+                                            <th>Cost</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     @each(m in maintenance)
-                                    <tbody>
+                                    <tbody id="table">
                                         <tr>
                                             <td class="is-image-cell">
                                                 </td>
                     
-                                            <td data-label="mstatus">{{ m.status }}</td>
+                                            <td data-label="mstatus">
+                                                <span name="mstatus" class="tag is-rounded is-medium
+                                                @if(m.status == 'Waiting') 
+                                                is-light
+                                                @elseif(m.status == 'In progress') 
+                                                is-info
+                                                @elseif(m.status == 'Pending payment')
+                                                is-warning
+                                                @elseif(m.status == 'Success') 
+                                                is-success
+                                                @elseif(m.status == 'Cancel') 
+                                                is-danger
+                                                @endif
+                                                ">{{ m.status }}</span>
+                                            </td>
                                             
                                             <td data-label="mstart">{{ m.start }}</td>       
                                             
-                                            <td data-label="mfinish">{{ m.finish }}</td>
+                                            <td data-label="mfinish">
+                                                @if(m.finish == 'pending')
+                                                <small class="has-text-grey is-abbr-like">{{ m.finish }}</small>
+                                                @else
+                                                {{ m.finish }}
+                                                @endif                                                
+                                            </td>
 
                                             <td data-label="mcost">
+                                                @if(m.cost == 'pending')
+                                                <small class="has-text-grey is-abbr-like">{{ m.cost }}</small>
+                                                @else
                                                 {{ m.cost }}
+                                                @endif
                                             </td>
                                             
                                             <td class="is-actions-cell">
                                                 <div class="buttons is-right">
-                                                    <button class="button is-small is-primary jb-modal" type="button" 
+                                                    <a href="/customer/vehicles/maintenance/{{ m.id }}"><button class="button is-small is-focused is-info is-light" type="button" >
+                                                        <span >Details</span>
+                                                        </button></a>
+                                                    <button class="button is-small is-focused is-primary is-light jb-modal" type="button" 
                                                     data-target="myModal" 
-                                                    onclick="technical('{{ m.technical }}', '{{ m.ttel }}', '{{ m.comment }}')">
-                                                        <span >Technical</span>
+                                                    onclick="technical( '{{ m.technical }}', '{{ m.ttel }}' )" >
+                                                        <span>Technical</span>
                                                         </button>
                                                     </div>
                                                 </td>
@@ -64,12 +136,8 @@
                                     @endeach
                                     <script>
                                         function technical(name, tel, comment) {
-                                            console.log(name)
-                                            console.log(tel)
-                                            console.log(comment)
                                             document.getElementById('tname').innerHTML = name
                                             document.getElementById('ttel').innerHTML = tel
-                                            document.getElementById('comment').innerHTML = comment
                                         }
                                     </script>
 
@@ -97,7 +165,7 @@
                                                 </div>
                                                 <div class="field is-horizontal">
                                                     <div class="field-label is-normal">
-                                                    <label class="label">Phone number</label>
+                                                    <label class="label">Tel</label>
                                                     </div>
                                                     <div class="field-body">
                                                         <div class="field">
@@ -107,18 +175,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                  <div class="field is-horizontal">
-                                                        <div class="field-label is-normal">
-                                                        <label class="label">Comment</label>
-                                                        </div>
-                                                        <div class="field-body">
-                                                            <div class="field">
-                                                                <div class="control">
-                                                                <textarea class="textarea" id="comment" value="" readonly></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                             </section>
                                             <footer class="modal-card-foot">
                                                 <button class="button jb-modal-close">Close</button>
@@ -133,6 +189,9 @@
                                     </div>
                             </div>
                             </div>
+                        </div>
+                        <div class="control">
+                            <button onclick="history.back()" type="button" class="button is-link is-fullwidth">Back</button></a>
                         </div>
                 </div>
             </div>

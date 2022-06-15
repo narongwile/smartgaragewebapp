@@ -42,7 +42,7 @@ Route.post('/stock_part', 'InventoriesController.addStock')
 Route.get('/stock_list', 'InventoriesController.showStock')
 
 Route.get('/stock_update/:id', 'InventoriesController.showUpdate').as('stocks.update')
-Route.post('/stock_update/:id', 'InventoriesController.update')
+Route.post('/stock_update/:id/:condition', 'InventoriesController.update')
 
 Route.get('/stock_delete/:id', 'InventoriesController.delete').as('stocks.delete')
 
@@ -168,6 +168,7 @@ Route.get('/customer/login', 'CustomersController.showLogin')
 Route.post('/customer/send_email', 'CustomersController.sendEmail')
 Route.post('/customer/vehicles', 'CustomersController.vehicleCustomer')
 Route.get('/customer/vehicles/:id', 'CustomersController.vehicleMaintenance')
+Route.get('/customer/vehicles/maintenance/:id', 'CustomersController.serviceMaintenance')
 
 
 Route.get('/tables', async ({ view }) => {

@@ -279,7 +279,7 @@
                                         </td>
                                         <td data-label="oid">{{ op.id }}</td>
                                         <small class="has-text-grey is-abbr-like">
-                                          <td data-label="oat">{{ op.order_date.toFormat("YYYY-MM-DD") }}</td>
+                                          <td data-label="oat">{{ op.order_date }}</td>
                                         </small>
                                         <td data-label="part">{{ op.part }}</td>
             
@@ -302,7 +302,7 @@
                                           {{ op.quantity }}
                                           @endif
                                         </td>
-                                        <td data-label="price">{{ op.price }}</td>
+                                        <td data-label="price">฿{{ op.price.toLocaleString() }}</td>
             
                                         <td class="is-actions-cell">
                                           @if(status == 'Waiting' || status == 'In progress')
@@ -337,7 +337,7 @@
                                       </td>
                                       @each(c in total_part_cost)
                                       @if(c.sid == s.id)
-                                      <td>฿{{ c.cost }}</td>
+                                      <td>฿{{ c.cost.toLocaleString() }}</td>
                                       @endif
                                       @endeach
                                       <td></td>
@@ -353,7 +353,7 @@
                                       </td>
                                       @each(c in total_part_cost)
                                       @if(c.sid == s.id)
-                                      <td>฿{{ c.cost + s.cost }}</td>
+                                      <td>฿{{ (c.cost + s.cost).toLocaleString() }}</td>
                                       <script> total_cost += {{ c.cost + s.cost }} </script>
                                       @endif
                                       @endeach
@@ -416,13 +416,13 @@
                           if("{{pmodal}}" === "duplicatePart") {
                             document.getElementById('duplicate').classList.add('is-active');
                             document.documentElement.classList.add('is-clipped');
-                            document.getElementById("totalCost").innerHTML = '฿'+total_cost;
+                            document.getElementById("totalCost").innerHTML = '฿'+total_cost.toLocaleString();
                           } else if("{{pmodal}}" === "duplicateService") {
                             document.getElementById('duplicate').classList.add('is-active');
                             document.documentElement.classList.add('is-clipped');
-                            document.getElementById("totalCost").innerHTML = '฿'+total_cost;
+                            document.getElementById("totalCost").innerHTML = '฿'+total_cost.toLocaleString();
                           }else {
-                            document.getElementById("totalCost").innerHTML = '฿'+total_cost;
+                            document.getElementById("totalCost").innerHTML = '฿'+total_cost.toLocaleString();
                           }
                         };
                     </script>
@@ -487,14 +487,21 @@
           <div class="field-body">
             <div class="field">
               <div class="field is-grouped">
-                @if(status == 'Waiting' || status == 'In progress')
-                @if(status != 'Waiting')
+                
+                @if(status == 'In progress')
                 <div class="control">
                     <button onclick="updateStatus('pendingPayment')" class="button is-primary">
                     <span>Pending payment</span>
                   </button>
                 </div>
                 @endif
+                @if(status == 'Pending payment')
+                <div class="control">
+                  <button onclick="updateStatus('success')" class="button is-primary">
+                                            <span>Success</span>
+                                        </button></div>
+                @endif
+                @if(status == 'Waiting' || status == 'In progress')
                 <div class="control">
                     <button onclick="updateStatus('cancel')" class="button is-danger is-outlined">
                     <span>Cancel</span>
@@ -512,6 +519,8 @@
               document.getElementById('status').action = "/maintenance/{{ mid }}/" + "pendingPayment";
             }else if(status == 'cancel') {
               document.getElementById('status').action = "/maintenance/{{ mid }}/" + "cancel";
+            }else if(status == 'success') {
+              document.getElementById('status').action = "/maintenance/{{ mid }}/" + "success";
             }
           }
         </script>

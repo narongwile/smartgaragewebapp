@@ -9,7 +9,7 @@
       </p>
     </header>
     <div class="card-content">
-      <form action="/stock_update/{{ stock.id }}" method="POST">
+      <form action="/stock_update/{{ stock.id }}/{{ stock.condition }}" method="POST">
         {{ csrfField() }}
         <div class="field is-horizontal">
             <div class="field-label is-normal">
@@ -18,7 +18,8 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <input name="id" class="input" type="number" value="{{ stock.id }}" readonly>
+                  {{--  <input name="id" class="input" type="number" value="{{ stock.id }}" readonly>  --}}
+                  <a class="button is-static">{{ stock.id }}</a>
                 </div>
               </div>
             </div>
@@ -76,13 +77,7 @@
             <div class="field-body">
               <div class="field is-narrow">
                 <div class="control">
-                  <div class="select is-fullwidth">
-                    <select name="condition">
-                          <option value="{{ stock.condition }}" >                                            
-                            {{ stock.condition }}
-                            </option>
-                    </select>
-                  </div>
+                  <a class="button is-static">{{ stock.condition }}</a>
                 </div>
               </div>
             </div>
@@ -104,7 +99,7 @@
 
         <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label">Purchase Price</label>
+              <label class="label">Price</label>
             </div>
             <div class="field-body">
               <div class="field">

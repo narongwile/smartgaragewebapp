@@ -4,7 +4,7 @@
 <div class="card has-table has-mobile-sort-spaced">
     <header class="card-header">
         <p class="card-header-title">
-            <span class="icon"><i class="mdi mdi-steering"></i></span>
+            <span class="icon"><i class="mdi mdi-hammer-wrench"></i></span>
             Maintenances
         </p>
 
@@ -159,7 +159,21 @@
                             </small>
 
 
-                            <td name="mstatus" data-label="ms">{{ m.status }}</td>
+                            <td data-label="ms">
+                                <span name="mstatus" class="tag is-rounded
+                                                @if(m.status == 'Waiting') 
+                                                is-light
+                                                @elseif(m.status == 'In progress') 
+                                                is-info
+                                                @elseif(m.status == 'Pending payment')
+                                                is-warning
+                                                @elseif(m.status == 'Success') 
+                                                is-success
+                                                @elseif(m.status == 'Cancel') 
+                                                is-danger
+                                                @endif
+                                                ">{{ m.status }}</span>
+                            </td>
 
                             @each(e in employee)
                             @if(e.id == m.employee_id)
@@ -169,7 +183,7 @@
 
                             <td class="is-actions-cell">
                                 <div class="buttons is-right">
-                                    <a href="/service/{{ m.id }}"><button class="button is-small is-info" type="button">
+                                    <a href="/service/{{ m.id }}"><button class="button is-small is-link" type="button">
                                             <span>Services</span>
                                         </button></a>
                                 </div>
@@ -177,13 +191,13 @@
                             <td class="is-actions-cell">
                                 <div class="buttons is-right">
 
-                                @if(m.status == 'Pending payment')
+                                {{--  @if(m.status == 'Pending payment')
                                     <a href="/maintenance/{{ m.id }}/success"><button class="button is-small is-primary" type="button">
                                             <span>Success</span>
                                         </button></a>
-                                @endif
+                                @endif  --}}
                                 @if(m.status == 'Cancel')
-                                <button class="button is-small is-danger jb-modal" id="{{ m.id }}"
+                                <button class="button is-small is-danger is-light jb-modal" id="{{ m.id }}"
                                     onclick="deleteM(this.id)" data-target="myModal" type="button">
                                     <span>Delete</span>
                                 </button>

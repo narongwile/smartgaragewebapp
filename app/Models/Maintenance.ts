@@ -22,10 +22,10 @@ export default class Maintenance extends BaseModel {
   @column()
   public receipt_id: number
 
-  @column()
+  @column.dateTime()
   public start_date: DateTime
 
-  @column()
+  @column.dateTime()
   public end_date: DateTime
 
   @column()

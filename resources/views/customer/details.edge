@@ -1,0 +1,284 @@
+@layout('layouts/page')
+
+@section('content')
+<div class="is-max-w-lg mx-auto has-text-centered mb-6"></div>
+<div class="is-relative is-max-w-3xl mx-auto mb-6">
+    <center><img src="https://shuffle.dev/metis-assets/elements/pattern-small.png" alt=""></center>
+    <div style="position:absolute; top: 3%; left: 9%; width: 82%; height: 90%;">
+        <div class="columns">
+            <div class="column is-9 is-offset-1">
+                <div class="box">
+                    <h2 class="title has-text-centered">Welcome, {{ customer }}</h2>
+
+                    <div class="card has-table has-mobile-sort-spaced">
+                        <header class="card-header">
+                        
+                          <p class="card-header-title">
+                            <span class="icon"><i class="mdi mdi-hammer-wrench"></i></span>
+                            Maintenance: <button class="button is-link is-light is-rounded" type="button" >
+                                {{ maintenance[0].vname }}
+                                </button>
+                            </p>
+                            
+                        </header><br>
+                        @each(m in maintenance)   
+                         <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                  <label class="label">Vehicle color</label>
+                                </div>
+                                <div class="field-body">
+                                  <div class="field">
+                                    <div class="control">
+                                        <input class="input is-sta" type="color" value="{{ m.vcolour }}" disabled>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                  <label class="label">Status</label>
+                                </div>
+                                <div class="field-body">
+                                  <div class="field">
+                                    <div class="control">
+                                      <span class="tag is-rounded is-medium
+                                      @if(m.status == 'Waiting') 
+                                      is-light
+                                      @elseif(m.status == 'In progress') 
+                                      is-info
+                                      @elseif(m.status == 'Pending payment')
+                                      is-warning
+                                      @elseif(m.status == 'Success') 
+                                      is-success
+                                      @elseif(m.status == 'Cancel') 
+                                      is-danger
+                                      @endif
+                                      ">{{ m.status }}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                  <label class="label">Start at</label>
+                                </div>
+                                <div class="field-body">
+                                  <div class="field">
+                                    <div class="control">
+                                        <p class="input is-static">{{ m.start }}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              @if( m.status != 'Cancel' )
+                              <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                  <label class="label">Finish at</label>
+                                </div>
+                                <div class="field-body">
+                                  <div class="field">
+                                    <div class="control">
+                                        <p class="input is-static">{{ m.finish }}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              @endif
+
+                              @if( m.status == 'Success' )
+                              <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                  <label class="label">Payment at</label>
+                                </div>
+                                <div class="field-body">
+                                  <div class="field">
+                                    <div class="control">
+                                        <p class="input is-static">{{ m.payment }}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              @endif
+
+                              @if(m.cancel != null)
+                              <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                  <label class="label">Cancel at</label>
+                                </div>
+                                <div class="field-body">
+                                  <div class="field">
+                                    <div class="control">
+                                        <p class="input is-static">{{ m.cancel.toFormat('DDD') }}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              @endif
+
+                        @endeach
+                        
+                        <div class="card-content ">
+
+                            <script>
+                                var total_cost = 0;
+                            </script>
+
+                            @each(s in service)
+
+                    <div style="display: flex; justify-content: space-between; padding: 8px; background-color: #f2f2f2;">
+                        <div class="is-horizontal is-fullwidth " style="padding: 8px;">
+                            <b>Service</b>: {{ s.sname}},
+                            <span class="tag is-primary is-medium">{{'Cost: ฿'+ s.scost.toLocaleString() }}</span>
+                        </div>
+                    </div>
+                    <div class="b-table has-pagination ">
+                        <div class="table-wrapper has-mobile-cards">
+                            <table class="table is-fullwidth is-striped is-hoverable is-sortable is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Order At</th>
+                                        <th>Part</th>
+                                        <th>Condition</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody id="table">
+                                    <script>
+                                        var pcost{{s.id}} = 0;
+                                    </script>
+                                @each(part in parts)
+                                @each(p in part)
+                                @if(s.id == p.id)
+                                    <tr>
+                                        <td class="is-image-cell">
+                                        </td>
+                                        <small class="has-text-grey is-abbr-like">
+                                          <td data-label="oat">
+                                            <span class="tag is-primary is-light is-medium">{{ p.order }}</span>
+                                          </td>
+                                        </small>
+                                        <td data-label="part">{{ p.pname }}</td>
+            
+                                        <td data-label="con">
+                                          @if(p.condition == 'New Product')
+                                          <span class="tag is-black">New Part</span>
+                                          @elseif(p.condition == 'Used Product')
+                                          <span class="tag is-warning">Used Part</span>
+                                          @endif
+                                        </td>
+
+                                        <td data-label="pprice">
+                                          ฿{{ p.pprice.toLocaleString() }}
+                                        </td>
+                                        <td data-label="qty">
+                                          {{ p.quantity }}
+                                        </td>
+                                        <td data-label="price">฿{{ p.price.toLocaleString() }}</td>
+                                        <script> pcost{{s.id}} += {{ p.price }} </script>
+            
+                                        <td class="is-actions-cell"></td>
+                                      </tr>
+                                  @endif
+                                  @endeach
+                                  @endeach
+                                  
+                                    <tr>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td>
+                                        <b>Parts Cost:</b>
+                                      </td>
+                                      <td><p id="pCost{{s.id}}"></p></td>
+                                      <td></td>
+                                    </tr>
+                                    <tr>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td>
+                                        <b>Service+Parts Cost:</b>
+                                      </td>
+                                      <td><p id="sCost{{s.id}}"></p></td>
+                                      <script> total_cost += pcost{{s.id}} + {{ s.scost }} </script>
+                                      <td></td>
+                                    </tr>
+                              </tbody>
+                                
+                            </table>
+                        </div>
+                      </div>
+                  @endeach
+                  <hr>
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">Total cost</label>
+                      </div>
+                      <div class="field-label is-normal field-body">
+                          <span class="tag is-link is-rounded is-medium">
+                            <p id="totalCost"></p>
+                          </span>
+                      </div>
+                  </div>
+
+                  <hr>
+                  @each(m in maintenance) 
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">Technical</label>
+                      </div>
+                      <div class="field-label is-normal field-body">
+                          <p>{{ m.technical }}</p>
+                      </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Tel</label>
+                        </div>
+                        <div class="field-label is-normal field-body">
+                            <p>{{ m.ttel }}</p>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label class="label">Comment</label>
+                          </div>
+                          <div class="field-label is-normal field-body">
+                            <textarea class="textarea" readonly>{{ m.comment }}</textarea>
+                          </div>
+                      </div>
+                  @endeach
+
+                  <script>
+                    window.onload = function() {
+                        @each(s in service)
+                        document.getElementById('pCost{{s.id}}').innerHTML = '฿'+pcost{{s.id}}.toLocaleString();
+                        document.getElementById('sCost{{s.id}}').innerHTML = '฿'+(pcost{{s.id}}+{{s.scost}}).toLocaleString();
+                        @endeach
+                        document.getElementById('totalCost').innerHTML = '฿'+total_cost.toLocaleString();
+                    }
+                  </script>
+
+                          </div>
+
+                    </div>
+                        <div class="control">
+                            <button onclick="history.back()" type="button" class="button is-light is-link is-fullwidth is-focused">Back</button></a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

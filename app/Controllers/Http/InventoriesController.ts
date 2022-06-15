@@ -112,13 +112,12 @@ export default class InventoriesController {
     })
   }
 
-  public async update({ request, response }: HttpContextContract) {
-    const stock = await Stock.findOrFail(request.all().id)
+  public async update({ request, response, params }: HttpContextContract) {
+    const stock = await Stock.findOrFail(params.id)
     const qty_stock = stock.qty_in_stock
 
     stock.instock_date = request.all().instockdate
     stock.warranty_date = request.all().warrantydate
-    stock.condition = request.all().condition
     stock.product_year = request.all().productyear
     stock.buy_price = request.all().buyprice
     stock.qty_in_stock = request.all().qtyinstock
@@ -133,10 +132,18 @@ export default class InventoriesController {
     console.log('quantity part: '+part.$isPersisted)
     
 
-    const part_cdt = await PartCondition.query().where('part_id', stock.part_id).where('condition', request.all().condition)
+    let condition
+    if(params.condition == 'New%20Product') {
+      condition = 'New Product'
+      console.log(condition)
+    }else if(params.condition == 'Used%20Product') {
+      condition = 'Used Product'
+      console.log(condition)
+    }
+    const part_cdt = await PartCondition.query().where('part_id', stock.part_id).where('condition', condition)
     .preload('parts', (q) => {
       q.preload('stocks', (q) => {
-        q.select('id').where('condition', request.all().condition).orderBy('id', 'desc')
+        q.select('id').where('condition', condition).orderBy('id', 'desc')
       })
     })
     console.log("Stock ID: "+part_cdt[0].parts.stocks.map((s) => ({ stock_id: s.id })))

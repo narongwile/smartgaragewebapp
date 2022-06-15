@@ -7,6 +7,47 @@
         <span class="icon"><i class="mdi mdi-steering"></i></span>
         Auto Part Stocks
         </p>
+
+        <div class="card-header-title" style="display: flex; justify-content: space-between; padding: 8px;">
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input id="search" onkeyup="search()" name="search" class="input" type="search" placeholder="Search stock">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function search() {
+                const s = document.getElementById('search').value
+                const stock = document.getElementsByName('sl')
+
+                if (s != '') {
+                    for (let index = 0; index < stock.length; index++) {
+                        const m = stock[index];
+                        var $rows = $('#table tr');
+                        $(document).ready(function() {
+                            if (m.innerText.toLowerCase().includes(s.toLowerCase())) {
+                                $rows.eq(index).show();
+                            } else {
+                                $rows.eq(index).hide();
+                            }
+                        });
+                    }                    
+                } else {
+                    for (let index = 0; index < stock.length; index++) {
+                        var $rows = $('#table tr');
+                        $(document).ready(function() {
+                            $rows.eq(index).show();
+                        });
+                    }
+                }
+            }
+        </script>
+
         <a href="/stock_part" class="card-header-icon"><button class="button is-small is-link " type="button" >
             <span >New stock</span>
             </button></a>
@@ -19,7 +60,6 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Condition</th>
@@ -32,7 +72,7 @@
                     </tr>
                 </thead>
                 @each(s in stock)
-                <tbody>
+                <tbody id="table">
                     <tr>
                         <td class="is-image-cell">
                             <div class="image">
@@ -40,14 +80,14 @@
                                 </div>
                             </td>
 
-                        <td data-label="id">{{ s.id }}</td>
+                        {{--  <td data-label="id">{{ s.id }}</td>  --}}
 
                         @each(p in part)
                         @if(s.part_id == p.id)
 
                         @each(pb in part_brand)
                         @if(p.partbrand_id == pb.id)
-                        <td data-label="{{ p.id }}">{{ p.id +' '+ pb.partbrand +' '+ p.partname }}</td>
+                        <td name="sl" data-label="{{ p.id }}">{{ p.id +' '+ pb.partbrand +' '+ p.partname }}</td>
                         @endif
                         @endeach
                         
@@ -58,10 +98,10 @@
                         @endeach
 
                         
-                        <td data-label="condition">{{ s.condition }}</td>
-                        <td data-label="productyear">{{ s.product_year }}</td>
-                        <td data-label="buyprice">{{ s.buy_price }}</td>
-                        <td data-label="quantity">{{ s.qty_in_stock }}</td>
+                        <td data-label="condition"><small class="has-text-grey is-abbr-like">{{ s.condition }}</small></td>
+                        <td data-label="productyear"><small class="has-text-grey is-abbr-like">{{ s.product_year }}</small></td>
+                        <td data-label="buyprice">฿{{ s.buy_price.toLocaleString() }}</td>
+                        <td data-label="quantity">{{ s.qty_in_stock.toLocaleString() }}</td>
 
                         <td data-label="purchasedate">
                             <small class="has-text-grey is-abbr-like">{{ s.instock_date.toFormat("YYYY-MM-DD") }}</small>

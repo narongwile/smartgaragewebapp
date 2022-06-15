@@ -4,6 +4,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import Customer from 'App/Models/Customer'
 import Maintenance from 'App/Models/Maintenance'
 import Vehicle from 'App/Models/Vehicle'
+import { DateTime } from 'luxon'
 import otpGenerator from 'otp-generator'
 
 export default class CustomersController {
@@ -129,17 +130,42 @@ export default class CustomersController {
     const maintenance = (
       await Maintenance.query()
         .where('vehicle_id', params.id)
+        .orderBy('id', 'desc')
         .preload('employees', () => {})
         .preload('receipts', () => {})
+        .preload('service_maintenances', (q) => {
+          q.preload('services', () => {}),
+          q.preload('order_parts', () => {})
+        })
     ).map((m) => ({
+      id: m.id,
       status: m.status,
-      start: m.start_date.toFormat('YYYY-MM-DD'),
-      finish: m.end_date == null ? 'pending' : m.end_date.toFormat('YYYY-MM-DD'),
-      comment: m.comment == null ? 'No comment' : m.comment,
+      start: m.start_date.toLocaleString(),
+      finish: m.status == 'Cancel' ? '-' : m.end_date == null ? 'pending' : m.end_date.toLocaleString(),
+      comment: m.comment == null || m.comment == '' ? 'No comment' : m.comment,
       technical: m.employees.fname + ' ' + m.employees.lname,
       ttel: m.employees.tel,
       cost: m.receipt_id == null ? 'pending' : m.receipts.cost,
+      service: m.service_maintenances,
     }))
+
+    let mcost = new Array()
+    for( let i=0; i < maintenance.length; i++ ) {
+      mcost[i] = 0
+      for( let j=0; j < maintenance[i].service.length; j++ ) {
+        mcost[i] += maintenance[i].service[j].services.cost
+        for( let k=0; k < maintenance[i].service[j].order_parts.length; k++ ) {
+          mcost[i] += maintenance[i].service[j].order_parts[k].sell_price
+        }
+      }
+      if(mcost[i] != 0) {
+        maintenance[i].cost = '฿'+mcost[i].toLocaleString()
+      }
+      if(maintenance[i].status == 'Cancel') {
+        maintenance[i].cost = '-'
+      }
+    }
+
     const vehicle = (
       await Vehicle.query()
         .where('id', params.id)
@@ -153,10 +179,70 @@ export default class CustomersController {
       model: v.vehicle_models.vehicle_brands.vehicle_brand + ' ' + v.vehicle_models.vehicle_model,
       colour: v.colour,
     }))
+
     return view.render('customer/maintenance', {
       customer: vehicle[0].customer,
       vehicle: vehicle,
       maintenance: maintenance,
+    })
+  }
+
+  public async serviceMaintenance({ params, view }: HttpContextContract) {
+    const maintenance = (await Maintenance.query().where('id', params.id)
+    .preload('vehicles', (q) => {
+      q.preload('vehicle_models', (q) => {
+        q.preload('vehicle_brands', () => {})
+      }).preload('customers', () => {})
+    }).preload('employees', () => {})
+    .preload('receipts', () => {})
+    .preload('service_maintenances', (q) => {
+      q.preload('services', () => {})
+      .preload('order_parts', (q) => {
+        q.preload('part_conditions', (q) => {
+          q.preload('parts', (q) => {
+            q.preload('part_brands', () => {})
+          })
+        })
+      })
+    })).map((m) => ({
+      technical: m.employees.fname +' '+ m.employees.lname,
+      ttel: m.employees.tel,
+      comment: m.comment == null || m.comment == '' ? 'No comment' : m.comment,
+      customer: m.vehicles.customers.fname +' '+ m.vehicles.customers.lname,
+      vname: m.vehicles.vehicle_models.vehicle_brands.vehicle_brand +' '+ 
+      m.vehicles.vehicle_models.vehicle_model +' '+ m.vehicles.license_id,
+      vcolour: m.vehicles.colour,
+      status: m.status,
+      start: m.start_date.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY),
+      finish: m.end_date == null ? 'Pending' : m.end_date.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY),
+      payment: m.receipt_id == null ? m.status : m.receipts.payment_date.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY),
+      cancel: m.status == 'Cancel' ? m.updatedAt : null,
+      sm: m.service_maintenances,
+    }))
+    const service = maintenance[0].sm.map((s) => ({
+      id: s.id,
+      sname: s.services.service,
+      scost: s.services.cost,
+      parts: s.order_parts,
+    }))
+    const parts = new Array()
+    for( let i=0; i < service.length; i++ ) {
+      parts[i] = service[i].parts.map((p) => ({
+        id: p.service_maintenance_id,
+        order: p.order_date.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY),
+        pname: p.part_conditions.parts.part_brands.partbrand 
+        +' '+ p.part_conditions.parts.partname,
+        condition: p.part_conditions.condition,
+        pprice: p.part_conditions.price,
+        quantity: p.quantity,
+        price: p.sell_price,
+      }))
+    } console.log(parts)
+    return view.render('customer/details', {
+      customer: maintenance[0].customer,
+      maintenance: maintenance,
+      service: service,
+      parts: parts,
     })
   }
 }

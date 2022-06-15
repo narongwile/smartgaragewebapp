@@ -24,7 +24,7 @@ export default class MaintenancesController {
 
     for( let i=0; i < service_maintenance.length; i++ ) {
       total_cost += service_maintenance[i].services.cost
-      for( let j=0; i < service_maintenance[i].order_parts.length; j++ ) {
+      for( let j=0; j < service_maintenance[i].order_parts.length; j++ ) {
         total_cost += service_maintenance[i].order_parts[j].sell_price
       }
     }

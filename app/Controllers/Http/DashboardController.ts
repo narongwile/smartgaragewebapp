@@ -1,11 +1,25 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Employee from 'App/Models/Employee'
 //import Database from '@ioc:Adonis/Lucid/Database'
 import Garage from 'App/Models/Garage'
+import Permission from 'App/Models/Permission'
 //import { FixedOffsetZone } from 'luxon'
 import Maintenance from '../../Models/Maintenance'
 
 export default class DashboardController {
-  public async showDashboard({ view }: HttpContextContract) {
+  public async showDashboard({ view, auth, session, response }: HttpContextContract) {
+    if(!auth.isLoggedIn) {
+      return response.redirect('/')
+    }
+    const permission = (await Permission.query()
+    .where('employee_id', (await Employee.findOrFail(auth.user?.id)).id)
+    ).map((p) => ({
+        management: p.management
+      }))
+    for( let i=0; i < permission.length; i++ ) {
+      if(session.get(permission[i].management)) {}
+    }
+    
     const garage = await Garage.find(1)
     const maintenancesSuccessResult = await Maintenance.query()
       .from('maintenances')

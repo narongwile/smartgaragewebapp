@@ -13,7 +13,7 @@ export default class OrderPart extends BaseModel {
   @column()
   public part_condition_id: number
 
-  @column()
+  @column.dateTime()
   public order_date:  DateTime
 
   @column()
